@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
 
@@ -13,10 +14,13 @@ public class CalendarManager : MonoBehaviour
     public TMP_Text quoteText; // Inspiruj¹cy cytat
     public Button previousMonthButton; // Przycisk do przejœcia do poprzedniego miesi¹ca
     public Button nextMonthButton; // Przycisk do przejœcia do nastêpnego miesi¹ca
+    public Button settingsButton; // Przycisk do przejœcia do ustawieñ
 
     private List<GameObject> dayObjects = new List<GameObject>(); // Lista dni w kalendarzu
     private int currentYear;
     private int currentMonth;
+
+    private const string DayPlanKey = "SelectedDay"; // Klucz do zapamiêtania wybranego dnia
 
     // Zarz¹dzanie zadaniami
     public TMP_Text taskListText;           // Pole tekstowe do wyœwietlania zadañ (TextMeshPro)
@@ -40,6 +44,7 @@ public class CalendarManager : MonoBehaviour
         // Inicjalizacja przycisków nawigacji miesiêcy
         previousMonthButton.onClick.AddListener(PreviousMonth);
         nextMonthButton.onClick.AddListener(NextMonth);
+        settingsButton.onClick.AddListener(OpenSettings); // Przycisk ustawieñ
 
         // Generowanie kalendarza
         GenerateCalendar();
@@ -53,7 +58,6 @@ public class CalendarManager : MonoBehaviour
         UpdateTaskList();
     }
 
-    // Funkcja generuj¹ca dni kalendarza na podstawie rzeczywistego miesi¹ca i roku
     public void GenerateCalendar()
     {
         // Wyczyœæ istniej¹ce dni z kalendarza
@@ -76,6 +80,7 @@ public class CalendarManager : MonoBehaviour
         {
             GameObject emptyDay = Instantiate(dayPrefab, calendarGrid);
             emptyDay.GetComponentInChildren<TMP_Text>().text = ""; // Puste pole
+            emptyDay.GetComponent<Button>().interactable = false; // Wy³¹cz interakcjê
             dayObjects.Add(emptyDay);
         }
 
@@ -86,23 +91,23 @@ public class CalendarManager : MonoBehaviour
             TMP_Text dayText = dayObj.GetComponentInChildren<TMP_Text>();
             dayText.text = day.ToString();
 
-            // Logika oznaczania niektórych dni na czerwono jako zaplanowane (przyk³adowo co pi¹ty dzieñ)
-            if (IsPlannedDay(day))
+            // Przycisk otwieraj¹cy scenê planu dnia
+            Button dayButton = dayObj.GetComponent<Button>();
+            if (dayButton != null)
             {
-                dayText.color = Color.red;
+                int selectedDay = day;
+                dayButton.onClick.AddListener(() => OpenDayPlan(selectedDay));
             }
 
             dayObjects.Add(dayObj);
         }
     }
 
-    // Funkcja sprawdzaj¹ca, czy dany dzieñ jest zaplanowany (przyk³adowa logika)
-    private bool IsPlannedDay(int day)
+    private string GetMonthName(int month)
     {
-        return day % 5 == 0;
+        return new DateTime(currentYear, month, 1).ToString("MMMM");
     }
 
-    // Przejœcie do poprzedniego miesi¹ca
     private void PreviousMonth()
     {
         if (currentMonth == 1)
@@ -117,7 +122,6 @@ public class CalendarManager : MonoBehaviour
         GenerateCalendar();
     }
 
-    // Przejœcie do nastêpnego miesi¹ca
     private void NextMonth()
     {
         if (currentMonth == 12)
@@ -132,13 +136,20 @@ public class CalendarManager : MonoBehaviour
         GenerateCalendar();
     }
 
-    // Pobranie nazwy miesi¹ca
-    private string GetMonthName(int month)
+    private void OpenSettings()
     {
-        return new DateTime(currentYear, month, 1).ToString("MMMM");
+        SceneManager.LoadScene("SettingsScene");
     }
 
-    // Zarz¹dzanie zadaniami: dodawanie, edycja, czyszczenie, zapis i odczyt
+    private void OpenDayPlan(int day)
+    {
+        PlayerPrefs.SetInt(DayPlanKey, day); // Zapamiêtaj wybrany dzieñ
+        PlayerPrefs.SetInt("CurrentYear", currentYear); // Zapamiêtaj rok
+        PlayerPrefs.SetInt("CurrentMonth", currentMonth); // Zapamiêtaj miesi¹c
+        PlayerPrefs.Save();
+        SceneManager.LoadScene("DayPlanScene"); // Otwórz scenê DayPlan
+    }
+
     public void AddOrEditTask()
     {
         string newTask = taskInputField.text;
@@ -147,24 +158,18 @@ public class CalendarManager : MonoBehaviour
         {
             if (editIndex == -1)
             {
-                // Dodaj nowe zadanie, jeœli nie jest to edycja
                 tasks.Add(newTask);
             }
             else
             {
-                // Zapisz edytowane zadanie
                 tasks[editIndex] = newTask;
-                editIndex = -1; // Resetuj tryb edycji
-                saveEditButton.gameObject.SetActive(false); // Ukryj przycisk zapisu edycji
+                editIndex = -1;
+                saveEditButton.gameObject.SetActive(false);
                 addTaskButton.GetComponentInChildren<TMP_Text>().text = "Dodaj Zadanie";
             }
             taskInputField.text = "";
             UpdateTaskList();
-            SaveTasks(); // Zapisz zmiany
-        }
-        else
-        {
-            Debug.Log("Pole zadania jest puste!");
+            SaveTasks();
         }
     }
 
@@ -174,7 +179,7 @@ public class CalendarManager : MonoBehaviour
         {
             taskInputField.text = tasks[index];
             editIndex = index;
-            saveEditButton.gameObject.SetActive(true); // Poka¿ przycisk zapisu edycji
+            saveEditButton.gameObject.SetActive(true);
             addTaskButton.GetComponentInChildren<TMP_Text>().text = "Zapisz Edycjê";
         }
     }
@@ -197,12 +202,7 @@ public class CalendarManager : MonoBehaviour
 
     private void SaveTasks()
     {
-        System.Text.StringBuilder sb = new System.Text.StringBuilder();
-        foreach (string task in tasks)
-        {
-            sb.Append(task + ";");
-        }
-        PlayerPrefs.SetString("Tasks", sb.ToString());
+        PlayerPrefs.SetString("Tasks", string.Join(";", tasks));
         PlayerPrefs.Save();
     }
 
