@@ -2,29 +2,28 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
+using static SettingsManager;
 
 public class SettingsManager : MonoBehaviour
 {
+    [SerializeField]
+    public DarkMode darkMode;
     public Button changeThemeButton; // Przycisk zmiany motywu
     public Button backButton;        // Przycisk powrotu do kalendarza
     public Button logoutButton;      // Przycisk wylogowania
     public TMP_Text statusText;      // Pole tekstowe dla komunikatów
     public TMP_Dropdown reminderDropdown; // Lista rozwijana dla przypomnieñ
-
+    public DarkModeManager DarkModeManager;
     private bool isDarkTheme; // Flaga dla zmiany motywu
 
     private void Start()
     {
         // Wczytaj aktualny stan motywu z PlayerPrefs
-        isDarkTheme = PlayerPrefs.GetInt("IsDarkTheme", 0) == 1;
-
+        int savedMode = PlayerPrefs.GetInt(ModeKey, (int)Mode.Light);
         // Przypisz funkcje do przycisków
-        changeThemeButton.onClick.AddListener(ChangeTheme);
+        changeThemeButton.onClick.AddListener(ToggleMode);
         backButton.onClick.AddListener(BackToCalendar);
         logoutButton.onClick.AddListener(Logout);
-
-        // Ustaw aktualny motyw
-        ApplyTheme();
 
         // Opcjonalnie: wyczyœæ status na pocz¹tku
         if (statusText != null)
@@ -38,44 +37,59 @@ public class SettingsManager : MonoBehaviour
             reminderDropdown.onValueChanged.AddListener(SetReminder);
             reminderDropdown.value = PlayerPrefs.GetInt("ReminderTime", 0); // Wczytaj zapisane ustawienie przypomnienia
         }
+
+
+        // Ustaw kolory HEX
+        darkMode.SetColors("#81D0FF", "#005587"); // Bia³y dla Light, czarny dla Dark
+
+        // Za³aduj zapisany tryb (domyœlnie Light)
+        currentMode = (Mode)PlayerPrefs.GetInt(ModeKey, (int)Mode.Light);
+        UpdateBackgroundColor();
     }
 
-    // Funkcja zmiany motywu
-    private void ChangeTheme()
+    public enum Mode
     {
-        isDarkTheme = !isDarkTheme;
+        Light,
+        Dark
+    }
 
-        // Zapisz motyw w PlayerPrefs
-        PlayerPrefs.SetInt("IsDarkTheme", isDarkTheme ? 1 : 0);
+    [SerializeField]
+    private Mode currentMode; // Obecny tryb
+
+    [SerializeField]
+    private Image background; // Obiekt z komponentem Image
+
+
+    private const string ModeKey = "DarkMode"; // Klucz w PlayerPrefs
+
+
+    public void ToggleMode()
+    {
+        // Prze³¹cz tryb
+        currentMode = currentMode == Mode.Light ? Mode.Dark : Mode.Light;
+
+        // Zapisz tryb w PlayerPrefs
+        PlayerPrefs.SetInt(ModeKey, (int)currentMode);
         PlayerPrefs.Save();
 
-        // Zastosuj motyw
-        ApplyTheme();
-
-        // Opcjonalnie: wyœwietl komunikat w statusText
-        if (statusText != null)
-        {
-            statusText.text = isDarkTheme ? "Motyw: Ciemny" : "Motyw: Jasny";
-        }
-
-        Debug.Log("Motyw zmieniony na: " + (isDarkTheme ? "Ciemny" : "Jasny"));
+        // Zaktualizuj kolor t³a
+        UpdateBackgroundColor();
     }
 
-    // Funkcja ustawiaj¹ca motyw
-    private void ApplyTheme()
+    private void UpdateBackgroundColor()
     {
-        Camera.main.backgroundColor = isDarkTheme ? Color.black : Color.white;
-
-        if (statusText != null)
+        if (background == null)
         {
-            statusText.color = isDarkTheme ? Color.white : Color.black;
+            Debug.LogError("Background Image is not assigned!");
+            return;
         }
 
-        Debug.Log("Zastosowano motyw: " + (isDarkTheme ? "Ciemny" : "Jasny"));
+        // Ustaw kolor w zale¿noœci od trybu
+        background.color = currentMode == Mode.Light ? darkMode.lightColor : darkMode.darkColor;
     }
 
-    // Funkcja ustawiaj¹ca przypomnienia
-    private void SetReminder(int optionIndex)
+// Funkcja ustawiaj¹ca przypomnienia
+private void SetReminder(int optionIndex)
     {
         PlayerPrefs.SetInt("ReminderTime", optionIndex);
         PlayerPrefs.Save();
