@@ -87,9 +87,26 @@ public class SettingsManager : MonoBehaviour
         // Ustaw kolor w zale¿noœci od trybu
         background.color = currentMode == Mode.Light ? darkMode.lightColor : darkMode.darkColor;
     }
+    /*
+    private void UpdateModeBasedOnLightLevel()
+    {
+        // Odczytujemy poziom jasnoœci (tutaj za przyk³ad u¿ywamy wartoœci od 0 do 1)
+        float brightnessLevel = GetBrightnessLevel();
 
-// Funkcja ustawiaj¹ca przypomnienia
-private void SetReminder(int optionIndex)
+        // Na podstawie jasnoœci ustawiamy tryb (mo¿esz dostosowaæ próg, aby dopasowaæ do swoich potrzeb)
+        string modeToSave = brightnessLevel < 0.5f ? "Dark" : "Light";
+
+        // Zapisz tryb do PlayerPrefs
+        PlayerPrefs.SetString(ModeKey, modeToSave);
+        PlayerPrefs.Save();
+
+        // Zaktualizuj kolor t³a na podstawie nowego trybu
+        UpdateBackgroundColor(modeToSave);
+    }
+    */
+
+    // Funkcja ustawiaj¹ca przypomnienia
+    private void SetReminder(int optionIndex)
     {
         PlayerPrefs.SetInt("ReminderTime", optionIndex);
         PlayerPrefs.Save();
