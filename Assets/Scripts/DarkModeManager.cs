@@ -4,57 +4,51 @@ using UnityEngine.UI;
 public class DarkModeManager : MonoBehaviour
 {
     [SerializeField]
-    public DarkMode darkMode;
-    private void Start()
-    {
-            // Wczytaj aktualny stan motywu z PlayerPrefs
-    int savedMode = PlayerPrefs.GetInt(ModeKey, (int)Mode.Light);
-
-    // Ustaw kolory HEX
-    darkMode.SetColors("#81D0FF", "#005587"); // Bia³y dla Light, czarny dla Dark
-
-        // Za³aduj zapisany tryb (domyœlnie Light)
-        currentMode = (Mode) PlayerPrefs.GetInt(ModeKey, (int) Mode.Light);
-    UpdateBackgroundColor();
-    }
+    private DarkMode darkMode;
     public enum Mode
     {
         Light,
         Dark
     }
 
+    // Enum do wyboru trybu
     [SerializeField]
-    private Mode currentMode; // Obecny tryb
+    private Mode currentMode;
 
+    // Obiekt z komponentem Image (np. t³o)
     [SerializeField]
-    private Image background; // Obiekt z komponentem Image
+    private Image background;
 
-
-    private const string ModeKey = "DarkMode"; // Klucz w PlayerPrefs
-
-
-    public void ToggleMode()
+    private void Start()
     {
-        // Prze³¹cz tryb
-        currentMode = currentMode == Mode.Light ? Mode.Dark : Mode.Light;
 
-        // Zapisz tryb w PlayerPrefs
-        PlayerPrefs.SetInt(ModeKey, (int)currentMode);
-        PlayerPrefs.Save();
-
-        // Zaktualizuj kolor t³a
+        // Ustaw kolory HEX
+        darkMode.SetColors("#81D0FF", "#005587"); // Bia³y dla Light, czarny dla Dark
+        // Ustaw pocz¹tkowy kolor na podstawie trybu
         UpdateBackgroundColor();
     }
 
-private void UpdateBackgroundColor()
-{
-    if (background == null)
+    // Publiczna metoda do zmiany trybu
+    public void ToggleMode()
     {
-        Debug.LogError("Background Image is not assigned!");
-        return;
+        Debug.Log("ToggleMode clicked!");
+        // Prze³¹czamy tryb
+        currentMode = currentMode == Mode.Light ? Mode.Dark : Mode.Light;
+        UpdateBackgroundColor();
     }
 
-    // Ustaw kolor w zale¿noœci od trybu
-    background.color = currentMode == Mode.Light ? darkMode.lightColor : darkMode.darkColor;
-}
+    // Aktualizuje kolor na podstawie wybranego trybu
+    private void UpdateBackgroundColor()
+    {
+        if (background == null)
+        {
+            Debug.LogError("Background Image is not assigned!");
+            return;
+        }
+
+        // Ustawiamy kolor w zale¿noœci od trybu
+        background.color = currentMode == Mode.Light ? darkMode.lightColor : darkMode.darkColor;
+    }
+
+
 }

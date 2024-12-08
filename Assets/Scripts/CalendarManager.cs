@@ -15,7 +15,6 @@ public class CalendarManager : MonoBehaviour
     public Button previousMonthButton; // Przycisk do przejœcia do poprzedniego miesi¹ca
     public Button nextMonthButton; // Przycisk do przejœcia do nastêpnego miesi¹ca
     public Button settingsButton; // Przycisk do przejœcia do ustawieñ
-    private bool isDarkTheme; // Flaga dla zmiany motywu
 
     private List<GameObject> dayObjects = new List<GameObject>(); // Lista dni w kalendarzu
     private int currentYear;
@@ -57,7 +56,6 @@ public class CalendarManager : MonoBehaviour
         // Wczytaj zadania
         LoadTasks();
         UpdateTaskList();
-
     }
 
     public void GenerateCalendar()
