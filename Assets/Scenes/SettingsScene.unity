@@ -1063,6 +1063,7 @@ MonoBehaviour:
   reminderDropdown: {fileID: 1807548139}
   changeThemeObject: {fileID: 927881779}
   currentMode: 0
+  lightMode: 0
   background: {fileID: 100766442}
 --- !u!114 &711953060
 MonoBehaviour:
