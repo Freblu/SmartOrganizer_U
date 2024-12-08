@@ -8,12 +8,16 @@ public class SettingsManager : MonoBehaviour
 {
     [SerializeField]
     public DarkMode darkMode;
+    public Toggle ToggleAutoDM; // Referencja do ToggleAutoDM
+    public TMP_Text ToggleADMText;
     public Button changeThemeButton; // Przycisk zmiany motywu
     public Button backButton;        // Przycisk powrotu do kalendarza
     public Button logoutButton;      // Przycisk wylogowania
     public TMP_Text statusText;      // Pole tekstowe dla komunikatów
     public TMP_Dropdown reminderDropdown; // Lista rozwijana dla przypomnieñ
+    public GameObject changeThemeObject;
     private bool isDarkTheme; // Flaga dla zmiany motywu
+
 
     private void Start()
     {
@@ -39,14 +43,29 @@ public class SettingsManager : MonoBehaviour
 
 
         // Ustaw kolory HEX
-        darkMode.SetColors("#81D0FF", "#005587"); // Bia³y dla Light, czarny dla Dark
+        darkMode.SetColors("#81D0FF", "#000546"); // Bia³y dla Light, czarny dla Dark
 
         // Za³aduj zapisany tryb (domyœlnie Light)
         currentMode = (Mode)PlayerPrefs.GetInt(ModeKey, (int)Mode.Light);
         UpdateBackgroundColor();
+
+        // Ustaw pocz¹tkow¹ widocznoœæ
+        UpdateButtonVisibility();
+        // Subskrybuj siê do zdarzenia zmiany Toggle
+        ToggleAutoDM.onValueChanged.AddListener(delegate { UpdateButtonVisibility(); });
     }
 
-    public enum Mode
+void UpdateButtonVisibility()
+{
+        // Ukryj lub poka¿ przycisk w zale¿noœci od stanu Toggle
+        changeThemeObject.SetActive(!ToggleAutoDM.isOn);
+        if (ToggleADMText != null)
+        {
+            ToggleADMText.text = ToggleAutoDM.isOn ? "Auto" : "Manual";
+        }
+    }
+
+public enum Mode
     {
         Light,
         Dark
@@ -126,6 +145,8 @@ public class SettingsManager : MonoBehaviour
 
         Debug.Log($"Wybrano opcjê przypomnienia: {reminderText}");
     }
+
+
 
     // Funkcja powrotu do kalendarza
     private void BackToCalendar()

@@ -11,7 +11,7 @@ public class DarkModeManager : MonoBehaviour
     int savedMode = PlayerPrefs.GetInt(ModeKey, (int)Mode.Light);
 
     // Ustaw kolory HEX
-    darkMode.SetColors("#81D0FF", "#005587"); // Bia³y dla Light, czarny dla Dark
+    darkMode.SetColors("#81D0FF", "#000546"); // Bia³y dla Light, czarny dla Dark
 
         // Za³aduj zapisany tryb (domyœlnie Light)
         currentMode = (Mode) PlayerPrefs.GetInt(ModeKey, (int) Mode.Light);
