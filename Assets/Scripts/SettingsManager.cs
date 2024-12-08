@@ -13,7 +13,6 @@ public class SettingsManager : MonoBehaviour
     public Button logoutButton;      // Przycisk wylogowania
     public TMP_Text statusText;      // Pole tekstowe dla komunikatów
     public TMP_Dropdown reminderDropdown; // Lista rozwijana dla przypomnieñ
-    public DarkModeManager DarkModeManager;
     private bool isDarkTheme; // Flaga dla zmiany motywu
 
     private void Start()
