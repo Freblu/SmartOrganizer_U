@@ -63,13 +63,6 @@ public class DarkModeManager : MonoBehaviour
         UpdateBackgroundColor();
     }
 
-    void OnDestroy()
-    {
-        if (lightSensorPlugin != null)
-        {
-            lightSensorPlugin.Call("stop");
-        }
-    }
 
     public float GetLightLevel()
     {
@@ -106,4 +99,14 @@ public class DarkModeManager : MonoBehaviour
     {
         return 0.4f;
     }
+
+
+    void OnDestroy()
+    {
+        if (lightSensorPlugin != null)
+        {
+            lightSensorPlugin.Call("stop");
+        }
+    }
+
 }
