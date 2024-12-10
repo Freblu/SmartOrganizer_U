@@ -95,10 +95,19 @@ public class DarkModeManager : MonoBehaviour
         }
     }
 
+    void Update()
+    {
+        if (PlayerPrefs.GetInt(AutoKey) == 1)
+        {
+            UpdateBackgroundColor();
+        }
+    }
+
     private float GetBrightnessLevel()
     {
         return 0.4f;
     }
+
 
 
     void OnDestroy()
