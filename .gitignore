@@ -2,7 +2,6 @@
 #
 # Get latest from https://github.com/github/gitignore/blob/main/Unity.gitignore
 #
-/[Ll]ibrary/
 /[Tt]emp/
 /[Oo]bj/
 /[Bb]uild/
@@ -81,3 +80,12 @@ crashlytics-build.properties
 /Assets/Tutorials
 
 /emulator
+/[Ll]ibrary/[AaEePpSsTtUuIiLlMm]*
+/[Ll]ibrary/Bu*
+/[Ll]ibrary/Bee/1*
+/[Ll]ibrary/Bee/[CcBbFfPpTt]*
+/[Ll]ibrary/Bee/arti*
+/[Ll]ibrary/Bee/Android/Prj/IL2CPP/Il2CppBackup
+/[Ll]ibrary/Bee/Android/Prj/IL2CPP/Gradle/.*
+/[Ll]ibrary/Bee/Android/Prj/IL2CPP/Gradle/l*
+/[Ll]ibrary/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build
