@@ -89,3 +89,12 @@ crashlytics-build.properties
 /[Ll]ibrary/Bee/Android/Prj/IL2CPP/Gradle/.*
 /[Ll]ibrary/Bee/Android/Prj/IL2CPP/Gradle/l*
 /[Ll]ibrary/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build
+*.properties
+[Ll]ibrary/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/src/main/jniLibs/arm64-v8a
+[Ll]ibrary/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/src/main/res
+[Ll]ibrary/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/src/main/java/com/unity3d
+[Ll]ibrary/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/src/main/assets/bin/Data
+[Ll]ibrary/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/proguard-unity.txt
+[Ll]ibrary/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build.gradle
+[Ll]ibrary/Bee/Android/Prj/IL2CPP/Gradle/settings.gradle
+[Ll]ibrary/Bee/Android/Prj/IL2CPP/Gradle/gradle.properties
