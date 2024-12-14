@@ -2,7 +2,6 @@
 #
 # Get latest from https://github.com/github/gitignore/blob/main/Unity.gitignore
 #
-/[Ll]ibrary/
 /[Tt]emp/
 /[Oo]bj/
 /[Bb]uild/
@@ -79,7 +78,23 @@ crashlytics-build.properties
 /Assets/Documentation
 /Assets/Editor
 /Assets/Tutorials
-/ProjectSettings
+
 /emulator
-/Environment
-Library.zip
+/[Ll]ibrary/[AaEePpSsTtUuIiLlMm]*
+/[Ll]ibrary/Bu*
+/[Ll]ibrary/Bee/1*
+/[Ll]ibrary/Bee/[CcBbFfPpTt]*
+/[Ll]ibrary/Bee/arti*
+/[Ll]ibrary/Bee/Android/Prj/IL2CPP/Il2CppBackup
+/[Ll]ibrary/Bee/Android/Prj/IL2CPP/Gradle/.*
+/[Ll]ibrary/Bee/Android/Prj/IL2CPP/Gradle/l*
+/[Ll]ibrary/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build
+*.properties
+[Ll]ibrary/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/src/main/jniLibs/arm64-v8a
+[Ll]ibrary/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/src/main/res
+[Ll]ibrary/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/src/main/java/com/unity3d
+[Ll]ibrary/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/src/main/assets/bin/Data
+[Ll]ibrary/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/proguard-unity.txt
+[Ll]ibrary/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build.gradle
+[Ll]ibrary/Bee/Android/Prj/IL2CPP/Gradle/settings.gradle
+[Ll]ibrary/Bee/Android/Prj/IL2CPP/Gradle/gradle.properties

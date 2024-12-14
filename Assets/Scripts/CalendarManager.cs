@@ -10,27 +10,23 @@ public class CalendarManager : MonoBehaviour
     // Kalendarz
     public GameObject dayPrefab; // Prefab dnia kalendarza
     public Transform calendarGrid; // Siatka kalendarza
-    public TMP_Text calendarTitle; // Tytu³ kalendarza (np. "Mój Kalendarz")
+    public TMP_Text calendarTitle; // Tytu³ kalendarza
     public TMP_Text quoteText; // Inspiruj¹cy cytat
     public Button previousMonthButton; // Przycisk do przejœcia do poprzedniego miesi¹ca
     public Button nextMonthButton; // Przycisk do przejœcia do nastêpnego miesi¹ca
     public Button settingsButton; // Przycisk do przejœcia do ustawieñ
 
-    private List<GameObject> dayObjects = new List<GameObject>(); // Lista dni w kalendarzu
     private int currentYear;
     private int currentMonth;
 
-    private const string DayPlanKey = "SelectedDay"; // Klucz do zapamiêtania wybranego dnia
-
     // Zarz¹dzanie zadaniami
-    public TMP_Text taskListText;           // Pole tekstowe do wyœwietlania zadañ (TextMeshPro)
-    public TMP_InputField taskInputField;    // Pole wejœciowe do dodawania nowych zadañ (TextMeshPro)
-    public Button addTaskButton;             // Przycisk do dodawania zadañ
-    public Button clearTasksButton;          // Przycisk do usuwania wszystkich zadañ
-    public Button saveEditButton;            // Przycisk do zapisywania edycji zadania
+    public Transform taskListContent; // Kontener dla dynamicznie generowanych zadañ
+    public TMP_InputField taskInputField; // Pole wejœciowe do dodawania/edycji zadañ
+    public Button addTaskButton; // Przycisk do dodawania zadañ
+    public Button clearTasksButton; // Przycisk do czyszczenia zadañ
 
-    private List<string> tasks = new List<string>(); // Lista zadañ
-    private int editIndex = -1; // Indeks zadania do edycji (-1 oznacza brak edycji)
+    private List<string> tasks = new List<string>();
+    private int editIndex = -1;
 
     private void Start()
     {
@@ -46,12 +42,12 @@ public class CalendarManager : MonoBehaviour
         nextMonthButton.onClick.AddListener(NextMonth);
         settingsButton.onClick.AddListener(OpenSettings); // Przycisk ustawieñ
 
-        // Generowanie kalendarza
-        GenerateCalendar();
-
         // Inicjalizacja przycisków do zarz¹dzania zadaniami
         addTaskButton.onClick.AddListener(AddOrEditTask);
         clearTasksButton.onClick.AddListener(ClearTasks);
+
+        // Generowanie kalendarza
+        GenerateCalendar();
 
         // Wczytaj zadania
         LoadTasks();
@@ -60,46 +56,36 @@ public class CalendarManager : MonoBehaviour
 
     public void GenerateCalendar()
     {
-        // Wyczyœæ istniej¹ce dni z kalendarza
-        foreach (GameObject day in dayObjects)
+        foreach (Transform child in calendarGrid)
         {
-            Destroy(day);
+            Destroy(child.gameObject);
         }
-        dayObjects.Clear();
 
-        // Ustaw nazwê miesi¹ca i roku
         calendarTitle.text = $"{GetMonthName(currentMonth)} {currentYear}";
 
-        // ZnajdŸ pierwszy dzieñ miesi¹ca
         DateTime firstDayOfMonth = new DateTime(currentYear, currentMonth, 1);
         int daysInMonth = DateTime.DaysInMonth(currentYear, currentMonth);
         int startDayOfWeek = (int)firstDayOfMonth.DayOfWeek;
 
-        // Dodaj puste dni dla wyrównania do pocz¹tku tygodnia
         for (int i = 0; i < startDayOfWeek; i++)
         {
             GameObject emptyDay = Instantiate(dayPrefab, calendarGrid);
             emptyDay.GetComponentInChildren<TMP_Text>().text = ""; // Puste pole
             emptyDay.GetComponent<Button>().interactable = false; // Wy³¹cz interakcjê
-            dayObjects.Add(emptyDay);
         }
 
-        // Generowanie dni miesi¹ca
         for (int day = 1; day <= daysInMonth; day++)
         {
             GameObject dayObj = Instantiate(dayPrefab, calendarGrid);
             TMP_Text dayText = dayObj.GetComponentInChildren<TMP_Text>();
             dayText.text = day.ToString();
 
-            // Przycisk otwieraj¹cy scenê planu dnia
             Button dayButton = dayObj.GetComponent<Button>();
             if (dayButton != null)
             {
                 int selectedDay = day;
                 dayButton.onClick.AddListener(() => OpenDayPlan(selectedDay));
             }
-
-            dayObjects.Add(dayObj);
         }
     }
 
@@ -143,7 +129,7 @@ public class CalendarManager : MonoBehaviour
 
     private void OpenDayPlan(int day)
     {
-        PlayerPrefs.SetInt(DayPlanKey, day); // Zapamiêtaj wybrany dzieñ
+        PlayerPrefs.SetInt("SelectedDay", day); // Zapamiêtaj wybrany dzieñ
         PlayerPrefs.SetInt("CurrentYear", currentYear); // Zapamiêtaj rok
         PlayerPrefs.SetInt("CurrentMonth", currentMonth); // Zapamiêtaj miesi¹c
         PlayerPrefs.Save();
@@ -164,12 +150,47 @@ public class CalendarManager : MonoBehaviour
             {
                 tasks[editIndex] = newTask;
                 editIndex = -1;
-                saveEditButton.gameObject.SetActive(false);
                 addTaskButton.GetComponentInChildren<TMP_Text>().text = "Dodaj Zadanie";
             }
             taskInputField.text = "";
             UpdateTaskList();
             SaveTasks();
+        }
+    }
+
+    private void UpdateTaskList()
+    {
+        foreach (Transform child in taskListContent)
+        {
+            Destroy(child.gameObject);
+        }
+
+        for (int i = 0; i < tasks.Count; i++)
+        {
+            int index = i;
+
+            // Tworzenie kontenera dla zadania
+            GameObject taskContainer = new GameObject($"Task_{i}");
+            taskContainer.transform.SetParent(taskListContent);
+            taskContainer.AddComponent<HorizontalLayoutGroup>();
+
+            // Dodaj tekst zadania
+            GameObject taskTextObject = new GameObject("TaskText");
+            taskTextObject.transform.SetParent(taskContainer.transform);
+            TMP_Text taskText = taskTextObject.AddComponent<TextMeshProUGUI>();
+            taskText.text = tasks[i];
+            taskText.fontSize = 36;
+
+            // Dodaj przycisk "Edytuj"
+            GameObject editButtonObject = new GameObject("EditButton");
+            editButtonObject.transform.SetParent(taskContainer.transform);
+            Button editButton = editButtonObject.AddComponent<Button>();
+            TMP_Text editButtonText = editButtonObject.AddComponent<TextMeshProUGUI>();
+            editButtonText.text = "Edytuj";
+            editButtonText.color = Color.red;
+            editButtonText.fontSize = 36;
+
+            editButton.onClick.AddListener(() => EditTask(index));
         }
     }
 
@@ -179,17 +200,7 @@ public class CalendarManager : MonoBehaviour
         {
             taskInputField.text = tasks[index];
             editIndex = index;
-            saveEditButton.gameObject.SetActive(true);
             addTaskButton.GetComponentInChildren<TMP_Text>().text = "Zapisz Edycjê";
-        }
-    }
-
-    private void UpdateTaskList()
-    {
-        taskListText.text = "";
-        for (int i = 0; i < tasks.Count; i++)
-        {
-            taskListText.text += $"{i + 1}. {tasks[i]} <color=#FF0000FF>[Edytuj]</color>\n";
         }
     }
 
