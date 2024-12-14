@@ -1,0 +1,86 @@
+apply plugin: 'com.android.library'
+apply from: '../shared/keepUnitySymbols.gradle'
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    // Zależność dla biometrii (obsługa linii papilarnych)
+    implementation 'androidx.biometric:biometric:1.2.0'
+
+    // Możesz dodać inne zależności, jeśli są wymagane, np.:
+    // implementation 'com.google.firebase:firebase-auth:21.0.1' // Jeśli używasz Firebase
+}
+
+android {
+    namespace "com.unity3d.player"
+    ndkPath "C:/Program Files/Unity/Hub/Editor/2023.1.0f1/Editor/Data/PlaybackEngines/AndroidPlayer/NDK"
+    ndkVersion "23.1.7779620"
+
+    compileSdk 34
+    buildToolsVersion "34.0.0"
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    defaultConfig {
+        minSdk 23 // Minimalna obsługiwana wersja Androida (np. Marshmallow)
+        targetSdk 34 // Docelowa wersja Androida
+        ndk {
+            abiFilters "arm64-v8a" // Obsługa procesorów ARM 64-bitowych
+            debugSymbolLevel "none" // Wyłącz poziom debugowania symboli
+        }
+        versionCode 1 // Numer wersji
+        versionName '1.0.0' // Nazwa wersji aplikacji
+        consumerProguardFiles 'proguard-unity.txt'
+    }
+
+    lint {
+        abortOnError false // Nie przerywaj budowania przy błędach lint
+    }
+
+    androidResources {
+        noCompress = ['.unity3d', '.ress', '.resource', '.obb', '.bundle', '.unityexp'] + unityStreamingAssets.tokenize(', ')
+        ignoreAssetsPattern = "!.svn:!.git:!.ds_store:!*.scc:!CVS:!thumbs.db:!picasa.ini:!*~"
+    }
+
+    packaging {
+        jniLibs {
+            useLegacyPackaging true // Użyj starszego pakowania dla bibliotek JNI
+        }
+    }
+
+    buildTypes {
+        debug {
+            minifyEnabled false // Wyłącz minimalizację w trybie debugowania
+            proguardFiles getDefaultProguardFile('proguard-android.txt')
+            jniDebuggable true // Włącz debugowanie JNI
+            signingConfig signingConfigs.debug
+        }
+
+        release {
+            minifyEnabled true // Włącz minimalizację w trybie wydania
+            proguardFiles getDefaultProguardFile('proguard-android.txt')
+            signingConfig signingConfigs.debug
+        }
+    }
+
+    bundle {
+        language {
+            enableSplit false // Wyłącz podział pakietów językowych
+        }
+
+        density {
+            enableSplit false // Wyłącz podział pakietów dla różnych gęstości ekranów
+        }
+
+        abi {
+            enableSplit true // Włącz podział na architektury ABI
+        }
+
+        texture {
+            enableSplit true // Włącz podział tekstur
+        }
+    }
+}
