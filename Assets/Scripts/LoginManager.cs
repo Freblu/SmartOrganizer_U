@@ -17,11 +17,14 @@ public class LoginManager : MonoBehaviour
     public Button saveNewUserButton;
     public Button setFingerprintButton;
 
-    public TMP_InputField passwordInputNewUser;
-    public TMP_InputField passwordInputExistingUser;
+    public TMP_InputField usernameInputNewUser; // Pole wprowadzania loginu nowego u¿ytkownika
+    public TMP_InputField passwordInputNewUser; // Pole wprowadzania has³a nowego u¿ytkownika
+    public TMP_InputField usernameInputExistingUser; // Pole wprowadzania loginu istniej¹cego u¿ytkownika
+    public TMP_InputField passwordInputExistingUser; // Pole wprowadzania has³a istniej¹cego u¿ytkownika
     public TMP_Text successText; // Pole tekstowe dla komunikatu o sukcesie
     public TMP_Text errorText;   // Pole tekstowe dla komunikatu o b³êdzie
 
+    private string storedUsername = ""; // Zmienna do przechowywania loginu u¿ytkownika
     private string storedPassword = ""; // Zmienna do przechowywania has³a u¿ytkownika
     private bool isFingerprintSet = false; // Czy linie papilarne s¹ zapisane
 
@@ -32,7 +35,7 @@ public class LoginManager : MonoBehaviour
 
         if (!fingerprintAuthentication.IsFingerprintAvailable())
         {
-            fingerprintButton.interactable = false; // Wy³¹cz przycisk, jeœli linie papilarne nie s¹ dostêpne
+            fingerprintButton.interactable = false;
             Debug.Log("Fingerprint authentication is not available.");
         }
         else
@@ -44,8 +47,23 @@ public class LoginManager : MonoBehaviour
         newUserPanel.SetActive(false);
         existingUserPanel.SetActive(false);
 
-        // Ustawienie domyœlnego panelu
-        ShowNewUserPanel();
+        // SprawdŸ, czy NewUserPanel powinien byæ aktywowany
+        if (PlayerPrefs.HasKey("NewUserPanelActive") && PlayerPrefs.GetString("NewUserPanelActive") == "true")
+        {
+            ShowNewUserPanel();
+            PlayerPrefs.DeleteKey("NewUserPanelActive");
+
+            string lastAddedUser = PlayerPrefs.GetString("LastAddedUser", "");
+            if (!string.IsNullOrEmpty(lastAddedUser))
+            {
+                passwordInputNewUser.text = ""; // Wyczyszczenie pola has³a
+                Debug.Log($"Ostatnio dodany u¿ytkownik: {lastAddedUser}");
+            }
+        }
+        else
+        {
+            ShowExistingUserPanel();
+        }
 
         // Ukryj komunikaty
         successText.gameObject.SetActive(false);
@@ -86,9 +104,27 @@ public class LoginManager : MonoBehaviour
     // Zapisanie danych nowego u¿ytkownika
     public void SaveNewUser()
     {
-        storedPassword = passwordInputNewUser.text;
-        isFingerprintSet = true; // Zak³adamy, ¿e linie papilarne zosta³y skonfigurowane
-        successText.text = "U¿ytkownik skonfigurowany. U¿yj has³a lub linii papilarnych do logowania.";
+        string username = passwordInputNewUser.text.Trim();
+        string password = passwordInputNewUser.text.Trim();
+
+        if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
+        {
+            errorText.text = "Proszê wype³niæ wszystkie pola!";
+            errorText.gameObject.SetActive(true);
+            return;
+        }
+
+        if (PlayerPrefs.HasKey($"User_{username}"))
+        {
+            errorText.text = "U¿ytkownik o tej nazwie ju¿ istnieje!";
+            errorText.gameObject.SetActive(true);
+            return;
+        }
+
+        PlayerPrefs.SetString($"User_{username}", password);
+        PlayerPrefs.Save();
+
+        successText.text = "Nowy u¿ytkownik zosta³ zapisany. Mo¿esz siê teraz zalogowaæ.";
         successText.gameObject.SetActive(true);
         errorText.gameObject.SetActive(false);
     }
@@ -107,7 +143,11 @@ public class LoginManager : MonoBehaviour
     {
         ClearStatusMessages();
 
-        if (passwordInputExistingUser.text == storedPassword)
+        string enteredUsername = passwordInputExistingUser.text.Trim();
+        string enteredPassword = passwordInputExistingUser.text.Trim();
+
+        if (PlayerPrefs.HasKey($"User_{enteredUsername}") &&
+            PlayerPrefs.GetString($"User_{enteredUsername}") == enteredPassword)
         {
             successText.text = "Logowanie zakoñczone sukcesem!";
             successText.gameObject.SetActive(true);
@@ -115,10 +155,11 @@ public class LoginManager : MonoBehaviour
         }
         else
         {
-            errorText.text = "B³êdne has³o. Spróbuj ponownie.";
+            errorText.text = "B³êdne dane logowania. Spróbuj ponownie.";
             errorText.gameObject.SetActive(true);
         }
     }
+
 
     // Logowanie liniami papilarnymi
     public void LoginWithFingerprint()

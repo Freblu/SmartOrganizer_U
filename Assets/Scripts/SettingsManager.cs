@@ -2,122 +2,104 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
-using static SettingsManager;
 
 public class SettingsManager : MonoBehaviour
 {
-    [SerializeField]
+    [Header("UI Elements")]
     public DarkMode darkMode;
-    public Toggle ToggleAutoDM; // Referencja do ToggleAutoDM
+    public Toggle ToggleAutoDM;
     public TMP_Text ToggleADMText;
-    public Button changeThemeButton; // Przycisk zmiany motywu
-    public Button backButton;        // Przycisk powrotu do kalendarza
-    public Button logoutButton;      // Przycisk wylogowania
-    public TMP_Text statusText;      // Pole tekstowe dla komunikatów
-    public TMP_Dropdown reminderDropdown; // Lista rozwijana dla przypomnieñ
+    public Button changeThemeButton;
+    public Button backButton;
+    public Button logoutButton;
+    public Button addUserButton; // Przycisk dodania nowego u¿ytkownika
+    public GameObject addUserPanel; // Panel dodawania u¿ytkownika
+    public TMP_InputField usernameInput; // Pole wprowadzania nazwy u¿ytkownika
+    public TMP_InputField passwordInput; // Pole wprowadzania has³a
+    public Button confirmAddUserButton; // Przycisk zatwierdzaj¹cy dodanie u¿ytkownika
+    public TMP_Text statusText;
+    public TMP_Dropdown reminderDropdown;
     public GameObject changeThemeObject;
-    private bool isDarkTheme; // Flaga dla zmiany motywu
-    [SerializeField]
-    private Mode currentMode; // Obecny tryb
-    [SerializeField]
-    private Mode lightMode; // Obecny tryb bazowany na poziomie œwiat³a
-    [SerializeField]
-    private Image background; // Obiekt z komponentem Image
+    private bool isDarkTheme;
+    [SerializeField] private Mode currentMode;
+    [SerializeField] private Mode lightMode;
+    [SerializeField] private Image background;
 
-
-    private const string ModeKey = "DarkMode"; // Klucz w PlayerPrefs
-    public const string AutoKey = "AutoMode"; // Klucz w PlayerPrefs
-    private int ADM;
+    private const string ModeKey = "DarkMode";
+    private const string AutoKey = "AutoMode";
 
     private void Start()
     {
-        // Wczytaj aktualny stan motywu z PlayerPrefs
+        // Wczytaj aktualny stan motywu
         int savedMode = PlayerPrefs.GetInt(ModeKey, (int)Mode.Light);
 
-            // Przypisz funkcje do przycisków
-            changeThemeButton.onClick.AddListener(ToggleMode);
+        // Przypisz funkcje do przycisków
+        changeThemeButton.onClick.AddListener(ToggleMode);
         backButton.onClick.AddListener(BackToCalendar);
         logoutButton.onClick.AddListener(Logout);
+        addUserButton.onClick.AddListener(OpenAddUserPanel);
 
-        // Opcjonalnie: wyczyœæ status na pocz¹tku
+        // Subskrybuj zdarzenie potwierdzenia dodania u¿ytkownika
+        if (confirmAddUserButton != null)
+        {
+            confirmAddUserButton.onClick.AddListener(AddUser);
+        }
+
+        // Ustawienia pocz¹tkowe
         if (statusText != null)
         {
             statusText.text = "";
         }
 
-        // Ustawienia domyœlne dla przypomnieñ
         if (reminderDropdown != null)
         {
             reminderDropdown.onValueChanged.AddListener(SetReminder);
-            reminderDropdown.value = PlayerPrefs.GetInt("ReminderTime", 0); // Wczytaj zapisane ustawienie przypomnienia
+            reminderDropdown.value = PlayerPrefs.GetInt("ReminderTime", 0);
         }
 
-        // ustaw toggle na poprzedni¹ pozycje
         if (PlayerPrefs.HasKey(AutoKey))
         {
             bool savedState = PlayerPrefs.GetInt(AutoKey) == 1;
             ToggleAutoDM.isOn = savedState;
         }
 
-        // Ustaw pocz¹tkow¹ widocznoœæ
-        UpdateButtonVisibility();
-        // Subskrybuj siê do zdarzenia zmiany Toggle
         ToggleAutoDM.onValueChanged.AddListener(delegate { UpdateButtonVisibility(); });
 
+        darkMode.SetColors("#81D0FF", "#000546");
 
-        // Ustaw kolory HEX
-        darkMode.SetColors("#81D0FF", "#000546"); // Bia³y dla Light, czarny dla Dark
-
-        // Za³aduj zapisany tryb (domyœlnie Light)
         currentMode = (Mode)PlayerPrefs.GetInt(ModeKey, (int)Mode.Light);
         UpdateBackgroundColor();
 
+        // Ukryj panel dodawania u¿ytkownika na starcie
+        if (addUserPanel != null)
+        {
+            addUserPanel.SetActive(false);
+        }
     }
 
-    void SaveToggleState()
+    private void UpdateButtonVisibility()
     {
-        // Zapisz stan Toggle w PlayerPrefs (1 dla "true", 0 dla "false")
-        PlayerPrefs.SetInt(AutoKey, ToggleAutoDM.isOn ? 1 : 0);
-        PlayerPrefs.Save(); // Upewnij siê, ¿e zapisano dane
-    }
-    void UpdateButtonVisibility()
-    {
-        // Ukryj lub poka¿ przycisk w zale¿noœci od stanu Toggle
         changeThemeObject.SetActive(!ToggleAutoDM.isOn);
         if (ToggleADMText != null)
         {
             ToggleADMText.text = ToggleAutoDM.isOn ? "Auto" : "Manual";
         }
-        SaveToggleState();
         UpdateBackgroundColor();
     }
 
     public enum Mode
     {
-       Light,
-       Dark
-    }
-
-    public void ToggleADM()
-    {
-        ADM = ToggleAutoDM.isOn ? 1 : 0;
-        PlayerPrefs.SetInt(AutoKey, (int)ADM);
-        PlayerPrefs.Save();
+        Light,
+        Dark
     }
 
     public void ToggleMode()
     {
-        // Prze³¹cz tryb
         currentMode = currentMode == Mode.Light ? Mode.Dark : Mode.Light;
-
-        // Zapisz tryb w PlayerPrefs
         PlayerPrefs.SetInt(ModeKey, (int)currentMode);
         PlayerPrefs.Save();
-
-        // Zaktualizuj kolor t³a
         UpdateBackgroundColor();
     }
-
 
     private void UpdateBackgroundColor()
     {
@@ -135,7 +117,6 @@ public class SettingsManager : MonoBehaviour
         }
         else
         {
-            // Ustaw kolor w zale¿noœci od trybu
             background.color = currentMode == Mode.Light ? darkMode.lightColor : darkMode.darkColor;
         }
     }
@@ -145,8 +126,6 @@ public class SettingsManager : MonoBehaviour
         return 0.4f;
     }
 
-
-    // Funkcja ustawiaj¹ca przypomnienia
     private void SetReminder(int optionIndex)
     {
         PlayerPrefs.SetInt("ReminderTime", optionIndex);
@@ -169,18 +148,52 @@ public class SettingsManager : MonoBehaviour
         Debug.Log($"Wybrano opcjê przypomnienia: {reminderText}");
     }
 
+    private void OpenAddUserPanel()
+    {
+        if (addUserPanel != null)
+        {
+            addUserPanel.SetActive(true); // Wyœwietl panel
+        }
+    }
 
+    private void AddUser()
+    {
+        string username = usernameInput.text.Trim();
+        string password = passwordInput.text.Trim();
 
-    // Funkcja powrotu do kalendarza
+        if (!string.IsNullOrEmpty(username) && !string.IsNullOrEmpty(password))
+        {
+            if (PlayerPrefs.HasKey($"User_{username}"))
+            {
+                statusText.text = "U¿ytkownik o podanej nazwie ju¿ istnieje!";
+                Debug.LogWarning("U¿ytkownik o tej nazwie ju¿ istnieje!");
+                return;
+            }
+
+            // Zapisz login i has³o
+            PlayerPrefs.SetString($"User_{username}", password);
+            PlayerPrefs.SetString("NewUserPanelActive", "true");
+            PlayerPrefs.SetString("LastAddedUser", username); // Przechowaj login ostatniego u¿ytkownika
+            PlayerPrefs.Save();
+
+            Debug.Log($"Dodano nowego u¿ytkownika: {username}");
+            SceneManager.LoadScene("LoginScene"); // Przenieœ do LoginScene
+        }
+        else
+        {
+            statusText.text = "Proszê wype³niæ wszystkie pola!";
+            Debug.LogWarning("Pola u¿ytkownika s¹ puste!");
+        }
+    }
+
     private void BackToCalendar()
     {
         SceneManager.LoadScene("CalendarScene");
     }
 
-    // Funkcja wylogowania
     private void Logout()
     {
-        PlayerPrefs.DeleteAll(); // Usuniêcie zapisanych danych (opcjonalne)
-        SceneManager.LoadScene("LoginScene"); // PrzejdŸ do strony logowania
+        PlayerPrefs.DeleteAll();
+        SceneManager.LoadScene("LoginScene");
     }
 }
