@@ -79,6 +79,7 @@
     <Compile Include="Assets\Scripts\Mechanics\VictoryZone.cs" />
     <Compile Include="Assets\Scripts\Gameplay\PlayerEnemyCollision.cs" />
     <Compile Include="Assets\Scripts\Mechanics\Health.cs" />
+    <Compile Include="Assets\Scripts\FingerprintAuthentication.cs" />
     <Compile Include="Assets\Scripts\Mechanics\KinematicObject.cs" />
     <Compile Include="Assets\Scripts\DayPlanManager.cs" />
     <Compile Include="Assets\Scripts\Core\HeapQueue.cs" />
