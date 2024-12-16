@@ -11,7 +11,7 @@ public class DayPlanManager : MonoBehaviour
     public TMP_Text dayTitleText;
     public Transform taskListText;
     public TMP_InputField taskInputField;
-    public TMP_InputField taskTimeInputField;
+    public TMP_Dropdown taskTimeDropdown; // Dropdown do wyboru czasu zadania
     public Button addTaskButton;
     public Button clearTasksButton;
     public Button saveEditButton;
@@ -59,9 +59,26 @@ public class DayPlanManager : MonoBehaviour
         UpdateTaskList();
         saveEditButton.gameObject.SetActive(false);
 
+        PopulateTimeDropdown();
         PopulateDropdown();
     }
+    private void PopulateTimeDropdown()
+    {
+        taskTimeDropdown.ClearOptions();
+        List<string> timeOptions = new List<string>();
 
+        for (int hour = 0; hour < 24; hour++) // 0 - 23 godziny
+        {
+            for (int minute = 0; minute < 60; minute += 15) // Co 15 minut
+            {
+                string time = $"{hour:D2}:{minute:D2}"; // Format hh:mm
+                timeOptions.Add(time);
+            }
+        }
+
+        taskTimeDropdown.AddOptions(timeOptions);
+        taskTimeDropdown.value = 0; // Domyœlnie wybiera pierwszy element
+    }
     private void PopulateDropdown()
     {
         taskIconDropdown.options.Clear();
@@ -92,11 +109,21 @@ public class DayPlanManager : MonoBehaviour
         taskIconDropdown.value = 0;
     }
 
-
+    private int GetTimeDropdownIndex(string time)
+    {
+        for (int i = 0; i < taskTimeDropdown.options.Count; i++)
+        {
+            if (taskTimeDropdown.options[i].text == time)
+            {
+                return i;
+            }
+        }
+        return 0; // Jeœli nie znaleziono, zwróæ domyœlny indeks
+    }
     public void AddOrEditTask()
     {
         string newTaskDescription = taskInputField.text.Trim();
-        string newTaskTime = taskTimeInputField.text.Trim();
+        string newTaskTime = taskTimeDropdown.options[taskTimeDropdown.value].text; // Pobranie wybranego czasu z dropdown
         int selectedIcon = taskIconDropdown.value;
 
         if (!string.IsNullOrEmpty(newTaskDescription) && !string.IsNullOrEmpty(newTaskTime))
@@ -118,7 +145,7 @@ public class DayPlanManager : MonoBehaviour
             }
 
             taskInputField.text = "";
-            taskTimeInputField.text = "";
+            taskTimeDropdown.value = 0; // Resetowanie dropdown na domyœln¹ opcjê
 
             UpdateTaskList();
             SaveTasks();
@@ -130,33 +157,35 @@ public class DayPlanManager : MonoBehaviour
         }
     }
 
+
     public void EditTask(int index)
     {
         if (index >= 0 && index < tasks.Count)
         {
             Task taskToEdit = tasks[index];
             taskInputField.text = taskToEdit.description;
-            taskTimeInputField.text = taskToEdit.time;
+            taskTimeDropdown.value = GetTimeDropdownIndex(taskToEdit.time); // Znalezienie odpowiedniego indeksu czasu
             taskIconDropdown.value = taskToEdit.iconIndex;
+
             editIndex = index;
             saveEditButton.gameObject.SetActive(true);
             addTaskButton.GetComponentInChildren<TMP_Text>().text = "Zapisz Edycjê";
             statusText.text = $"Edycja zadania {index + 1}";
         }
     }
-
     public void SaveEditedTask()
     {
         if (editIndex >= 0 && editIndex < tasks.Count)
         {
             string updatedDescription = taskInputField.text;
-            string updatedTime = taskTimeInputField.text;
+            string updatedTime = taskTimeDropdown.options[taskTimeDropdown.value].text; // Pobranie wybranego czasu
             int updatedIcon = taskIconDropdown.value;
 
             tasks[editIndex] = new Task(updatedDescription, updatedTime, updatedIcon);
             taskInputField.text = "";
-            taskTimeInputField.text = "";
+            taskTimeDropdown.value = 0;
             editIndex = -1;
+
             saveEditButton.gameObject.SetActive(false);
             addTaskButton.GetComponentInChildren<TMP_Text>().text = "Dodaj Zadanie";
             UpdateTaskList();
@@ -197,6 +226,7 @@ public class DayPlanManager : MonoBehaviour
             GameObject taskItem = new GameObject($"Task_{i}");
             taskItem.transform.SetParent(taskListText, false);
             LayoutRebuilder.ForceRebuildLayoutImmediate(taskListText.GetComponent<RectTransform>());
+
             // Uk³ad poziomy elementu
             HorizontalLayoutGroup layoutGroup = taskItem.AddComponent<HorizontalLayoutGroup>();
             layoutGroup.childAlignment = TextAnchor.MiddleLeft;
@@ -209,18 +239,31 @@ public class DayPlanManager : MonoBehaviour
             taskText.fontSize = 36;
 
             // Ikona zadania
-            Image icon = new GameObject("TaskIcon").AddComponent<Image>();
-            icon.transform.SetParent(taskItem.transform);
+            GameObject iconObject = new GameObject("TaskIcon");
+            iconObject.transform.SetParent(taskItem.transform);
+            Image icon = iconObject.AddComponent<Image>();
             icon.sprite = taskIcons[tasks[i].iconIndex];
-            icon.rectTransform.sizeDelta = new Vector2(36, 36);
+            RectTransform iconRect = icon.GetComponent<RectTransform>();
+            iconRect.sizeDelta = new Vector2(50, 50); // Ustawienie kwadratowego rozmiaru ikony (50x50)
+
+            // Dodanie proporcjonalnego skalowania
+            icon.preserveAspect = true;
 
             // Przycisk edycji
-            Button editButton = new GameObject("EditButton").AddComponent<Button>();
-            editButton.transform.SetParent(taskItem.transform);
-            TextMeshProUGUI buttonText = editButton.gameObject.AddComponent<TextMeshProUGUI>();
+            GameObject editButtonObject = new GameObject("EditButton");
+            editButtonObject.transform.SetParent(taskItem.transform);
+            Button editButton = editButtonObject.AddComponent<Button>();
+
+            // Ustawienie rozmiaru przycisku
+            RectTransform editButtonRect = editButtonObject.AddComponent<RectTransform>();
+            editButtonRect.sizeDelta = new Vector2(100, 40); // Rozmiar przycisku
+
+            // Tekst przycisku
+            TextMeshProUGUI buttonText = editButtonObject.AddComponent<TextMeshProUGUI>();
             buttonText.text = "[Edytuj]";
             buttonText.fontSize = 30;
             buttonText.color = Color.red;
+            buttonText.alignment = TextAlignmentOptions.Center;
 
             // Funkcja przycisku edycji
             editButton.onClick.AddListener(() => EditTask(index));

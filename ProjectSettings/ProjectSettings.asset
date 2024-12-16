@@ -253,7 +253,7 @@ PlayerSettings:
   clonedFromGUID: 89985c6b8386a4e28b5828b7a0a4a51b
   templatePackageId: com.unity.template.platformer@5.0.1
   templateDefaultScene: 
-  useCustomMainManifest: 0
+  useCustomMainManifest: 1
   useCustomLauncherManifest: 0
   useCustomMainGradleTemplate: 0
   useCustomLauncherGradleManifest: 0
