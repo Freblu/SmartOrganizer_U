@@ -160,7 +160,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      egzamin_0: 7845570502879365934
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
