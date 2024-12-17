@@ -205,17 +205,20 @@ public class LoginManager : MonoBehaviour
         form.AddField("username", "testuser");
         form.AddField("password", "testpass123");
 
-        using (UnityWebRequest www = UnityWebRequest.Post("http://localhost/login_user.php", form))
+        using (UnityWebRequest www = UnityWebRequest.Post("http://localhost/reg_user.php", form))
         {
             yield return www.SendWebRequest();
 
             if (www.result == UnityWebRequest.Result.Success)
             {
-                Debug.Log("OdpowiedŸ z serwera: " + www.downloadHandler.text);
+                successText.text = "Logowanie zakoñczone sukcesem!";
+                successText.gameObject.SetActive(true);
+                LoadCalendarScene();
             }
             else
             {
-                Debug.LogError("B³¹d po³¹czenia: " + www.error);
+                errorText.text = "B³êdne dane logowania. Spróbuj ponownie.";
+                errorText.gameObject.SetActive(true);
             }
         }
     }
