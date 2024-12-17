@@ -2,7 +2,12 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
-
+/*
+ * using Mapbox.Unity.Map;
+using Mapbox.Unity.Location;
+using Mapbox.Utils;
+using Mapbox.Unity.MeshGeneration.Factories;
+*/
 public class SettingsManager : MonoBehaviour
 {
     [Header("UI Elements")]
@@ -27,6 +32,11 @@ public class SettingsManager : MonoBehaviour
 
     private const string ModeKey = "DarkMode";
     private const string AutoKey = "AutoMode";
+
+    /*
+     public AbstractMap map; // Mapbox map component
+    public GameObject markerPrefab; // Prefab dla markera
+    */
 
     private void Start()
     {
@@ -75,6 +85,14 @@ public class SettingsManager : MonoBehaviour
         {
             addUserPanel.SetActive(false);
         }
+
+        /*
+          var latLon = new LatLng(51.5074, -0.1278); // Przyk³adowa lokalizacja: Londyn
+        Vector3 worldPos = map.GeoToWorldPosition(latLon); // Konwersja geolokalizacji na wspó³rzêdne Unity
+
+        // Tworzymy marker w œwiecie Unity
+        Instantiate(markerPrefab, worldPos, Quaternion.identity);
+        */
     }
 
     private void UpdateButtonVisibility()
