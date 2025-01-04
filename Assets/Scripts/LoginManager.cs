@@ -2,10 +2,14 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.Networking;
+using System.Collections;
 
 public class LoginManager : MonoBehaviour
 {
     private FingerprintAuthentication fingerprintAuthentication;
+
+    public string registerURL = "http://localhost/reg_user.php"; // Œcie¿ka do Twojego skryptu PHP
 
     public GameObject newUserPanel; // Panel dla nowego u¿ytkownika
     public GameObject existingUserPanel; // Panel dla sta³ego u¿ytkownika
@@ -27,6 +31,9 @@ public class LoginManager : MonoBehaviour
     private string storedUsername = ""; // Zmienna do przechowywania loginu u¿ytkownika
     private string storedPassword = ""; // Zmienna do przechowywania has³a u¿ytkownika
     private bool isFingerprintSet = false; // Czy linie papilarne s¹ zapisane
+
+    //private string Username = passwordInputExistingUser.text.Trim();
+    //private string Password = passwordInputExistingUser.text.Trim();
 
     private void Start()
     {
@@ -72,9 +79,9 @@ public class LoginManager : MonoBehaviour
         // Przypisanie funkcji do przycisków
         switchToNewUserButton.onClick.AddListener(ShowNewUserPanel);
         switchToExistingUserButton.onClick.AddListener(ShowExistingUserPanel);
-        loginButton.onClick.AddListener(LoginWithPassword);
+        loginButton.onClick.AddListener(SendLogin);
         fingerprintButton.onClick.AddListener(LoginWithFingerprint);
-        saveNewUserButton.onClick.AddListener(SaveNewUser);
+        saveNewUserButton.onClick.AddListener(RegisterUser);
         setFingerprintButton.onClick.AddListener(SetFingerprint);
     }
 
@@ -104,9 +111,9 @@ public class LoginManager : MonoBehaviour
     // Zapisanie danych nowego u¿ytkownika
     public void SaveNewUser()
     {
-        string username = passwordInputNewUser.text.Trim();
+        string username = usernameInputNewUser.text.Trim();
         string password = passwordInputNewUser.text.Trim();
-
+        //RegisterUser("testUser", "12345");
         if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
         {
             errorText.text = "Proszê wype³niæ wszystkie pola!";
@@ -143,7 +150,7 @@ public class LoginManager : MonoBehaviour
     {
         ClearStatusMessages();
 
-        string enteredUsername = passwordInputExistingUser.text.Trim();
+        string enteredUsername = usernameInputExistingUser.text.Trim();
         string enteredPassword = passwordInputExistingUser.text.Trim();
 
         if (PlayerPrefs.HasKey($"User_{enteredUsername}") &&
@@ -160,6 +167,66 @@ public class LoginManager : MonoBehaviour
         }
     }
 
+    ///BAZA DANYCH REJESTRACJA///
+
+    public void RegisterUser()
+    {
+        string username = usernameInputNewUser.text.Trim();
+        string password = passwordInputNewUser.text.Trim();
+        StartCoroutine(SendRegisterRequest(username, password));
+    }
+
+    IEnumerator SendRegisterRequest(string username, string password)
+    {
+        WWWForm form = new WWWForm();
+        form.AddField("username", username);
+        form.AddField("password", password);
+
+        using (UnityWebRequest www = UnityWebRequest.Post(registerURL, form))
+        {
+            yield return www.SendWebRequest();
+
+            if (www.result == UnityWebRequest.Result.Success)
+            {
+                Debug.Log("OdpowiedŸ serwera: " + www.downloadHandler.text);
+            }
+            else
+            {
+                Debug.LogError("B³¹d po³¹czenia: " + www.error);
+            }
+        }
+    }
+
+    ///BAZA DANYCH LOGOWANIE/// 
+
+    IEnumerator Login()
+    {
+        WWWForm form = new WWWForm();
+        form.AddField("username", "testuser");
+        form.AddField("password", "testpass123");
+
+        using (UnityWebRequest www = UnityWebRequest.Post("http://localhost/reg_user.php", form))
+        {
+            yield return www.SendWebRequest();
+
+            if (www.result == UnityWebRequest.Result.Success)
+            {
+                successText.text = "Logowanie zakoñczone sukcesem!";
+                successText.gameObject.SetActive(true);
+                LoadCalendarScene();
+            }
+            else
+            {
+                errorText.text = "B³êdne dane logowania. Spróbuj ponownie.";
+                errorText.gameObject.SetActive(true);
+            }
+        }
+    }
+    public void SendLogin()
+    {
+        StartCoroutine(Login());
+    }
+    ///-BAZA DANYCH-///
 
     // Logowanie liniami papilarnymi
     public void LoginWithFingerprint()
@@ -191,4 +258,6 @@ public class LoginManager : MonoBehaviour
         successText.gameObject.SetActive(false);
         errorText.gameObject.SetActive(false);
     }
+
+
 }
