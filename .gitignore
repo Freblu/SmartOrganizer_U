@@ -98,3 +98,7 @@ crashlytics-build.properties
 [Ll]ibrary/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build.gradle
 [Ll]ibrary/Bee/Android/Prj/IL2CPP/Gradle/settings.gradle
 [Ll]ibrary/Bee/Android/Prj/IL2CPP/Gradle/gradle.properties
+/Assets/Resources
+/Library
+/Library/Bee
+*.h
