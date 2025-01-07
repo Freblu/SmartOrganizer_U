@@ -1,13 +1,10 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
-/*
- * using Mapbox.Unity.Map;
-using Mapbox.Unity.Location;
-using Mapbox.Utils;
-using Mapbox.Unity.MeshGeneration.Factories;
-*/
+using UnityEngine.Networking;
+
 public class SettingsManager : MonoBehaviour
 {
     [Header("UI Elements")]
@@ -33,11 +30,7 @@ public class SettingsManager : MonoBehaviour
     private const string ModeKey = "DarkMode";
     private const string AutoKey = "AutoMode";
 
-    /*
-     public AbstractMap map; // Mapbox map component
-    public GameObject markerPrefab; // Prefab dla markera
-    */
-
+ 
     private void Start()
     {
         // Wczytaj aktualny stan motywu
@@ -95,6 +88,8 @@ public class SettingsManager : MonoBehaviour
         */
     }
 
+
+
     private void UpdateButtonVisibility()
     {
         changeThemeObject.SetActive(!ToggleAutoDM.isOn);
@@ -116,6 +111,7 @@ public class SettingsManager : MonoBehaviour
         currentMode = currentMode == Mode.Light ? Mode.Dark : Mode.Light;
         PlayerPrefs.SetInt(ModeKey, (int)currentMode);
         PlayerPrefs.Save();
+        SaveSettingsToDatabase();
         UpdateBackgroundColor();
     }
 
@@ -164,6 +160,7 @@ public class SettingsManager : MonoBehaviour
         }
 
         Debug.Log($"Wybrano opcjê przypomnienia: {reminderText}");
+        SaveSettingsToDatabase();
     }
 
     private void OpenAddUserPanel()
@@ -207,6 +204,57 @@ public class SettingsManager : MonoBehaviour
     private void BackToCalendar()
     {
         SceneManager.LoadScene("CalendarScene");
+    }
+
+    [System.Serializable]
+    public class UserSettings
+    {
+        public string username; // nazwa u¿ytkownika
+        public bool isDarkMode; // Motyw (np. "light" lub "dark")
+        public bool isAutoMode; // Automatyczny tryb ciemny
+        public int reminderOption; // Wybrana opcja przypomnienia
+
+        // Konstruktor, aby ³atwo inicjalizowaæ obiekt
+        public UserSettings(string username, bool isDarkMode, bool isAutoMode, int reminderOption)
+        {
+            this.username = username;
+            this.isDarkMode = isDarkMode;
+            this.isAutoMode = isAutoMode;
+            this.reminderOption = reminderOption;
+        }
+    }
+
+    public void SaveSettingsToDatabase()
+    {
+        string username = PlayerPrefs.GetString("LoggedInUser", "Guest");
+        Debug.Log(username);
+        // Przygotuj dane do wys³ania
+        UserSettings settings = new UserSettings(username, currentMode == Mode.Dark, ToggleAutoDM.isOn, reminderDropdown.value);
+
+        string json = JsonUtility.ToJson(settings);
+
+        StartCoroutine(SendSettingsToServer(json));
+    }
+
+    private IEnumerator SendSettingsToServer(string json)
+    {
+        UnityWebRequest request = new UnityWebRequest("http://localhost/save_settings.php", "POST");
+        byte[] bodyRaw = System.Text.Encoding.UTF8.GetBytes(json);
+
+        request.uploadHandler = new UploadHandlerRaw(bodyRaw);
+        request.downloadHandler = new DownloadHandlerBuffer();
+        request.SetRequestHeader("Content-Type", "application/json");
+
+        yield return request.SendWebRequest();
+
+        if (request.result == UnityWebRequest.Result.Success)
+        {
+            Debug.Log("Ustawienia zapisane pomyœlnie: " + request.downloadHandler.text);
+        }
+        else
+        {
+            Debug.LogError("B³¹d zapisu ustawieñ: " + request.error);
+        }
     }
 
     private void Logout()
