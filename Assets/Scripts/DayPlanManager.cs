@@ -23,8 +23,10 @@ public class DayPlanManager : MonoBehaviour
     public List<Sprite> taskIcons;       // Lista grafik dla zadañ
 
     private List<Task> tasks = new List<Task>();
-    private const string DayPlanKey = "SelectedDay";
     private int selectedDay;
+    private int selectedMonth;
+    private int selectedYear;
+
     private int editIndex = -1;
 
     [Serializable]
@@ -49,9 +51,12 @@ public class DayPlanManager : MonoBehaviour
 
     private void Start()
     {
-        selectedDay = PlayerPrefs.GetInt(DayPlanKey, 1);
-        dayTitleText.text = $"Plan dnia {selectedDay}";
-        LoadTasks();
+        selectedDay = PlayerPrefs.GetInt("SelectedDay", DateTime.Now.Day);
+        selectedMonth = PlayerPrefs.GetInt("CurrentMonth", DateTime.Now.Month);
+        selectedYear = PlayerPrefs.GetInt("CurrentYear", DateTime.Now.Year);
+
+        dayTitleText.text = $"Plan dnia: {selectedDay}/{selectedMonth}/{selectedYear}";
+
 
         addTaskButton.onClick.AddListener(AddOrEditTask);
         clearTasksButton.onClick.AddListener(ClearTasks);
@@ -123,12 +128,11 @@ public class DayPlanManager : MonoBehaviour
         return 0; // Jeœli nie znaleziono, zwróæ domyœlny indeks
     }
 
-    private void ScheduleNotification(string taskDescription, DateTime taskTime, int reminderMinutes)
+    private void ScheduleNotification(string taskDescription, string taskTime, int reminderMinutes)
     {
 #if UNITY_ANDROID
         string channelId = "day_plan_channel";
 
-        // SprawdŸ, czy kana³ powiadomieñ zosta³ ju¿ zarejestrowany
         var existingChannel = AndroidNotificationCenter.GetNotificationChannel(channelId);
         if (string.IsNullOrEmpty(existingChannel.Id))
         {
@@ -142,7 +146,14 @@ public class DayPlanManager : MonoBehaviour
             AndroidNotificationCenter.RegisterNotificationChannel(channel);
         }
 
-        DateTime notificationTime = taskTime.AddMinutes(-reminderMinutes);
+        DateTime taskDateTime = DateTime.Parse($"{selectedYear}-{selectedMonth:D2}-{selectedDay:D2} {taskTime}");
+        DateTime notificationTime = taskDateTime.AddMinutes(-reminderMinutes);
+
+        if (notificationTime < DateTime.Now)
+        {
+            Debug.LogWarning("Czas powiadomienia jest w przesz³oœci. Powiadomienie nie zostanie utworzone.");
+            return;
+        }
 
         var notification = new AndroidNotification
         {
@@ -157,6 +168,8 @@ public class DayPlanManager : MonoBehaviour
     }
 
 
+
+
     public void AddOrEditTask()
     {
         if (taskInputField == null || taskTimeDropdown == null || taskIconDropdown == null || reminderDropdown == null || statusText == null)
@@ -169,27 +182,27 @@ public class DayPlanManager : MonoBehaviour
         if (string.IsNullOrEmpty(newTaskDescription))
         {
             Debug.LogWarning("Pole opisu zadania jest puste.");
-            statusText.text = "Opis zadania jest pusty.";
+            statusText.text = "Opis zadania jest puste.";
             return;
         }
 
         string newTaskTime = taskTimeDropdown.options[taskTimeDropdown.value].text;
-        int selectedIcon = taskIconDropdown.value;
-
-        if (string.IsNullOrEmpty(newTaskTime))
-        {
-            Debug.LogWarning("Nie wybrano godziny zadania.");
-            statusText.text = "Nie wybrano godziny.";
-            return;
-        }
-
-        DateTime taskTime;
-        if (!DateTime.TryParse(newTaskTime, out taskTime))
+        if (!DateTime.TryParse(newTaskTime, out DateTime taskTime))
         {
             Debug.LogError("Nieprawid³owy format godziny: " + newTaskTime);
             statusText.text = "B³¹d w formacie godziny.";
             return;
         }
+
+        // Po³¹cz datê z godzin¹ wybranego dnia
+        DateTime taskDateTime = new DateTime(
+            selectedYear,
+            selectedMonth,
+            selectedDay,
+            taskTime.Hour,
+            taskTime.Minute,
+            0
+        );
 
         int reminderTime = reminderDropdown.value switch
         {
@@ -202,14 +215,14 @@ public class DayPlanManager : MonoBehaviour
 
         if (editIndex == -1)
         {
-            tasks.Add(new Task(newTaskDescription, newTaskTime, selectedIcon));
-            ScheduleNotification(newTaskDescription, taskTime, reminderTime);
-            Debug.Log($"Dodano nowe zadanie: {newTaskDescription} o {newTaskTime}");
+            tasks.Add(new Task(newTaskDescription, taskDateTime.ToString("yyyy-MM-dd HH:mm"), taskIconDropdown.value));
+            ScheduleNotification(newTaskDescription, taskDateTime.ToString("HH:mm"), reminderTime);
+            Debug.Log($"Dodano nowe zadanie: {newTaskDescription} o {taskDateTime}");
             statusText.text = "Zadanie dodane.";
         }
         else
         {
-            tasks[editIndex] = new Task(newTaskDescription, newTaskTime, selectedIcon);
+            tasks[editIndex] = new Task(newTaskDescription, taskDateTime.ToString("yyyy-MM-dd HH:mm"), taskIconDropdown.value);
             editIndex = -1;
             saveEditButton.gameObject.SetActive(false);
             addTaskButton.GetComponentInChildren<TMP_Text>().text = "Dodaj Zadanie";
@@ -221,6 +234,7 @@ public class DayPlanManager : MonoBehaviour
         UpdateTaskList();
         SaveTasks();
     }
+
 
 
 
