@@ -158,8 +158,6 @@ public class LoginManager : MonoBehaviour
         {
             successText.text = "Logowanie zakoñczone sukcesem!";
             successText.gameObject.SetActive(true);
-            PlayerPrefs.SetString("LoggedInUser", enteredUsername);
-            PlayerPrefs.Save();
             LoadCalendarScene();
         }
         else
@@ -203,76 +201,26 @@ public class LoginManager : MonoBehaviour
 
     IEnumerator Login()
     {
-        // Pobierz dane z pól tekstowych
-        string enteredUsername = usernameInputExistingUser.text.Trim();
-        string enteredPassword = passwordInputExistingUser.text.Trim();
-
-        // Przygotuj dane do wys³ania na serwer
         WWWForm form = new WWWForm();
-        form.AddField("username", enteredUsername);
-        form.AddField("password", enteredPassword);
+        form.AddField("username", "testuser");
+        form.AddField("password", "testpass123");
 
-        using (UnityWebRequest www = UnityWebRequest.Post("http://localhost/log_user.php", form))
+        using (UnityWebRequest www = UnityWebRequest.Post("http://localhost/reg_user.php", form))
         {
-            // Wyœlij ¿¹danie do serwera
             yield return www.SendWebRequest();
 
             if (www.result == UnityWebRequest.Result.Success)
             {
-                // Parsuj odpowiedŸ serwera
-                string responseText = www.downloadHandler.text;
-                Debug.Log($"OdpowiedŸ serwera: {responseText}");
-
-                try
-                {
-                    // Zak³adamy, ¿e serwer zwraca JSON w formacie:
-                    // {"status": "success", "message": "Login successful", "id": 1}
-                    var response = JsonUtility.FromJson<ServerResponse>(responseText);
-
-                    if (response.status == "success")
-                    {
-                        // Ustaw nazwê zalogowanego u¿ytkownika w PlayerPrefs
-                        PlayerPrefs.SetString("LoggedInUser", enteredUsername);
-                        PlayerPrefs.Save();
-
-                        // Poka¿ komunikat sukcesu
-                        successText.text = "Logowanie zakoñczone sukcesem!";
-                        successText.gameObject.SetActive(true);
-
-                        // Za³aduj kolejn¹ scenê (np. kalendarz)
-                        LoadCalendarScene();
-                    }
-                    else
-                    {
-                        // Obs³uga b³êdów z serwera (np. nieprawid³owe dane logowania)
-                        errorText.text = response.message;
-                        errorText.gameObject.SetActive(true);
-                    }
-                }
-                catch (System.Exception e)
-                {
-                    Debug.LogError($"B³¹d parsowania odpowiedzi: {e.Message}");
-                    errorText.text = "Wyst¹pi³ problem z serwerem. Spróbuj ponownie póŸniej.";
-                    errorText.gameObject.SetActive(true);
-                }
+                successText.text = "Logowanie zakoñczone sukcesem!";
+                successText.gameObject.SetActive(true);
+                LoadCalendarScene();
             }
             else
             {
-                // Obs³uga b³êdów po stronie UnityWebRequest
-                Debug.LogError($"B³¹d po³¹czenia: {www.error}");
-                errorText.text = "Nie uda³o siê po³¹czyæ z serwerem.";
+                errorText.text = "B³êdne dane logowania. Spróbuj ponownie.";
                 errorText.gameObject.SetActive(true);
             }
         }
-    }
-
-    // Klasa reprezentuj¹ca odpowiedŸ serwera
-    [System.Serializable]
-    public class ServerResponse
-    {
-        public string status; // np. "success" lub "error"
-        public string message; // Komunikat zwrotny od serwera
-        public int id; // Opcjonalnie: ID u¿ytkownika
     }
     public void SendLogin()
     {

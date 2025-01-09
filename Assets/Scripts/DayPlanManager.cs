@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
+using Unity.Notifications.Android;
 
 public class DayPlanManager : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class DayPlanManager : MonoBehaviour
     public TMP_Text dayTitleText;
     public Transform taskListText;
     public TMP_InputField taskInputField;
+    public TMP_Dropdown reminderDropdown; // Dropdown do wyboru przypomnienia
     public TMP_Dropdown taskTimeDropdown; // Dropdown do wyboru czasu zadania
     public Button addTaskButton;
     public Button clearTasksButton;
@@ -120,42 +122,106 @@ public class DayPlanManager : MonoBehaviour
         }
         return 0; // Jeœli nie znaleziono, zwróæ domyœlny indeks
     }
+
+    private void ScheduleNotification(string taskDescription, DateTime taskTime, int reminderMinutes)
+    {
+#if UNITY_ANDROID
+        string channelId = "day_plan_channel";
+
+        // SprawdŸ, czy kana³ powiadomieñ zosta³ ju¿ zarejestrowany
+        var existingChannel = AndroidNotificationCenter.GetNotificationChannel(channelId);
+        if (string.IsNullOrEmpty(existingChannel.Id))
+        {
+            var channel = new AndroidNotificationChannel()
+            {
+                Id = channelId,
+                Name = "Powiadomienia planu dnia",
+                Importance = Importance.High,
+                Description = "Powiadomienia o zadaniach w planie dnia",
+            };
+            AndroidNotificationCenter.RegisterNotificationChannel(channel);
+        }
+
+        DateTime notificationTime = taskTime.AddMinutes(-reminderMinutes);
+
+        var notification = new AndroidNotification
+        {
+            Title = "Przypomnienie",
+            Text = $"Za {reminderMinutes} minut: {taskDescription}",
+            FireTime = notificationTime,
+        };
+
+        AndroidNotificationCenter.SendNotification(notification, channelId);
+        Debug.Log($"Powiadomienie zaplanowane na: {notificationTime}");
+#endif
+    }
+
+
     public void AddOrEditTask()
     {
-        string newTaskDescription = taskInputField.text.Trim();
-        string newTaskTime = taskTimeDropdown.options[taskTimeDropdown.value].text; // Pobranie wybranego czasu z dropdown
+        if (taskInputField == null || taskTimeDropdown == null || taskIconDropdown == null || reminderDropdown == null || statusText == null)
+        {
+            Debug.LogError("Jeden z elementów UI nie zosta³ przypisany w Inspectorze.");
+            return;
+        }
+
+        string newTaskDescription = taskInputField.text?.Trim();
+        if (string.IsNullOrEmpty(newTaskDescription))
+        {
+            Debug.LogWarning("Pole opisu zadania jest puste.");
+            statusText.text = "Opis zadania jest pusty.";
+            return;
+        }
+
+        string newTaskTime = taskTimeDropdown.options[taskTimeDropdown.value].text;
         int selectedIcon = taskIconDropdown.value;
 
-        if (!string.IsNullOrEmpty(newTaskDescription) && !string.IsNullOrEmpty(newTaskTime))
+        if (string.IsNullOrEmpty(newTaskTime))
         {
-            if (editIndex == -1)
-            {
-                tasks.Add(new Task(newTaskDescription, newTaskTime, selectedIcon));
-                Debug.Log($"Dodano nowe zadanie: {newTaskDescription} o {newTaskTime}");
-                statusText.text = "Zadanie dodane.";
-            }
-            else
-            {
-                tasks[editIndex] = new Task(newTaskDescription, newTaskTime, selectedIcon);
-                Debug.Log($"Zaktualizowano zadanie: {newTaskDescription} o {newTaskTime}");
-                editIndex = -1;
-                saveEditButton.gameObject.SetActive(false);
-                addTaskButton.GetComponentInChildren<TMP_Text>().text = "Dodaj Zadanie";
-                statusText.text = "Zadanie zaktualizowane.";
-            }
+            Debug.LogWarning("Nie wybrano godziny zadania.");
+            statusText.text = "Nie wybrano godziny.";
+            return;
+        }
 
-            taskInputField.text = "";
-            taskTimeDropdown.value = 0; // Resetowanie dropdown na domyœln¹ opcjê
+        DateTime taskTime;
+        if (!DateTime.TryParse(newTaskTime, out taskTime))
+        {
+            Debug.LogError("Nieprawid³owy format godziny: " + newTaskTime);
+            statusText.text = "B³¹d w formacie godziny.";
+            return;
+        }
 
-            UpdateTaskList();
-            SaveTasks();
+        int reminderTime = reminderDropdown.value switch
+        {
+            0 => 60, // 1 godzina przed
+            1 => 120, // 2 godziny przed
+            2 => 15, // 15 minut przed
+            3 => 0, // W momencie rozpoczêcia
+            _ => 0
+        };
+
+        if (editIndex == -1)
+        {
+            tasks.Add(new Task(newTaskDescription, newTaskTime, selectedIcon));
+            ScheduleNotification(newTaskDescription, taskTime, reminderTime);
+            Debug.Log($"Dodano nowe zadanie: {newTaskDescription} o {newTaskTime}");
+            statusText.text = "Zadanie dodane.";
         }
         else
         {
-            statusText.text = "Pole zadania lub czasu jest puste!";
-            Debug.LogWarning("Nie wprowadzono opisu lub czasu zadania!");
+            tasks[editIndex] = new Task(newTaskDescription, newTaskTime, selectedIcon);
+            editIndex = -1;
+            saveEditButton.gameObject.SetActive(false);
+            addTaskButton.GetComponentInChildren<TMP_Text>().text = "Dodaj Zadanie";
+            statusText.text = "Zadanie zaktualizowane.";
         }
+
+        taskInputField.text = "";
+        taskTimeDropdown.value = 0; // Resetowanie dropdown na domyœln¹ opcjê
+        UpdateTaskList();
+        SaveTasks();
     }
+
 
 
     public void EditTask(int index)
