@@ -99,6 +99,7 @@
     <Compile Include="Assets\Scripts\DarkMode.cs" />
     <Compile Include="Assets\Scripts\Mechanics\GameController.cs" />
     <Compile Include="Assets\Scripts\Gameplay\PlayerLanded.cs" />
+    <Compile Include="Assets\Scripts\ProximitySensorManager.cs" />
     <Compile Include="Assets\Scripts\DarkModeManager.cs" />
     <Compile Include="Assets\Scripts\CalendarManager.cs" />
     <Compile Include="Assets\Scripts\View\AnimatedTile.cs" />
