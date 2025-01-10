@@ -108,7 +108,7 @@ public class CalendarManager : MonoBehaviour
         GenerateCalendar();
     }
 
-    private void NextMonth()
+    public void NextMonth()
     {
         if (currentMonth == 12)
         {
