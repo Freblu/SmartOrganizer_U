@@ -151,21 +151,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd878e493a86534449b3806cc2f0fe0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  registerURL: http://localhost/reg_user.php
-  newUserPanel: {fileID: 0}
-  existingUserPanel: {fileID: 0}
-  switchToNewUserButton: {fileID: 0}
-  switchToExistingUserButton: {fileID: 0}
-  loginButton: {fileID: 0}
-  fingerprintButton: {fileID: 0}
-  saveNewUserButton: {fileID: 0}
-  setFingerprintButton: {fileID: 0}
-  usernameInputNewUser: {fileID: 0}
-  passwordInputNewUser: {fileID: 0}
-  usernameInputExistingUser: {fileID: 0}
-  passwordInputExistingUser: {fileID: 0}
-  successText: {fileID: 0}
-  errorText: {fileID: 0}
 --- !u!114 &142247961
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -312,8 +297,7 @@ MonoBehaviour:
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_fontSharedMaterials:
-  - {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
@@ -577,21 +561,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd878e493a86534449b3806cc2f0fe0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  registerURL: http://localhost/reg_user.php
-  newUserPanel: {fileID: 0}
-  existingUserPanel: {fileID: 0}
-  switchToNewUserButton: {fileID: 0}
-  switchToExistingUserButton: {fileID: 0}
-  loginButton: {fileID: 0}
-  fingerprintButton: {fileID: 0}
-  saveNewUserButton: {fileID: 0}
-  setFingerprintButton: {fileID: 0}
-  usernameInputNewUser: {fileID: 0}
-  passwordInputNewUser: {fileID: 0}
-  usernameInputExistingUser: {fileID: 0}
-  passwordInputExistingUser: {fileID: 0}
-  successText: {fileID: 0}
-  errorText: {fileID: 0}
 --- !u!114 &648962606
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -818,8 +787,7 @@ MonoBehaviour:
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_fontSharedMaterials:
-  - {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
@@ -956,8 +924,7 @@ MonoBehaviour:
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_fontSharedMaterials:
-  - {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:

@@ -17,7 +17,7 @@ public class CalendarManager : MonoBehaviour
     public Button settingsButton; // Przycisk do przejœcia do ustawieñ
 
     private int currentYear;
-    private int currentMonth;
+    private int currentMonth = 1;
 
     // Zarz¹dzanie zadaniami
     public Transform taskListContent; // Kontener dla dynamicznie generowanych zadañ
@@ -94,7 +94,7 @@ public class CalendarManager : MonoBehaviour
         return new DateTime(currentYear, month, 1).ToString("MMMM");
     }
 
-    private void PreviousMonth()
+    public void PreviousMonth()
     {
         if (currentMonth == 1)
         {
@@ -105,6 +105,7 @@ public class CalendarManager : MonoBehaviour
         {
             currentMonth--;
         }
+        Debug.Log($"Zmiana na poprzedni miesi¹c: {currentMonth}, Rok: {currentYear}");
         GenerateCalendar();
     }
 
@@ -119,7 +120,15 @@ public class CalendarManager : MonoBehaviour
         {
             currentMonth++;
         }
+        Debug.Log($"Zmiana na nastêpny miesi¹c: {currentMonth}, Rok: {currentYear}");
         GenerateCalendar();
+    }
+
+
+    private void UpdateCalendarUI()
+    {
+        // Aktualizacja interfejsu u¿ytkownika (dodaj swoj¹ logikê tutaj)
+        Debug.Log($"Zaktualizowano widok kalendarza na miesi¹c: {currentMonth}");
     }
 
     private void OpenSettings()
