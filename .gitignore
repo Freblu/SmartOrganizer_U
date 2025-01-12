@@ -60,6 +60,11 @@ sysinfo.txt
 *.unitypackage
 *.app
 
+# Wyjątki
+!Assembly-CSharp-firstpass.csproj
+!Assembly-CSharp.csproj
+!SmartOrganizer_U.sln
+
 # Crashlytics generated file
 crashlytics-build.properties
 
