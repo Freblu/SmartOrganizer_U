@@ -99,12 +99,12 @@
     <Compile Include="Assets\Scripts\DarkMode.cs" />
     <Compile Include="Assets\Scripts\Mechanics\GameController.cs" />
     <Compile Include="Assets\Scripts\Gameplay\PlayerLanded.cs" />
-    <Compile Include="Assets\Scripts\ProximitySensorManager.cs" />
     <Compile Include="Assets\Scripts\DarkModeManager.cs" />
     <Compile Include="Assets\Scripts\CalendarManager.cs" />
     <Compile Include="Assets\Scripts\View\AnimatedTile.cs" />
     <Compile Include="Assets\Scripts\Mechanics\PlayerController.cs" />
     <Compile Include="Assets\Scripts\Gameplay\EnemyDeath.cs" />
+    <Compile Include="Assets\Scripts\AccelerometerCalendarController.cs" />
     <Compile Include="Assets\Scripts\LocationService.cs" />
     <Compile Include="Assets\Scripts\AutoDarkMode.cs" />
   </ItemGroup>
