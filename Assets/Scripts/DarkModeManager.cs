@@ -1,36 +1,37 @@
 using UnityEngine;
 using UnityEngine.UI;
 
+/**
+ * @class DarkModeManager
+ * @brief Mened¿er zarz¹dzaj¹cy trybami jasnym i ciemnym w aplikacji.
+ */
 public class DarkModeManager : MonoBehaviour
 {
     [SerializeField]
-    public DarkMode darkMode;
-    private AndroidJavaObject lightSensorPlugin;
+    public DarkMode darkMode; ///< Obiekt reprezentuj¹cy konfiguracjê kolorów dla trybów.
+    private AndroidJavaObject lightSensorPlugin; ///< Obiekt Java do komunikacji z czujnikiem œwiat³a.
 
-    private const string ModeKey = "DarkMode"; // Klucz w PlayerPrefs
-    public const string AutoKey = "AutoMode"; // Klucz w PlayerPrefs
-    private int ADM;
+    private const string ModeKey = "DarkMode"; ///< Klucz w PlayerPrefs do przechowywania trybu.
+    public const string AutoKey = "AutoMode"; ///< Klucz w PlayerPrefs do przechowywania stanu automatycznego trybu.
+    private int ADM; ///< WskaŸnik dla trybu automatycznego.
 
     [SerializeField]
-    private Mode currentMode; // Obecny tryb
+    private Mode currentMode; ///< Obecny tryb (jasny lub ciemny).
     [SerializeField]
-    private Mode lightMode; // Obecny tryb bazowany na poziomie œwiat³a
+    private Mode lightMode; ///< Tryb zale¿ny od poziomu œwiat³a.
     [SerializeField]
-    private Image background; // Obiekt z komponentem Image
+    private Image background; ///< Obiekt z komponentem Image do zmiany koloru t³a.
 
-
+    /**
+     * @brief Inicjalizuje mened¿er trybu jasnego i ciemnego.
+     */
     private void Start()
     {
-        // Wczytaj aktualny stan motywu z PlayerPrefs
         int savedMode = PlayerPrefs.GetInt(ModeKey, (int)Mode.Light);
+        darkMode.SetColors("#81D0FF", "#000546");
 
-        // Ustaw kolory HEX
-        darkMode.SetColors("#81D0FF", "#000546"); // Bia³y dla Light, czarny dla Dark
-
-        // Za³aduj zapisany tryb (domyœlnie Light)
         currentMode = (Mode)PlayerPrefs.GetInt(ModeKey, (int)Mode.Light);
 
-        //Przygotuj odczyt poziomu œwiat³a
         if (Application.platform == RuntimePlatform.Android)
         {
             using (AndroidJavaClass unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer"))
@@ -43,27 +44,31 @@ public class DarkModeManager : MonoBehaviour
 
         UpdateBackgroundColor();
     }
+
+    /**
+     * @enum Mode
+     * @brief Okreœla tryby aplikacji: jasny lub ciemny.
+     */
     public enum Mode
     {
-        Light,
-        Dark
+        Light, ///< Tryb jasny.
+        Dark ///< Tryb ciemny.
     }
 
-
+    /**
+     * @brief Prze³¹cza miêdzy trybem jasnym a ciemnym.
+     */
     public void ToggleMode()
     {
-        // Prze³¹cz tryb
         currentMode = currentMode == Mode.Light ? Mode.Dark : Mode.Light;
-
-        // Zapisz tryb w PlayerPrefs
         PlayerPrefs.SetInt(ModeKey, (int)currentMode);
         PlayerPrefs.Save();
-
-        // Zaktualizuj kolor t³a
         UpdateBackgroundColor();
     }
 
-
+    /**
+     * @brief Pobiera poziom œwiat³a z czujnika.
+     */
     public float GetLightLevel()
     {
         if (lightSensorPlugin != null)
@@ -73,7 +78,9 @@ public class DarkModeManager : MonoBehaviour
         return 0f;
     }
 
-
+    /**
+     * @brief Aktualizuje kolor t³a aplikacji w zale¿noœci od wybranego trybu.
+     */
     private void UpdateBackgroundColor()
     {
         if (background == null)
@@ -90,12 +97,14 @@ public class DarkModeManager : MonoBehaviour
         }
         else
         {
-            // Ustaw kolor w zale¿noœci od trybu
             background.color = currentMode == Mode.Light ? darkMode.lightColor : darkMode.darkColor;
         }
     }
 
-    void Update()
+    /**
+     * @brief Metoda wywo³ywana w ka¿dej klatce.
+     */
+    private void Update()
     {
         if (PlayerPrefs.GetInt(AutoKey) == 1)
         {
@@ -103,19 +112,22 @@ public class DarkModeManager : MonoBehaviour
         }
     }
 
+    /**
+     * @brief Zwraca sta³¹ wartoœæ poziomu jasnoœci otoczenia.
+     */
     private float GetBrightnessLevel()
     {
         return 0.4f;
     }
 
-
-
-    void OnDestroy()
+    /**
+     * @brief Zatrzymuje monitorowanie czujnika œwiat³a podczas niszczenia obiektu.
+     */
+    private void OnDestroy()
     {
         if (lightSensorPlugin != null)
         {
             lightSensorPlugin.Call("stop");
         }
     }
-
 }

@@ -2,18 +2,37 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+
+/// <summary>
+/// Klasa obs³uguj¹ca us³ugê lokalizacji na urz¹dzeniach mobilnych.
+/// Pobiera szerokoœæ i d³ugoœæ geograficzn¹ u¿ytkownika oraz wyœwietla je w interfejsie u¿ytkownika.
+/// </summary>
 public class LocationService : MonoBehaviour
 {
-    public TMP_Text latitudeText;  // Tekst do wyœwietlenia szerokoœci geograficznej
-    public TMP_Text longitudeText; // Tekst do wyœwietlenia d³ugoœci geograficznej
+    /// <summary>
+    /// Tekst do wyœwietlenia szerokoœci geograficznej.
+    /// </summary>
+    public TMP_Text latitudeText;
 
+    /// <summary>
+    /// Tekst do wyœwietlenia d³ugoœci geograficznej.
+    /// </summary>
+    public TMP_Text longitudeText;
+
+    /// <summary>
+    /// Metoda wywo³ywana na pocz¹tku dzia³ania skryptu.
+    /// Rozpoczyna procedurê pobierania lokalizacji.
+    /// </summary>
     void Start()
     {
         StartCoroutine(GetLocation());
     }
 
-
-
+    /// <summary>
+    /// Korutyna obs³uguj¹ca us³ugê lokalizacji.
+    /// Sprawdza, czy u¿ytkownik zezwoli³ na dostêp do lokalizacji, uruchamia us³ugê i pobiera dane.
+    /// </summary>
+    /// <returns>Enumerator kontroluj¹cy przebieg korutyny.</returns>
     IEnumerator GetLocation()
     {
         // SprawdŸ, czy u¿ytkownik zezwoli³ na dostêp do lokalizacji
