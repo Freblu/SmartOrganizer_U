@@ -1,5 +1,9 @@
+using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using TMPro;
+using UnityEngine.Networking;
 
 public class DarkModeManager : MonoBehaviour
 {
@@ -40,8 +44,9 @@ public class DarkModeManager : MonoBehaviour
                 lightSensorPlugin.Call("start");
             }
         }
-
-        UpdateBackgroundColor();
+        string user = PlayerPrefs.GetString("LoggedInUser", "Guest");
+        LoadUserSettings(user);
+        //UpdateBackgroundColor();
     }
     public enum Mode
     {
@@ -60,7 +65,9 @@ public class DarkModeManager : MonoBehaviour
         PlayerPrefs.Save();
 
         // Zaktualizuj kolor t³a
-        UpdateBackgroundColor();
+        //UpdateBackgroundColor();
+        string user = PlayerPrefs.GetString("LoggedInUser", "Guest");
+        LoadUserSettings(user);
     }
 
 
@@ -99,8 +106,10 @@ public class DarkModeManager : MonoBehaviour
     {
         if (PlayerPrefs.GetInt(AutoKey) == 1)
         {
-            UpdateBackgroundColor();
+            //UpdateBackgroundColor();
         }
+    string user = PlayerPrefs.GetString("LoggedInUser", "Guest");
+    LoadUserSettings(user);
     }
 
     private float GetBrightnessLevel()
@@ -108,7 +117,42 @@ public class DarkModeManager : MonoBehaviour
         return 0.4f;
     }
 
+    private IEnumerator LoadUserSettings(string username)
+    {
+        string url = "http://localhost/read_settings.php";  // U¿yj odpowiedniego URL
+        WWWForm form = new WWWForm();
+        form.AddField("username", username);
 
+        UnityWebRequest request = UnityWebRequest.Post(url, form);
+        yield return request.SendWebRequest();
+
+        if (request.result == UnityWebRequest.Result.Success)
+        {
+            string jsonResponse = request.downloadHandler.text;
+
+            UserSettings settings = JsonUtility.FromJson<UserSettings>(jsonResponse);
+
+            if (settings != null)
+            {
+                Mode DbMode = settings.isDarkMode ? Mode.Dark : Mode.Light;
+                PlayerPrefs.SetInt(ModeKey, (int)DbMode);
+                int DbAuto = settings.isAutoMode ? 1 : 0;
+                PlayerPrefs.SetInt(AutoKey, DbAuto);
+                PlayerPrefs.SetInt("ReminderTime", settings.reminderOption);
+                PlayerPrefs.Save();
+
+
+            }
+            else
+            {
+                Debug.LogError("B³¹d w danych u¿ytkownika: Brak ustawieñ");
+            }
+        }
+        else
+        {
+            Debug.LogError("B³¹d podczas pobierania ustawieñ: " + request.error);
+        }
+    }
 
     void OnDestroy()
     {
