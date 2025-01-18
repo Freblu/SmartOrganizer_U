@@ -28,7 +28,7 @@ public class LoginManager : MonoBehaviour
     public TMP_InputField passwordInputExistingUser; ///< Pole tekstowe do wprowadzania has³a istniej¹cego u¿ytkownika.
     public TMP_Text successText; ///< Pole tekstowe wyœwietlaj¹ce komunikaty o sukcesie.
     public TMP_Text errorText; ///< Pole tekstowe wyœwietlaj¹ce komunikaty o b³êdach.
-
+    public TMP_Text batteryStatusText; ///< Pole tekstowe do wyœwietlania statusu baterii.
     /**
      * @brief Metoda inicjalizuj¹ca klasê LoginManager.
      * 
@@ -174,6 +174,29 @@ public class LoginManager : MonoBehaviour
         }
     }
 
+    
+
+    private void UpdateBatteryStatus()
+    {
+        if (SystemInfo.batteryLevel < 0)
+        {
+            if (batteryStatusText != null)
+            {
+                batteryStatusText.text = "Poziom baterii niedostêpny.";
+            }
+            return;
+        }
+
+        float batteryLevel = SystemInfo.batteryLevel * 100f;
+        BatteryStatus batteryStatus = SystemInfo.batteryStatus;
+
+        string statusMessage = $"Poziom baterii: {batteryLevel:0}%\nStatus: {batteryStatus}";
+
+        if (batteryStatusText != null)
+        {
+            batteryStatusText.text = statusMessage;
+        }
+    }
     /**
      * @brief £aduje scenê kalendarza.
      * 

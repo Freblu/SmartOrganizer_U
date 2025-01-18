@@ -1,0 +1,80 @@
+\doxysection{Dark\+Mode Class Reference}
+\hypertarget{class_dark_mode}{}\label{class_dark_mode}\index{DarkMode@{DarkMode}}
+
+
+Klasa reprezentuj¹ca tryb jasny i ciemny aplikacji.  
+
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{class_dark_mode_af91e61cb0c8d5e1abe2ccbc3472c80f6}{Set\+Colors}} (string light\+Hex, string dark\+Hex)
+\begin{DoxyCompactList}\small\item\em Ustawia kolory trybu jasnego i ciemnego przy u¿yciu kodów HEX. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+Color \mbox{\hyperlink{class_dark_mode_a70882eb059c94477568d62017a25e275}{light\+Color}}
+\begin{DoxyCompactList}\small\item\em Kolor u¿ywany w trybie jasnym. \end{DoxyCompactList}\item 
+Color \mbox{\hyperlink{class_dark_mode_aede7fcaac776975cb688781a91b78224}{dark\+Color}}
+\begin{DoxyCompactList}\small\item\em Kolor u¿ywany w trybie ciemnym. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Klasa reprezentuj¹ca tryb jasny i ciemny aplikacji. 
+
+Klasa pozwala na definiowanie kolorów trybu jasnego i ciemnego oraz ich ustawianie przy u¿yciu kodów HEX. 
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_dark_mode_af91e61cb0c8d5e1abe2ccbc3472c80f6}\index{DarkMode@{DarkMode}!SetColors@{SetColors}}
+\index{SetColors@{SetColors}!DarkMode@{DarkMode}}
+\doxysubsubsection{\texorpdfstring{SetColors()}{SetColors()}}
+{\footnotesize\ttfamily \label{class_dark_mode_af91e61cb0c8d5e1abe2ccbc3472c80f6} 
+void Dark\+Mode.\+Set\+Colors (\begin{DoxyParamCaption}\item[{string}]{light\+Hex}{, }\item[{string}]{dark\+Hex}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Ustawia kolory trybu jasnego i ciemnego przy u¿yciu kodów HEX. 
+
+Metoda konwertuje kody HEX na obiekty typu {\ttfamily Color} i przypisuje je odpowiednim zmiennym. W przypadku nieprawid³owego formatu HEX generuje komunikaty b³êdów w konsoli.
+
+
+\begin{DoxyParams}{Parameters}
+{\em light\+Hex} & Kod koloru HEX dla trybu jasnego. \\
+\hline
+{\em dark\+Hex} & Kod koloru HEX dla trybu ciemnego. \\
+\hline
+\end{DoxyParams}
+\texorpdfstring{$<$}{<} Przypisuje kolor dla trybu jasnego.
+
+\texorpdfstring{$<$}{<} Loguje b³¹d dla nieprawid³owego kodu HEX.
+
+\texorpdfstring{$<$}{<} Przypisuje kolor dla trybu ciemnego.
+
+\texorpdfstring{$<$}{<} Loguje b³¹d dla nieprawid³owego kodu HEX.
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{class_dark_mode_aede7fcaac776975cb688781a91b78224}\index{DarkMode@{DarkMode}!darkColor@{darkColor}}
+\index{darkColor@{darkColor}!DarkMode@{DarkMode}}
+\doxysubsubsection{\texorpdfstring{darkColor}{darkColor}}
+{\footnotesize\ttfamily \label{class_dark_mode_aede7fcaac776975cb688781a91b78224} 
+Color Dark\+Mode.\+dark\+Color}
+
+
+
+Kolor u¿ywany w trybie ciemnym. 
+
+\Hypertarget{class_dark_mode_a70882eb059c94477568d62017a25e275}\index{DarkMode@{DarkMode}!lightColor@{lightColor}}
+\index{lightColor@{lightColor}!DarkMode@{DarkMode}}
+\doxysubsubsection{\texorpdfstring{lightColor}{lightColor}}
+{\footnotesize\ttfamily \label{class_dark_mode_a70882eb059c94477568d62017a25e275} 
+Color Dark\+Mode.\+light\+Color}
+
+
+
+Kolor u¿ywany w trybie jasnym. 
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{_dark_mode_8cs}{Dark\+Mode.\+cs}}\end{DoxyCompactItemize}

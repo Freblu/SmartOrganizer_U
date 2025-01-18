@@ -1,0 +1,298 @@
+\doxysection{Calendar\+Manager Class Reference}
+\hypertarget{class_calendar_manager}{}\label{class_calendar_manager}\index{CalendarManager@{CalendarManager}}
+
+
+Klasa odpowiedzialna za zarz¹dzanie kalendarzem i zadaniami u¿ytkownika.  
+
+
+Inheritance diagram for Calendar\+Manager\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_calendar_manager}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{class_calendar_manager_a963f1f33854078f7eebf9dd030431592}{Generate\+Calendar}} ()
+\begin{DoxyCompactList}\small\item\em Generuje siatkê dni dla bie¿¹cego miesi¹ca w kalendarzu. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_calendar_manager_aa1557567f66ab7f29262e04066cca302}{Previous\+Month}} ()
+\begin{DoxyCompactList}\small\item\em Prze³¹cza kalendarz na poprzedni miesi¹c. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_calendar_manager_a0442a17ef919d898054a7430fb73c2ec}{Next\+Month}} ()
+\begin{DoxyCompactList}\small\item\em Prze³¹cza kalendarz na nastêpny miesi¹c. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_calendar_manager_ac9e35c9afe2f0cb5bd4155a87f768c7b}{Add\+Or\+Edit\+Task}} ()
+\begin{DoxyCompactList}\small\item\em Dodaje lub edytuje zadanie w liœcie zadañ. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_calendar_manager_a06469a1fc5f901373120c2fbaca019b7}{Edit\+Task}} (int index)
+\begin{DoxyCompactList}\small\item\em Rozpoczyna edycjê wybranego zadania. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_calendar_manager_a93ac47bf7ffd8557bfda64d18499f812}{Clear\+Tasks}} ()
+\begin{DoxyCompactList}\small\item\em Czyœci listê zadañ. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+Game\+Object \mbox{\hyperlink{class_calendar_manager_a2182f5b1669f7a994d7fd3b58d1d90a4}{day\+Prefab}}
+\begin{DoxyCompactList}\small\item\em Prefab reprezentuj¹cy pojedynczy dzieñ kalendarza. \end{DoxyCompactList}\item 
+Transform \mbox{\hyperlink{class_calendar_manager_a620e25fc721ef7856fb120940487320e}{calendar\+Grid}}
+\begin{DoxyCompactList}\small\item\em Transform siatki, w której wyœwietlane s¹ dni. \end{DoxyCompactList}\item 
+TMP\+\_\+\+Text \mbox{\hyperlink{class_calendar_manager_ad7ba8f08fca33f009c129f502e366525}{calendar\+Title}}
+\begin{DoxyCompactList}\small\item\em Tekst wyœwietlaj¹cy nazwê miesi¹ca i roku. \end{DoxyCompactList}\item 
+TMP\+\_\+\+Text \mbox{\hyperlink{class_calendar_manager_a6d6db5d3481b0583a6bcc327010298be}{quote\+Text}}
+\begin{DoxyCompactList}\small\item\em Tekst wyœwietlaj¹cy inspiruj¹cy cytat. \end{DoxyCompactList}\item 
+Button \mbox{\hyperlink{class_calendar_manager_afcc105673b9487a05c4c229e202faa57}{previous\+Month\+Button}}
+\begin{DoxyCompactList}\small\item\em Przycisk przejœcia do poprzedniego miesi¹ca. \end{DoxyCompactList}\item 
+Button \mbox{\hyperlink{class_calendar_manager_ae9f1d7b8321ea2bf16cd3b646ebcaef8}{next\+Month\+Button}}
+\begin{DoxyCompactList}\small\item\em Przycisk przejœcia do nastêpnego miesi¹ca. \end{DoxyCompactList}\item 
+Button \mbox{\hyperlink{class_calendar_manager_a1c770bbbf46c90fc2f36758c7b713a88}{settings\+Button}}
+\begin{DoxyCompactList}\small\item\em Przycisk otwieraj¹cy ustawienia. \end{DoxyCompactList}\item 
+Transform \mbox{\hyperlink{class_calendar_manager_afa646a10e8a3a1c72925d72f101aae99}{task\+List\+Content}}
+\begin{DoxyCompactList}\small\item\em Kontener dla dynamicznie generowanej listy zadañ. \end{DoxyCompactList}\item 
+TMP\+\_\+\+Input\+Field \mbox{\hyperlink{class_calendar_manager_adb805fe066c76d6252aa764c59c14e8f}{task\+Input\+Field}}
+\begin{DoxyCompactList}\small\item\em Pole tekstowe do wprowadzania nowych zadañ. \end{DoxyCompactList}\item 
+Button \mbox{\hyperlink{class_calendar_manager_aae16370c5ab4bad9ceab19e702093b02}{add\+Task\+Button}}
+\begin{DoxyCompactList}\small\item\em Przycisk dodawania nowego zadania. \end{DoxyCompactList}\item 
+Button \mbox{\hyperlink{class_calendar_manager_a5c16424234d71abd6e2c00fc6036651a}{clear\+Tasks\+Button}}
+\begin{DoxyCompactList}\small\item\em Przycisk czyszczenia listy zadañ. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Klasa odpowiedzialna za zarz¹dzanie kalendarzem i zadaniami u¿ytkownika. 
+
+Klasa obs³uguje funkcje takie jak generowanie kalendarza, nawigacja miêdzy miesi¹cami, zarz¹dzanie list¹ zadañ, wyœwietlanie inspiruj¹cych cytatów oraz przejœcie do ustawieñ. 
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_calendar_manager_ac9e35c9afe2f0cb5bd4155a87f768c7b}\index{CalendarManager@{CalendarManager}!AddOrEditTask@{AddOrEditTask}}
+\index{AddOrEditTask@{AddOrEditTask}!CalendarManager@{CalendarManager}}
+\doxysubsubsection{\texorpdfstring{AddOrEditTask()}{AddOrEditTask()}}
+{\footnotesize\ttfamily \label{class_calendar_manager_ac9e35c9afe2f0cb5bd4155a87f768c7b} 
+void Calendar\+Manager.\+Add\+Or\+Edit\+Task (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Dodaje lub edytuje zadanie w liœcie zadañ. 
+
+Metoda sprawdza, czy wprowadzono tekst zadania. Jeœli brak aktywnej edycji, dodaje nowe zadanie. W przeciwnym przypadku aktualizuje istniej¹ce zadanie. Nastêpnie odœwie¿a listê zadañ i zapisuje zmiany. \texorpdfstring{$<$}{<} Dodaje nowe zadanie do listy.
+
+\texorpdfstring{$<$}{<} Aktualizuje istniej¹ce zadanie.
+
+\texorpdfstring{$<$}{<} Czyœci pole tekstowe po dodaniu lub edycji.
+
+\texorpdfstring{$<$}{<} Zapisuje zmiany w {\ttfamily Player\+Prefs}.\Hypertarget{class_calendar_manager_a93ac47bf7ffd8557bfda64d18499f812}\index{CalendarManager@{CalendarManager}!ClearTasks@{ClearTasks}}
+\index{ClearTasks@{ClearTasks}!CalendarManager@{CalendarManager}}
+\doxysubsubsection{\texorpdfstring{ClearTasks()}{ClearTasks()}}
+{\footnotesize\ttfamily \label{class_calendar_manager_a93ac47bf7ffd8557bfda64d18499f812} 
+void Calendar\+Manager.\+Clear\+Tasks (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Czyœci listê zadañ. 
+
+Usuwa wszystkie zadania z listy, odœwie¿a widok i zapisuje zmiany. \texorpdfstring{$<$}{<} Czyœci listê zadañ.
+
+\texorpdfstring{$<$}{<} Zapisuje zmiany w {\ttfamily Player\+Prefs}.\Hypertarget{class_calendar_manager_a06469a1fc5f901373120c2fbaca019b7}\index{CalendarManager@{CalendarManager}!EditTask@{EditTask}}
+\index{EditTask@{EditTask}!CalendarManager@{CalendarManager}}
+\doxysubsubsection{\texorpdfstring{EditTask()}{EditTask()}}
+{\footnotesize\ttfamily \label{class_calendar_manager_a06469a1fc5f901373120c2fbaca019b7} 
+void Calendar\+Manager.\+Edit\+Task (\begin{DoxyParamCaption}\item[{int}]{index}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Rozpoczyna edycjê wybranego zadania. 
+
+Metoda ustawia zawartoœæ pola tekstowego na treœæ wybranego zadania i zmienia tryb przycisku na "{}\+Zapisz Edycjê"{}.
+
+
+\begin{DoxyParams}{Parameters}
+{\em index} & Indeks zadania w liœcie do edycji. \\
+\hline
+\end{DoxyParams}
+\texorpdfstring{$<$}{<} Wype³nia pole tekstowe treœci¹ zadania.
+
+\texorpdfstring{$<$}{<} Ustawia aktywny indeks edycji.
+
+\texorpdfstring{$<$}{<} Zmienia tekst przycisku.\Hypertarget{class_calendar_manager_a963f1f33854078f7eebf9dd030431592}\index{CalendarManager@{CalendarManager}!GenerateCalendar@{GenerateCalendar}}
+\index{GenerateCalendar@{GenerateCalendar}!CalendarManager@{CalendarManager}}
+\doxysubsubsection{\texorpdfstring{GenerateCalendar()}{GenerateCalendar()}}
+{\footnotesize\ttfamily \label{class_calendar_manager_a963f1f33854078f7eebf9dd030431592} 
+void Calendar\+Manager.\+Generate\+Calendar (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Generuje siatkê dni dla bie¿¹cego miesi¹ca w kalendarzu. 
+
+Metoda tworzy wizualn¹ reprezentacjê miesi¹ca w siatce kalendarza, dodaj¹c dni oraz puste pola na pocz¹tku miesi¹ca, zgodnie z dniem tygodnia. Ka¿dy dzieñ jest reprezentowany jako obiekt prefabrykowany. \texorpdfstring{$<$}{<} Usuwa ka¿dy obiekt w siatce kalendarza.
+
+\texorpdfstring{$<$}{<} Pierwszy dzieñ miesi¹ca.
+
+\texorpdfstring{$<$}{<} Liczba dni w miesi¹cu.
+
+\texorpdfstring{$<$}{<} Dzieñ tygodnia pierwszego dnia (0 = niedziela).
+
+\texorpdfstring{$<$}{<} Tworzy puste pole w siatce.
+
+\texorpdfstring{$<$}{<} Ustawia tekst jako pusty.
+
+\texorpdfstring{$<$}{<} Wy³¹cza interakcjê z przyciskiem.
+
+\texorpdfstring{$<$}{<} Tworzy obiekt dnia.
+
+\texorpdfstring{$<$}{<} Ustawia numer dnia.
+
+\texorpdfstring{$<$}{<} Przechowuje aktualny dzieñ dla delegata.
+
+\texorpdfstring{$<$}{<} Dodaje zdarzenie otwieraj¹ce plan dnia.\Hypertarget{class_calendar_manager_a0442a17ef919d898054a7430fb73c2ec}\index{CalendarManager@{CalendarManager}!NextMonth@{NextMonth}}
+\index{NextMonth@{NextMonth}!CalendarManager@{CalendarManager}}
+\doxysubsubsection{\texorpdfstring{NextMonth()}{NextMonth()}}
+{\footnotesize\ttfamily \label{class_calendar_manager_a0442a17ef919d898054a7430fb73c2ec} 
+void Calendar\+Manager.\+Next\+Month (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Prze³¹cza kalendarz na nastêpny miesi¹c. 
+
+Metoda zwiêksza numer miesi¹ca. Jeœli bie¿¹cy miesi¹c to grudzieñ, prze³¹cza na styczeñ nastêpnego roku. Po zmianie generuje nowy widok kalendarza. \texorpdfstring{$<$}{<} Ustaw styczeñ dla nastêpnego roku.
+
+\texorpdfstring{$<$}{<} Zwiêksz rok.
+
+\texorpdfstring{$<$}{<} Zwiêksz numer miesi¹ca.
+
+\texorpdfstring{$<$}{<} Loguj zmianê miesi¹ca.
+
+\texorpdfstring{$<$}{<} Odœwie¿ widok kalendarza.\Hypertarget{class_calendar_manager_aa1557567f66ab7f29262e04066cca302}\index{CalendarManager@{CalendarManager}!PreviousMonth@{PreviousMonth}}
+\index{PreviousMonth@{PreviousMonth}!CalendarManager@{CalendarManager}}
+\doxysubsubsection{\texorpdfstring{PreviousMonth()}{PreviousMonth()}}
+{\footnotesize\ttfamily \label{class_calendar_manager_aa1557567f66ab7f29262e04066cca302} 
+void Calendar\+Manager.\+Previous\+Month (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Prze³¹cza kalendarz na poprzedni miesi¹c. 
+
+Metoda zmniejsza numer miesi¹ca. Jeœli bie¿¹cy miesi¹c to styczeñ, prze³¹cza na grudzieñ poprzedniego roku. Po zmianie generuje nowy widok kalendarza.
+
+Prze³¹cza kalendarz na poprzedni miesi¹c.
+
+Metoda zmniejsza numer miesi¹ca. Jeœli bie¿¹cy miesi¹c to styczeñ, prze³¹cza na grudzieñ poprzedniego roku. Po zmianie generuje nowy widok kalendarza. \texorpdfstring{$<$}{<} Ustaw grudzieñ dla poprzedniego roku.
+
+\texorpdfstring{$<$}{<} Zmniejsz rok.
+
+\texorpdfstring{$<$}{<} Zmniejsz numer miesi¹ca.
+
+\texorpdfstring{$<$}{<} Loguj zmianê miesi¹ca.
+
+\texorpdfstring{$<$}{<} Odœwie¿ widok kalendarza.
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{class_calendar_manager_aae16370c5ab4bad9ceab19e702093b02}\index{CalendarManager@{CalendarManager}!addTaskButton@{addTaskButton}}
+\index{addTaskButton@{addTaskButton}!CalendarManager@{CalendarManager}}
+\doxysubsubsection{\texorpdfstring{addTaskButton}{addTaskButton}}
+{\footnotesize\ttfamily \label{class_calendar_manager_aae16370c5ab4bad9ceab19e702093b02} 
+Button Calendar\+Manager.\+add\+Task\+Button}
+
+
+
+Przycisk dodawania nowego zadania. 
+
+\Hypertarget{class_calendar_manager_a620e25fc721ef7856fb120940487320e}\index{CalendarManager@{CalendarManager}!calendarGrid@{calendarGrid}}
+\index{calendarGrid@{calendarGrid}!CalendarManager@{CalendarManager}}
+\doxysubsubsection{\texorpdfstring{calendarGrid}{calendarGrid}}
+{\footnotesize\ttfamily \label{class_calendar_manager_a620e25fc721ef7856fb120940487320e} 
+Transform Calendar\+Manager.\+calendar\+Grid}
+
+
+
+Transform siatki, w której wyœwietlane s¹ dni. 
+
+\Hypertarget{class_calendar_manager_ad7ba8f08fca33f009c129f502e366525}\index{CalendarManager@{CalendarManager}!calendarTitle@{calendarTitle}}
+\index{calendarTitle@{calendarTitle}!CalendarManager@{CalendarManager}}
+\doxysubsubsection{\texorpdfstring{calendarTitle}{calendarTitle}}
+{\footnotesize\ttfamily \label{class_calendar_manager_ad7ba8f08fca33f009c129f502e366525} 
+TMP\+\_\+\+Text Calendar\+Manager.\+calendar\+Title}
+
+
+
+Tekst wyœwietlaj¹cy nazwê miesi¹ca i roku. 
+
+\Hypertarget{class_calendar_manager_a5c16424234d71abd6e2c00fc6036651a}\index{CalendarManager@{CalendarManager}!clearTasksButton@{clearTasksButton}}
+\index{clearTasksButton@{clearTasksButton}!CalendarManager@{CalendarManager}}
+\doxysubsubsection{\texorpdfstring{clearTasksButton}{clearTasksButton}}
+{\footnotesize\ttfamily \label{class_calendar_manager_a5c16424234d71abd6e2c00fc6036651a} 
+Button Calendar\+Manager.\+clear\+Tasks\+Button}
+
+
+
+Przycisk czyszczenia listy zadañ. 
+
+\Hypertarget{class_calendar_manager_a2182f5b1669f7a994d7fd3b58d1d90a4}\index{CalendarManager@{CalendarManager}!dayPrefab@{dayPrefab}}
+\index{dayPrefab@{dayPrefab}!CalendarManager@{CalendarManager}}
+\doxysubsubsection{\texorpdfstring{dayPrefab}{dayPrefab}}
+{\footnotesize\ttfamily \label{class_calendar_manager_a2182f5b1669f7a994d7fd3b58d1d90a4} 
+Game\+Object Calendar\+Manager.\+day\+Prefab}
+
+
+
+Prefab reprezentuj¹cy pojedynczy dzieñ kalendarza. 
+
+\Hypertarget{class_calendar_manager_ae9f1d7b8321ea2bf16cd3b646ebcaef8}\index{CalendarManager@{CalendarManager}!nextMonthButton@{nextMonthButton}}
+\index{nextMonthButton@{nextMonthButton}!CalendarManager@{CalendarManager}}
+\doxysubsubsection{\texorpdfstring{nextMonthButton}{nextMonthButton}}
+{\footnotesize\ttfamily \label{class_calendar_manager_ae9f1d7b8321ea2bf16cd3b646ebcaef8} 
+Button Calendar\+Manager.\+next\+Month\+Button}
+
+
+
+Przycisk przejœcia do nastêpnego miesi¹ca. 
+
+\Hypertarget{class_calendar_manager_afcc105673b9487a05c4c229e202faa57}\index{CalendarManager@{CalendarManager}!previousMonthButton@{previousMonthButton}}
+\index{previousMonthButton@{previousMonthButton}!CalendarManager@{CalendarManager}}
+\doxysubsubsection{\texorpdfstring{previousMonthButton}{previousMonthButton}}
+{\footnotesize\ttfamily \label{class_calendar_manager_afcc105673b9487a05c4c229e202faa57} 
+Button Calendar\+Manager.\+previous\+Month\+Button}
+
+
+
+Przycisk przejœcia do poprzedniego miesi¹ca. 
+
+\Hypertarget{class_calendar_manager_a6d6db5d3481b0583a6bcc327010298be}\index{CalendarManager@{CalendarManager}!quoteText@{quoteText}}
+\index{quoteText@{quoteText}!CalendarManager@{CalendarManager}}
+\doxysubsubsection{\texorpdfstring{quoteText}{quoteText}}
+{\footnotesize\ttfamily \label{class_calendar_manager_a6d6db5d3481b0583a6bcc327010298be} 
+TMP\+\_\+\+Text Calendar\+Manager.\+quote\+Text}
+
+
+
+Tekst wyœwietlaj¹cy inspiruj¹cy cytat. 
+
+\Hypertarget{class_calendar_manager_a1c770bbbf46c90fc2f36758c7b713a88}\index{CalendarManager@{CalendarManager}!settingsButton@{settingsButton}}
+\index{settingsButton@{settingsButton}!CalendarManager@{CalendarManager}}
+\doxysubsubsection{\texorpdfstring{settingsButton}{settingsButton}}
+{\footnotesize\ttfamily \label{class_calendar_manager_a1c770bbbf46c90fc2f36758c7b713a88} 
+Button Calendar\+Manager.\+settings\+Button}
+
+
+
+Przycisk otwieraj¹cy ustawienia. 
+
+\Hypertarget{class_calendar_manager_adb805fe066c76d6252aa764c59c14e8f}\index{CalendarManager@{CalendarManager}!taskInputField@{taskInputField}}
+\index{taskInputField@{taskInputField}!CalendarManager@{CalendarManager}}
+\doxysubsubsection{\texorpdfstring{taskInputField}{taskInputField}}
+{\footnotesize\ttfamily \label{class_calendar_manager_adb805fe066c76d6252aa764c59c14e8f} 
+TMP\+\_\+\+Input\+Field Calendar\+Manager.\+task\+Input\+Field}
+
+
+
+Pole tekstowe do wprowadzania nowych zadañ. 
+
+\Hypertarget{class_calendar_manager_afa646a10e8a3a1c72925d72f101aae99}\index{CalendarManager@{CalendarManager}!taskListContent@{taskListContent}}
+\index{taskListContent@{taskListContent}!CalendarManager@{CalendarManager}}
+\doxysubsubsection{\texorpdfstring{taskListContent}{taskListContent}}
+{\footnotesize\ttfamily \label{class_calendar_manager_afa646a10e8a3a1c72925d72f101aae99} 
+Transform Calendar\+Manager.\+task\+List\+Content}
+
+
+
+Kontener dla dynamicznie generowanej listy zadañ. 
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{_calendar_manager_8cs}{Calendar\+Manager.\+cs}}\end{DoxyCompactItemize}

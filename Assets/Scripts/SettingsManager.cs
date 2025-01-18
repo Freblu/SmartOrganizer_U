@@ -23,6 +23,7 @@ public class SettingsManager : MonoBehaviour
     public TMP_InputField passwordInput; // Pole wprowadzania has³a
     public Button confirmAddUserButton; // Przycisk zatwierdzaj¹cy dodanie u¿ytkownika
     public TMP_Text statusText;
+    public TMP_Text batteryStatusText; ///< Pole tekstowe do wyœwietlania statusu baterii.
     public GameObject changeThemeObject;
     private bool isDarkTheme;
     [SerializeField] private Mode currentMode;
@@ -197,6 +198,29 @@ public class SettingsManager : MonoBehaviour
             Debug.LogWarning("Pola u¿ytkownika s¹ puste!");
         }
     }
+
+    private void UpdateBatteryStatus()
+    {
+        if (SystemInfo.batteryLevel < 0)
+        {
+            if (batteryStatusText != null)
+            {
+                batteryStatusText.text = "Poziom baterii niedostêpny.";
+            }
+            return;
+        }
+
+        float batteryLevel = SystemInfo.batteryLevel * 100f;
+        BatteryStatus batteryStatus = SystemInfo.batteryStatus;
+
+        string statusMessage = $"Poziom baterii: {batteryLevel:0}%\nStatus: {batteryStatus}";
+
+        if (batteryStatusText != null)
+        {
+            batteryStatusText.text = statusMessage;
+        }
+    }
+
 
     private void BackToCalendar()
     {

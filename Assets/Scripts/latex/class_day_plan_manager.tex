@@ -1,0 +1,306 @@
+\doxysection{Day\+Plan\+Manager Class Reference}
+\hypertarget{class_day_plan_manager}{}\label{class_day_plan_manager}\index{DayPlanManager@{DayPlanManager}}
+
+
+Mened¿er zarz¹dzaj¹cy zadaniami w planie dnia.  
+
+
+Inheritance diagram for Day\+Plan\+Manager\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_day_plan_manager}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{class_day_plan_manager_a41c7b50ab8c7854d7463576f586ba93a}{Add\+Or\+Edit\+Task}} ()
+\begin{DoxyCompactList}\small\item\em Dodaje lub edytuje zadanie w liœcie zadañ. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_day_plan_manager_afc42b1ac2f1826e0f5191f7625e71cfa}{Edit\+Task}} (int index)
+\begin{DoxyCompactList}\small\item\em Rozpoczyna edycjê wybranego zadania. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_day_plan_manager_a60084afd1a85e5f7a7a3c4b22af383f2}{Save\+Edited\+Task}} ()
+\begin{DoxyCompactList}\small\item\em Zapisuje zmiany w edytowanym zadaniu. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_day_plan_manager_a885bedc493b46e14e44fd3aab0fac834}{Clear\+Tasks}} ()
+\begin{DoxyCompactList}\small\item\em Czyœci listê zadañ. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_day_plan_manager_a56bb81463c880d7a95a3b6823f1d1ab9}{Return\+To\+Calendar}} ()
+\begin{DoxyCompactList}\small\item\em Przechodzi do widoku kalendarza. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+TMP\+\_\+\+Text \mbox{\hyperlink{class_day_plan_manager_a66a95c6bd40df3c533f92573c0d11c88}{day\+Title\+Text}}
+\begin{DoxyCompactList}\small\item\em Tytu³ wyœwietlaj¹cy datê wybranego dnia. \end{DoxyCompactList}\item 
+Transform \mbox{\hyperlink{class_day_plan_manager_aa8cd1bbd7202d478bf936a94dd029d56}{task\+List\+Text}}
+\begin{DoxyCompactList}\small\item\em Kontener dla listy zadañ wyœwietlanej w UI. \end{DoxyCompactList}\item 
+TMP\+\_\+\+Input\+Field \mbox{\hyperlink{class_day_plan_manager_a9103ed7af8a916803a6b4f851d1f1ddd}{task\+Input\+Field}}
+\begin{DoxyCompactList}\small\item\em Pole tekstowe do wprowadzania opisu zadania. \end{DoxyCompactList}\item 
+TMP\+\_\+\+Dropdown \mbox{\hyperlink{class_day_plan_manager_a5ed910630dccd5338a6ef38224238d68}{reminder\+Dropdown}}
+\begin{DoxyCompactList}\small\item\em Dropdown do wyboru przypomnienia o zadaniu. \end{DoxyCompactList}\item 
+TMP\+\_\+\+Dropdown \mbox{\hyperlink{class_day_plan_manager_af551967fcb3df7f7d533bf1e37e862ec}{task\+Time\+Dropdown}}
+\begin{DoxyCompactList}\small\item\em Dropdown do wyboru czasu zadania. \end{DoxyCompactList}\item 
+Button \mbox{\hyperlink{class_day_plan_manager_a994a4e332b5a3dea6b36b69a3dec212a}{add\+Task\+Button}}
+\begin{DoxyCompactList}\small\item\em Przycisk dodawania nowego zadania. \end{DoxyCompactList}\item 
+Button \mbox{\hyperlink{class_day_plan_manager_a9e7fbbd21052425ac2dd613961df02f9}{clear\+Tasks\+Button}}
+\begin{DoxyCompactList}\small\item\em Przycisk do czyszczenia listy zadañ. \end{DoxyCompactList}\item 
+Button \mbox{\hyperlink{class_day_plan_manager_ab1b6b432b6997d5be59462a0851e7bf0}{save\+Edit\+Button}}
+\begin{DoxyCompactList}\small\item\em Przycisk do zapisywania edytowanego zadania. \end{DoxyCompactList}\item 
+Button \mbox{\hyperlink{class_day_plan_manager_adc53661a5f93f094588cda9b3e21a5e9}{back\+To\+Calendar\+Button}}
+\begin{DoxyCompactList}\small\item\em Przycisk powrotu do widoku kalendarza. \end{DoxyCompactList}\item 
+TMP\+\_\+\+Text \mbox{\hyperlink{class_day_plan_manager_aecc79c8e80ae02f99272bbc3b58a28e3}{status\+Text}}
+\begin{DoxyCompactList}\small\item\em Tekst statusu do wyœwietlania komunikatów u¿ytkownikowi. \end{DoxyCompactList}\item 
+TMP\+\_\+\+Dropdown \mbox{\hyperlink{class_day_plan_manager_a6a1807c5953d642f70f57229e0a41630}{task\+Icon\+Dropdown}}
+\begin{DoxyCompactList}\small\item\em Dropdown do wyboru ikony dla zadania. \end{DoxyCompactList}\item 
+List$<$ Sprite $>$ \mbox{\hyperlink{class_day_plan_manager_aa90ffcd294e89ebc131688edb16e9d8a}{task\+Icons}}
+\begin{DoxyCompactList}\small\item\em Lista ikon mo¿liwych do przypisania do zadañ. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Mened¿er zarz¹dzaj¹cy zadaniami w planie dnia. 
+
+Klasa obs³uguje dodawanie, edytowanie, usuwanie zadañ oraz zarz¹dzanie powiadomieniami dla wybranego dnia. Zawiera mechanizmy do pracy z list¹ zadañ, ich reprezentacj¹ w UI oraz obs³ugê wyboru grafiki i czasu zadania. 
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_day_plan_manager_a41c7b50ab8c7854d7463576f586ba93a}\index{DayPlanManager@{DayPlanManager}!AddOrEditTask@{AddOrEditTask}}
+\index{AddOrEditTask@{AddOrEditTask}!DayPlanManager@{DayPlanManager}}
+\doxysubsubsection{\texorpdfstring{AddOrEditTask()}{AddOrEditTask()}}
+{\footnotesize\ttfamily \label{class_day_plan_manager_a41c7b50ab8c7854d7463576f586ba93a} 
+void Day\+Plan\+Manager.\+Add\+Or\+Edit\+Task (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Dodaje lub edytuje zadanie w liœcie zadañ. 
+
+Metoda sprawdza poprawnoœæ wprowadzonych danych, dodaje nowe zadanie lub edytuje istniej¹ce, ustawia powiadomienie na podstawie wybranego czasu przypomnienia, a nastêpnie zapisuje zmiany. \texorpdfstring{$<$}{<} 1 godzina przed.
+
+\texorpdfstring{$<$}{<} 2 godziny przed.
+
+\texorpdfstring{$<$}{<} 15 minut przed.
+
+\texorpdfstring{$<$}{<} W momencie rozpoczêcia.
+
+\texorpdfstring{$<$}{<} Dodaje nowe zadanie.
+
+\texorpdfstring{$<$}{<} Planuje powiadomienie.
+
+\texorpdfstring{$<$}{<} Aktualizuje istniej¹ce zadanie.
+
+\texorpdfstring{$<$}{<} Resetuje pole tekstowe.
+
+\texorpdfstring{$<$}{<} Resetuje dropdown na domyœln¹ opcjê.
+
+\texorpdfstring{$<$}{<} Odœwie¿a listê zadañ.
+
+\texorpdfstring{$<$}{<} Zapisuje zmiany.\Hypertarget{class_day_plan_manager_a885bedc493b46e14e44fd3aab0fac834}\index{DayPlanManager@{DayPlanManager}!ClearTasks@{ClearTasks}}
+\index{ClearTasks@{ClearTasks}!DayPlanManager@{DayPlanManager}}
+\doxysubsubsection{\texorpdfstring{ClearTasks()}{ClearTasks()}}
+{\footnotesize\ttfamily \label{class_day_plan_manager_a885bedc493b46e14e44fd3aab0fac834} 
+void Day\+Plan\+Manager.\+Clear\+Tasks (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Czyœci listê zadañ. 
+
+Metoda usuwa wszystkie zadania, odœwie¿a widok listy oraz zapisuje zmiany. \texorpdfstring{$<$}{<} Usuwa wszystkie zadania.
+
+\texorpdfstring{$<$}{<} Odœwie¿a widok listy zadañ.
+
+\texorpdfstring{$<$}{<} Zapisuje zmiany w pamiêci.
+
+\texorpdfstring{$<$}{<} Wyœwietla komunikat o wyczyszczeniu listy.\Hypertarget{class_day_plan_manager_afc42b1ac2f1826e0f5191f7625e71cfa}\index{DayPlanManager@{DayPlanManager}!EditTask@{EditTask}}
+\index{EditTask@{EditTask}!DayPlanManager@{DayPlanManager}}
+\doxysubsubsection{\texorpdfstring{EditTask()}{EditTask()}}
+{\footnotesize\ttfamily \label{class_day_plan_manager_afc42b1ac2f1826e0f5191f7625e71cfa} 
+void Day\+Plan\+Manager.\+Edit\+Task (\begin{DoxyParamCaption}\item[{int}]{index}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Rozpoczyna edycjê wybranego zadania. 
+
+Metoda wype³nia pole tekstowe wartoœciami wybranego zadania oraz zmienia tekst i funkcjê przycisku na zapis edycji.
+
+
+\begin{DoxyParams}{Parameters}
+{\em index} & Indeks zadania do edycji w liœcie. \\
+\hline
+\end{DoxyParams}
+\texorpdfstring{$<$}{<} Wype³nia pole tekstowe opisem zadania.
+
+\texorpdfstring{$<$}{<} Ustawia czas w dropdownie.
+
+\texorpdfstring{$<$}{<} Ustawia ikonê w dropdownie.
+
+\texorpdfstring{$<$}{<} Ustawia bie¿¹cy indeks edytowanego zadania.
+
+\texorpdfstring{$<$}{<} Wyœwietla przycisk zapisu edycji.
+
+\texorpdfstring{$<$}{<} Zmienia tekst przycisku na "{}\+Zapisz Edycjê"{}.
+
+\texorpdfstring{$<$}{<} Wyœwietla komunikat o edycji zadania.\Hypertarget{class_day_plan_manager_a56bb81463c880d7a95a3b6823f1d1ab9}\index{DayPlanManager@{DayPlanManager}!ReturnToCalendar@{ReturnToCalendar}}
+\index{ReturnToCalendar@{ReturnToCalendar}!DayPlanManager@{DayPlanManager}}
+\doxysubsubsection{\texorpdfstring{ReturnToCalendar()}{ReturnToCalendar()}}
+{\footnotesize\ttfamily \label{class_day_plan_manager_a56bb81463c880d7a95a3b6823f1d1ab9} 
+void Day\+Plan\+Manager.\+Return\+To\+Calendar (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Przechodzi do widoku kalendarza. 
+
+Metoda zmienia scenê aplikacji na scenê o nazwie "{}\+Calendar\+Scene"{}. \texorpdfstring{$<$}{<} £aduje scenê "{}\+Calendar\+Scene"{}.\Hypertarget{class_day_plan_manager_a60084afd1a85e5f7a7a3c4b22af383f2}\index{DayPlanManager@{DayPlanManager}!SaveEditedTask@{SaveEditedTask}}
+\index{SaveEditedTask@{SaveEditedTask}!DayPlanManager@{DayPlanManager}}
+\doxysubsubsection{\texorpdfstring{SaveEditedTask()}{SaveEditedTask()}}
+{\footnotesize\ttfamily \label{class_day_plan_manager_a60084afd1a85e5f7a7a3c4b22af383f2} 
+void Day\+Plan\+Manager.\+Save\+Edited\+Task (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Zapisuje zmiany w edytowanym zadaniu. 
+
+Metoda aktualizuje treœæ i ustawienia wybranego zadania, zapisuje zmiany oraz odœwie¿a listê zadañ. \texorpdfstring{$<$}{<} Pobiera zaktualizowany opis.
+
+\texorpdfstring{$<$}{<} Pobiera zaktualizowany czas.
+
+\texorpdfstring{$<$}{<} Pobiera zaktualizowan¹ ikonê.
+
+\texorpdfstring{$<$}{<} Aktualizuje wybrane zadanie.
+
+\texorpdfstring{$<$}{<} Czyœci pole tekstowe.
+
+\texorpdfstring{$<$}{<} Resetuje dropdown czasu.
+
+\texorpdfstring{$<$}{<} Resetuje indeks edycji.
+
+\texorpdfstring{$<$}{<} Ukrywa przycisk zapisu edycji.
+
+\texorpdfstring{$<$}{<} Przywraca tekst przycisku.
+
+\texorpdfstring{$<$}{<} Odœwie¿a listê zadañ.
+
+\texorpdfstring{$<$}{<} Zapisuje zmiany w pamiêci.
+
+\texorpdfstring{$<$}{<} Wyœwietla komunikat o aktualizacji.
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{class_day_plan_manager_a994a4e332b5a3dea6b36b69a3dec212a}\index{DayPlanManager@{DayPlanManager}!addTaskButton@{addTaskButton}}
+\index{addTaskButton@{addTaskButton}!DayPlanManager@{DayPlanManager}}
+\doxysubsubsection{\texorpdfstring{addTaskButton}{addTaskButton}}
+{\footnotesize\ttfamily \label{class_day_plan_manager_a994a4e332b5a3dea6b36b69a3dec212a} 
+Button Day\+Plan\+Manager.\+add\+Task\+Button}
+
+
+
+Przycisk dodawania nowego zadania. 
+
+\Hypertarget{class_day_plan_manager_adc53661a5f93f094588cda9b3e21a5e9}\index{DayPlanManager@{DayPlanManager}!backToCalendarButton@{backToCalendarButton}}
+\index{backToCalendarButton@{backToCalendarButton}!DayPlanManager@{DayPlanManager}}
+\doxysubsubsection{\texorpdfstring{backToCalendarButton}{backToCalendarButton}}
+{\footnotesize\ttfamily \label{class_day_plan_manager_adc53661a5f93f094588cda9b3e21a5e9} 
+Button Day\+Plan\+Manager.\+back\+To\+Calendar\+Button}
+
+
+
+Przycisk powrotu do widoku kalendarza. 
+
+\Hypertarget{class_day_plan_manager_a9e7fbbd21052425ac2dd613961df02f9}\index{DayPlanManager@{DayPlanManager}!clearTasksButton@{clearTasksButton}}
+\index{clearTasksButton@{clearTasksButton}!DayPlanManager@{DayPlanManager}}
+\doxysubsubsection{\texorpdfstring{clearTasksButton}{clearTasksButton}}
+{\footnotesize\ttfamily \label{class_day_plan_manager_a9e7fbbd21052425ac2dd613961df02f9} 
+Button Day\+Plan\+Manager.\+clear\+Tasks\+Button}
+
+
+
+Przycisk do czyszczenia listy zadañ. 
+
+\Hypertarget{class_day_plan_manager_a66a95c6bd40df3c533f92573c0d11c88}\index{DayPlanManager@{DayPlanManager}!dayTitleText@{dayTitleText}}
+\index{dayTitleText@{dayTitleText}!DayPlanManager@{DayPlanManager}}
+\doxysubsubsection{\texorpdfstring{dayTitleText}{dayTitleText}}
+{\footnotesize\ttfamily \label{class_day_plan_manager_a66a95c6bd40df3c533f92573c0d11c88} 
+TMP\+\_\+\+Text Day\+Plan\+Manager.\+day\+Title\+Text}
+
+
+
+Tytu³ wyœwietlaj¹cy datê wybranego dnia. 
+
+\Hypertarget{class_day_plan_manager_a5ed910630dccd5338a6ef38224238d68}\index{DayPlanManager@{DayPlanManager}!reminderDropdown@{reminderDropdown}}
+\index{reminderDropdown@{reminderDropdown}!DayPlanManager@{DayPlanManager}}
+\doxysubsubsection{\texorpdfstring{reminderDropdown}{reminderDropdown}}
+{\footnotesize\ttfamily \label{class_day_plan_manager_a5ed910630dccd5338a6ef38224238d68} 
+TMP\+\_\+\+Dropdown Day\+Plan\+Manager.\+reminder\+Dropdown}
+
+
+
+Dropdown do wyboru przypomnienia o zadaniu. 
+
+\Hypertarget{class_day_plan_manager_ab1b6b432b6997d5be59462a0851e7bf0}\index{DayPlanManager@{DayPlanManager}!saveEditButton@{saveEditButton}}
+\index{saveEditButton@{saveEditButton}!DayPlanManager@{DayPlanManager}}
+\doxysubsubsection{\texorpdfstring{saveEditButton}{saveEditButton}}
+{\footnotesize\ttfamily \label{class_day_plan_manager_ab1b6b432b6997d5be59462a0851e7bf0} 
+Button Day\+Plan\+Manager.\+save\+Edit\+Button}
+
+
+
+Przycisk do zapisywania edytowanego zadania. 
+
+\Hypertarget{class_day_plan_manager_aecc79c8e80ae02f99272bbc3b58a28e3}\index{DayPlanManager@{DayPlanManager}!statusText@{statusText}}
+\index{statusText@{statusText}!DayPlanManager@{DayPlanManager}}
+\doxysubsubsection{\texorpdfstring{statusText}{statusText}}
+{\footnotesize\ttfamily \label{class_day_plan_manager_aecc79c8e80ae02f99272bbc3b58a28e3} 
+TMP\+\_\+\+Text Day\+Plan\+Manager.\+status\+Text}
+
+
+
+Tekst statusu do wyœwietlania komunikatów u¿ytkownikowi. 
+
+\Hypertarget{class_day_plan_manager_a6a1807c5953d642f70f57229e0a41630}\index{DayPlanManager@{DayPlanManager}!taskIconDropdown@{taskIconDropdown}}
+\index{taskIconDropdown@{taskIconDropdown}!DayPlanManager@{DayPlanManager}}
+\doxysubsubsection{\texorpdfstring{taskIconDropdown}{taskIconDropdown}}
+{\footnotesize\ttfamily \label{class_day_plan_manager_a6a1807c5953d642f70f57229e0a41630} 
+TMP\+\_\+\+Dropdown Day\+Plan\+Manager.\+task\+Icon\+Dropdown}
+
+
+
+Dropdown do wyboru ikony dla zadania. 
+
+\Hypertarget{class_day_plan_manager_aa90ffcd294e89ebc131688edb16e9d8a}\index{DayPlanManager@{DayPlanManager}!taskIcons@{taskIcons}}
+\index{taskIcons@{taskIcons}!DayPlanManager@{DayPlanManager}}
+\doxysubsubsection{\texorpdfstring{taskIcons}{taskIcons}}
+{\footnotesize\ttfamily \label{class_day_plan_manager_aa90ffcd294e89ebc131688edb16e9d8a} 
+List$<$Sprite$>$ Day\+Plan\+Manager.\+task\+Icons}
+
+
+
+Lista ikon mo¿liwych do przypisania do zadañ. 
+
+\Hypertarget{class_day_plan_manager_a9103ed7af8a916803a6b4f851d1f1ddd}\index{DayPlanManager@{DayPlanManager}!taskInputField@{taskInputField}}
+\index{taskInputField@{taskInputField}!DayPlanManager@{DayPlanManager}}
+\doxysubsubsection{\texorpdfstring{taskInputField}{taskInputField}}
+{\footnotesize\ttfamily \label{class_day_plan_manager_a9103ed7af8a916803a6b4f851d1f1ddd} 
+TMP\+\_\+\+Input\+Field Day\+Plan\+Manager.\+task\+Input\+Field}
+
+
+
+Pole tekstowe do wprowadzania opisu zadania. 
+
+\Hypertarget{class_day_plan_manager_aa8cd1bbd7202d478bf936a94dd029d56}\index{DayPlanManager@{DayPlanManager}!taskListText@{taskListText}}
+\index{taskListText@{taskListText}!DayPlanManager@{DayPlanManager}}
+\doxysubsubsection{\texorpdfstring{taskListText}{taskListText}}
+{\footnotesize\ttfamily \label{class_day_plan_manager_aa8cd1bbd7202d478bf936a94dd029d56} 
+Transform Day\+Plan\+Manager.\+task\+List\+Text}
+
+
+
+Kontener dla listy zadañ wyœwietlanej w UI. 
+
+\Hypertarget{class_day_plan_manager_af551967fcb3df7f7d533bf1e37e862ec}\index{DayPlanManager@{DayPlanManager}!taskTimeDropdown@{taskTimeDropdown}}
+\index{taskTimeDropdown@{taskTimeDropdown}!DayPlanManager@{DayPlanManager}}
+\doxysubsubsection{\texorpdfstring{taskTimeDropdown}{taskTimeDropdown}}
+{\footnotesize\ttfamily \label{class_day_plan_manager_af551967fcb3df7f7d533bf1e37e862ec} 
+TMP\+\_\+\+Dropdown Day\+Plan\+Manager.\+task\+Time\+Dropdown}
+
+
+
+Dropdown do wyboru czasu zadania. 
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{_day_plan_manager_8cs}{Day\+Plan\+Manager.\+cs}}\end{DoxyCompactItemize}

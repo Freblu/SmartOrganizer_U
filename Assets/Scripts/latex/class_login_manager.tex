@@ -1,0 +1,239 @@
+\doxysection{Login\+Manager Class Reference}
+\hypertarget{class_login_manager}{}\label{class_login_manager}\index{LoginManager@{LoginManager}}
+
+
+Klasa odpowiedzialna za zarz¹dzanie logowaniem i rejestracj¹ u¿ytkowników.  
+
+
+Inheritance diagram for Login\+Manager\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_login_manager}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{class_login_manager_ad4b98db373ba580e43a60c2d6f497a9a}{Show\+New\+User\+Panel}} ()
+\begin{DoxyCompactList}\small\item\em Pokazuje panel nowego u¿ytkownika. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_login_manager_a457050521dc71594361fd2b608238fed}{Show\+Existing\+User\+Panel}} ()
+\begin{DoxyCompactList}\small\item\em Pokazuje panel istniej¹cego u¿ytkownika. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_login_manager_ae4190c2244acb691676fe0a3a794a4a1}{Save\+New\+User}} ()
+\begin{DoxyCompactList}\small\item\em Zapisuje dane nowego u¿ytkownika. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_login_manager_a62b7fb490f494f7722bf713dc6609f2a}{Login\+With\+Password}} ()
+\begin{DoxyCompactList}\small\item\em Logowanie u¿ytkownika za pomoc¹ loginu i has³a. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+string \mbox{\hyperlink{class_login_manager_a7e76e2558cf6f88b8c32ac6c30061309}{register\+URL}} = "{}http\+://localhost/reg\+\_\+user.\+php"{}
+\begin{DoxyCompactList}\small\item\em Œcie¿ka do skryptu PHP obs³uguj¹cego rejestracjê u¿ytkowników. \end{DoxyCompactList}\item 
+Game\+Object \mbox{\hyperlink{class_login_manager_ad81ffc01794705add597ef09b0609e2d}{new\+User\+Panel}}
+\begin{DoxyCompactList}\small\item\em Panel dla nowego u¿ytkownika. \end{DoxyCompactList}\item 
+Game\+Object \mbox{\hyperlink{class_login_manager_a2135946daaffe3893dfab5b4659dfc81}{existing\+User\+Panel}}
+\begin{DoxyCompactList}\small\item\em Panel dla istniej¹cego u¿ytkownika. \end{DoxyCompactList}\item 
+Button \mbox{\hyperlink{class_login_manager_a6781dfc5439f4c5b7b6086db39d90b4a}{switch\+To\+New\+User\+Button}}
+\begin{DoxyCompactList}\small\item\em Przycisk prze³¹czaj¹cy na panel rejestracji nowego u¿ytkownika. \end{DoxyCompactList}\item 
+Button \mbox{\hyperlink{class_login_manager_ae20f086dcef079b90b523098513a2949}{switch\+To\+Existing\+User\+Button}}
+\begin{DoxyCompactList}\small\item\em Przycisk prze³¹czaj¹cy na panel logowania istniej¹cego u¿ytkownika. \end{DoxyCompactList}\item 
+Button \mbox{\hyperlink{class_login_manager_ab379948c206bdd0b23977bf61efac76e}{login\+Button}}
+\begin{DoxyCompactList}\small\item\em Przycisk logowania. \end{DoxyCompactList}\item 
+Button \mbox{\hyperlink{class_login_manager_aafc159e2a09c51498d5ee9278a820d24}{save\+New\+User\+Button}}
+\begin{DoxyCompactList}\small\item\em Przycisk zapisu nowego u¿ytkownika. \end{DoxyCompactList}\item 
+TMP\+\_\+\+Input\+Field \mbox{\hyperlink{class_login_manager_a9dc1955dd41e621a49bdfff38cfe84e5}{username\+Input\+New\+User}}
+\begin{DoxyCompactList}\small\item\em Pole tekstowe do wprowadzania loginu nowego u¿ytkownika. \end{DoxyCompactList}\item 
+TMP\+\_\+\+Input\+Field \mbox{\hyperlink{class_login_manager_a655b75dee4de0add57f6a1c760e1c5d5}{password\+Input\+New\+User}}
+\begin{DoxyCompactList}\small\item\em Pole tekstowe do wprowadzania has³a nowego u¿ytkownika. \end{DoxyCompactList}\item 
+TMP\+\_\+\+Input\+Field \mbox{\hyperlink{class_login_manager_aea35e5f939193c71a5f7b8a5a2d383e3}{username\+Input\+Existing\+User}}
+\begin{DoxyCompactList}\small\item\em Pole tekstowe do wprowadzania loginu istniej¹cego u¿ytkownika. \end{DoxyCompactList}\item 
+TMP\+\_\+\+Input\+Field \mbox{\hyperlink{class_login_manager_a96b8821981587ab5ef32cbb49f8ae0c3}{password\+Input\+Existing\+User}}
+\begin{DoxyCompactList}\small\item\em Pole tekstowe do wprowadzania has³a istniej¹cego u¿ytkownika. \end{DoxyCompactList}\item 
+TMP\+\_\+\+Text \mbox{\hyperlink{class_login_manager_a7c3630345b8984994006358a5b2a386d}{success\+Text}}
+\begin{DoxyCompactList}\small\item\em Pole tekstowe wyœwietlaj¹ce komunikaty o sukcesie. \end{DoxyCompactList}\item 
+TMP\+\_\+\+Text \mbox{\hyperlink{class_login_manager_ab3c4acf95a3c4fe6f19829da9200a6a7}{error\+Text}}
+\begin{DoxyCompactList}\small\item\em Pole tekstowe wyœwietlaj¹ce komunikaty o b³êdach. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Klasa odpowiedzialna za zarz¹dzanie logowaniem i rejestracj¹ u¿ytkowników. 
+
+Klasa umo¿liwia u¿ytkownikowi logowanie za pomoc¹ loginu i has³a oraz tworzenie nowych kont u¿ytkowników. 
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_login_manager_a62b7fb490f494f7722bf713dc6609f2a}\index{LoginManager@{LoginManager}!LoginWithPassword@{LoginWithPassword}}
+\index{LoginWithPassword@{LoginWithPassword}!LoginManager@{LoginManager}}
+\doxysubsubsection{\texorpdfstring{LoginWithPassword()}{LoginWithPassword()}}
+{\footnotesize\ttfamily \label{class_login_manager_a62b7fb490f494f7722bf713dc6609f2a} 
+void Login\+Manager.\+Login\+With\+Password (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Logowanie u¿ytkownika za pomoc¹ loginu i has³a. 
+
+Sprawdza, czy wprowadzone dane logowania s¹ zgodne z zapisanymi w {\ttfamily Player\+Prefs}. Jeœli dane s¹ poprawne, ³aduje scenê kalendarza. W przypadku b³êdu wyœwietla odpowiedni komunikat. \Hypertarget{class_login_manager_ae4190c2244acb691676fe0a3a794a4a1}\index{LoginManager@{LoginManager}!SaveNewUser@{SaveNewUser}}
+\index{SaveNewUser@{SaveNewUser}!LoginManager@{LoginManager}}
+\doxysubsubsection{\texorpdfstring{SaveNewUser()}{SaveNewUser()}}
+{\footnotesize\ttfamily \label{class_login_manager_ae4190c2244acb691676fe0a3a794a4a1} 
+void Login\+Manager.\+Save\+New\+User (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Zapisuje dane nowego u¿ytkownika. 
+
+Waliduje dane wejœciowe, takie jak nazwa u¿ytkownika i has³o. Jeœli dane s¹ poprawne, zapisuje je w {\ttfamily Player\+Prefs}. Wyœwietla odpowiedni komunikat statusowy i opcjonalnie prze³¹cza u¿ytkownika na panel logowania. \Hypertarget{class_login_manager_a457050521dc71594361fd2b608238fed}\index{LoginManager@{LoginManager}!ShowExistingUserPanel@{ShowExistingUserPanel}}
+\index{ShowExistingUserPanel@{ShowExistingUserPanel}!LoginManager@{LoginManager}}
+\doxysubsubsection{\texorpdfstring{ShowExistingUserPanel()}{ShowExistingUserPanel()}}
+{\footnotesize\ttfamily \label{class_login_manager_a457050521dc71594361fd2b608238fed} 
+void Login\+Manager.\+Show\+Existing\+User\+Panel (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Pokazuje panel istniej¹cego u¿ytkownika. 
+
+Wy³¹cza wszystkie aktywne panele i w³¹cza panel logowania dla istniej¹cego u¿ytkownika. Czyœci wszystkie komunikaty statusowe, aby przygotowaæ interfejs do logowania. \Hypertarget{class_login_manager_ad4b98db373ba580e43a60c2d6f497a9a}\index{LoginManager@{LoginManager}!ShowNewUserPanel@{ShowNewUserPanel}}
+\index{ShowNewUserPanel@{ShowNewUserPanel}!LoginManager@{LoginManager}}
+\doxysubsubsection{\texorpdfstring{ShowNewUserPanel()}{ShowNewUserPanel()}}
+{\footnotesize\ttfamily \label{class_login_manager_ad4b98db373ba580e43a60c2d6f497a9a} 
+void Login\+Manager.\+Show\+New\+User\+Panel (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Pokazuje panel nowego u¿ytkownika. 
+
+Wy³¹cza wszystkie aktywne panele i w³¹cza panel dla nowego u¿ytkownika. Czyœci wszystkie komunikaty statusowe, aby przygotowaæ interfejs do nowej konfiguracji. 
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{class_login_manager_ab3c4acf95a3c4fe6f19829da9200a6a7}\index{LoginManager@{LoginManager}!errorText@{errorText}}
+\index{errorText@{errorText}!LoginManager@{LoginManager}}
+\doxysubsubsection{\texorpdfstring{errorText}{errorText}}
+{\footnotesize\ttfamily \label{class_login_manager_ab3c4acf95a3c4fe6f19829da9200a6a7} 
+TMP\+\_\+\+Text Login\+Manager.\+error\+Text}
+
+
+
+Pole tekstowe wyœwietlaj¹ce komunikaty o b³êdach. 
+
+\Hypertarget{class_login_manager_a2135946daaffe3893dfab5b4659dfc81}\index{LoginManager@{LoginManager}!existingUserPanel@{existingUserPanel}}
+\index{existingUserPanel@{existingUserPanel}!LoginManager@{LoginManager}}
+\doxysubsubsection{\texorpdfstring{existingUserPanel}{existingUserPanel}}
+{\footnotesize\ttfamily \label{class_login_manager_a2135946daaffe3893dfab5b4659dfc81} 
+Game\+Object Login\+Manager.\+existing\+User\+Panel}
+
+
+
+Panel dla istniej¹cego u¿ytkownika. 
+
+\Hypertarget{class_login_manager_ab379948c206bdd0b23977bf61efac76e}\index{LoginManager@{LoginManager}!loginButton@{loginButton}}
+\index{loginButton@{loginButton}!LoginManager@{LoginManager}}
+\doxysubsubsection{\texorpdfstring{loginButton}{loginButton}}
+{\footnotesize\ttfamily \label{class_login_manager_ab379948c206bdd0b23977bf61efac76e} 
+Button Login\+Manager.\+login\+Button}
+
+
+
+Przycisk logowania. 
+
+\Hypertarget{class_login_manager_ad81ffc01794705add597ef09b0609e2d}\index{LoginManager@{LoginManager}!newUserPanel@{newUserPanel}}
+\index{newUserPanel@{newUserPanel}!LoginManager@{LoginManager}}
+\doxysubsubsection{\texorpdfstring{newUserPanel}{newUserPanel}}
+{\footnotesize\ttfamily \label{class_login_manager_ad81ffc01794705add597ef09b0609e2d} 
+Game\+Object Login\+Manager.\+new\+User\+Panel}
+
+
+
+Panel dla nowego u¿ytkownika. 
+
+\Hypertarget{class_login_manager_a96b8821981587ab5ef32cbb49f8ae0c3}\index{LoginManager@{LoginManager}!passwordInputExistingUser@{passwordInputExistingUser}}
+\index{passwordInputExistingUser@{passwordInputExistingUser}!LoginManager@{LoginManager}}
+\doxysubsubsection{\texorpdfstring{passwordInputExistingUser}{passwordInputExistingUser}}
+{\footnotesize\ttfamily \label{class_login_manager_a96b8821981587ab5ef32cbb49f8ae0c3} 
+TMP\+\_\+\+Input\+Field Login\+Manager.\+password\+Input\+Existing\+User}
+
+
+
+Pole tekstowe do wprowadzania has³a istniej¹cego u¿ytkownika. 
+
+\Hypertarget{class_login_manager_a655b75dee4de0add57f6a1c760e1c5d5}\index{LoginManager@{LoginManager}!passwordInputNewUser@{passwordInputNewUser}}
+\index{passwordInputNewUser@{passwordInputNewUser}!LoginManager@{LoginManager}}
+\doxysubsubsection{\texorpdfstring{passwordInputNewUser}{passwordInputNewUser}}
+{\footnotesize\ttfamily \label{class_login_manager_a655b75dee4de0add57f6a1c760e1c5d5} 
+TMP\+\_\+\+Input\+Field Login\+Manager.\+password\+Input\+New\+User}
+
+
+
+Pole tekstowe do wprowadzania has³a nowego u¿ytkownika. 
+
+\Hypertarget{class_login_manager_a7e76e2558cf6f88b8c32ac6c30061309}\index{LoginManager@{LoginManager}!registerURL@{registerURL}}
+\index{registerURL@{registerURL}!LoginManager@{LoginManager}}
+\doxysubsubsection{\texorpdfstring{registerURL}{registerURL}}
+{\footnotesize\ttfamily \label{class_login_manager_a7e76e2558cf6f88b8c32ac6c30061309} 
+string Login\+Manager.\+register\+URL = "{}http\+://localhost/reg\+\_\+user.\+php"{}}
+
+
+
+Œcie¿ka do skryptu PHP obs³uguj¹cego rejestracjê u¿ytkowników. 
+
+\Hypertarget{class_login_manager_aafc159e2a09c51498d5ee9278a820d24}\index{LoginManager@{LoginManager}!saveNewUserButton@{saveNewUserButton}}
+\index{saveNewUserButton@{saveNewUserButton}!LoginManager@{LoginManager}}
+\doxysubsubsection{\texorpdfstring{saveNewUserButton}{saveNewUserButton}}
+{\footnotesize\ttfamily \label{class_login_manager_aafc159e2a09c51498d5ee9278a820d24} 
+Button Login\+Manager.\+save\+New\+User\+Button}
+
+
+
+Przycisk zapisu nowego u¿ytkownika. 
+
+\Hypertarget{class_login_manager_a7c3630345b8984994006358a5b2a386d}\index{LoginManager@{LoginManager}!successText@{successText}}
+\index{successText@{successText}!LoginManager@{LoginManager}}
+\doxysubsubsection{\texorpdfstring{successText}{successText}}
+{\footnotesize\ttfamily \label{class_login_manager_a7c3630345b8984994006358a5b2a386d} 
+TMP\+\_\+\+Text Login\+Manager.\+success\+Text}
+
+
+
+Pole tekstowe wyœwietlaj¹ce komunikaty o sukcesie. 
+
+\Hypertarget{class_login_manager_ae20f086dcef079b90b523098513a2949}\index{LoginManager@{LoginManager}!switchToExistingUserButton@{switchToExistingUserButton}}
+\index{switchToExistingUserButton@{switchToExistingUserButton}!LoginManager@{LoginManager}}
+\doxysubsubsection{\texorpdfstring{switchToExistingUserButton}{switchToExistingUserButton}}
+{\footnotesize\ttfamily \label{class_login_manager_ae20f086dcef079b90b523098513a2949} 
+Button Login\+Manager.\+switch\+To\+Existing\+User\+Button}
+
+
+
+Przycisk prze³¹czaj¹cy na panel logowania istniej¹cego u¿ytkownika. 
+
+\Hypertarget{class_login_manager_a6781dfc5439f4c5b7b6086db39d90b4a}\index{LoginManager@{LoginManager}!switchToNewUserButton@{switchToNewUserButton}}
+\index{switchToNewUserButton@{switchToNewUserButton}!LoginManager@{LoginManager}}
+\doxysubsubsection{\texorpdfstring{switchToNewUserButton}{switchToNewUserButton}}
+{\footnotesize\ttfamily \label{class_login_manager_a6781dfc5439f4c5b7b6086db39d90b4a} 
+Button Login\+Manager.\+switch\+To\+New\+User\+Button}
+
+
+
+Przycisk prze³¹czaj¹cy na panel rejestracji nowego u¿ytkownika. 
+
+\Hypertarget{class_login_manager_aea35e5f939193c71a5f7b8a5a2d383e3}\index{LoginManager@{LoginManager}!usernameInputExistingUser@{usernameInputExistingUser}}
+\index{usernameInputExistingUser@{usernameInputExistingUser}!LoginManager@{LoginManager}}
+\doxysubsubsection{\texorpdfstring{usernameInputExistingUser}{usernameInputExistingUser}}
+{\footnotesize\ttfamily \label{class_login_manager_aea35e5f939193c71a5f7b8a5a2d383e3} 
+TMP\+\_\+\+Input\+Field Login\+Manager.\+username\+Input\+Existing\+User}
+
+
+
+Pole tekstowe do wprowadzania loginu istniej¹cego u¿ytkownika. 
+
+\Hypertarget{class_login_manager_a9dc1955dd41e621a49bdfff38cfe84e5}\index{LoginManager@{LoginManager}!usernameInputNewUser@{usernameInputNewUser}}
+\index{usernameInputNewUser@{usernameInputNewUser}!LoginManager@{LoginManager}}
+\doxysubsubsection{\texorpdfstring{usernameInputNewUser}{usernameInputNewUser}}
+{\footnotesize\ttfamily \label{class_login_manager_a9dc1955dd41e621a49bdfff38cfe84e5} 
+TMP\+\_\+\+Input\+Field Login\+Manager.\+username\+Input\+New\+User}
+
+
+
+Pole tekstowe do wprowadzania loginu nowego u¿ytkownika. 
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{_login_manager_8cs}{Login\+Manager.\+cs}}\end{DoxyCompactItemize}

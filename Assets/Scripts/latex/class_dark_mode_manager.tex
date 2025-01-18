@@ -1,0 +1,114 @@
+\doxysection{Dark\+Mode\+Manager Class Reference}
+\hypertarget{class_dark_mode_manager}{}\label{class_dark_mode_manager}\index{DarkModeManager@{DarkModeManager}}
+
+
+Mened¿er zarz¹dzaj¹cy trybami jasnym i ciemnym w aplikacji.  
+
+
+Inheritance diagram for Dark\+Mode\+Manager\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_dark_mode_manager}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{class_dark_mode_manager_a0bbc85ea95d152d40193c087862cdaf2}{Mode}} \{ \mbox{\hyperlink{class_dark_mode_manager_a0bbc85ea95d152d40193c087862cdaf2a9914a0ce04a7b7b6a8e39bec55064b82}{Light}}
+, \mbox{\hyperlink{class_dark_mode_manager_a0bbc85ea95d152d40193c087862cdaf2aa18366b217ebf811ad1886e4f4f865b2}{Dark}}
+ \}
+\begin{DoxyCompactList}\small\item\em Okreœla tryby aplikacji\+: jasny lub ciemny. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{class_dark_mode_manager_a7634be2bc3bae82d47c3cc6d3b7de71a}{Toggle\+Mode}} ()
+\begin{DoxyCompactList}\small\item\em Prze³¹cza miêdzy trybem jasnym a ciemnym. \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{class_dark_mode_manager_a6d512f6f3499926327bd7e4ada928cf4}{Get\+Light\+Level}} ()
+\begin{DoxyCompactList}\small\item\em Pobiera poziom œwiat³a z czujnika. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_dark_mode}{Dark\+Mode}} \mbox{\hyperlink{class_dark_mode_manager_afba105db9c81695ae10fbef357d29e2b}{dark\+Mode}}
+\begin{DoxyCompactList}\small\item\em Obiekt reprezentuj¹cy konfiguracjê kolorów dla trybów. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+const string \mbox{\hyperlink{class_dark_mode_manager_ab5b1fd28fdd01ee1023c26329595b9cc}{Auto\+Key}} = "{}Auto\+Mode"{}
+\begin{DoxyCompactList}\small\item\em Klucz w Player\+Prefs do przechowywania stanu automatycznego trybu. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Mened¿er zarz¹dzaj¹cy trybami jasnym i ciemnym w aplikacji. 
+
+\doxysubsection{Member Enumeration Documentation}
+\Hypertarget{class_dark_mode_manager_a0bbc85ea95d152d40193c087862cdaf2}\index{DarkModeManager@{DarkModeManager}!Mode@{Mode}}
+\index{Mode@{Mode}!DarkModeManager@{DarkModeManager}}
+\doxysubsubsection{\texorpdfstring{Mode}{Mode}}
+{\footnotesize\ttfamily \label{class_dark_mode_manager_a0bbc85ea95d152d40193c087862cdaf2} 
+enum \mbox{\hyperlink{class_dark_mode_manager_a0bbc85ea95d152d40193c087862cdaf2}{Dark\+Mode\+Manager.\+Mode}}}
+
+
+
+Okreœla tryby aplikacji\+: jasny lub ciemny. 
+
+\begin{DoxyEnumFields}[2]{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Light@{Light}!DarkModeManager@{DarkModeManager}}\index{DarkModeManager@{DarkModeManager}!Light@{Light}}}\Hypertarget{class_dark_mode_manager_a0bbc85ea95d152d40193c087862cdaf2a9914a0ce04a7b7b6a8e39bec55064b82}\label{class_dark_mode_manager_a0bbc85ea95d152d40193c087862cdaf2} 
+Light&Tryb jasny. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Dark@{Dark}!DarkModeManager@{DarkModeManager}}\index{DarkModeManager@{DarkModeManager}!Dark@{Dark}}}\Hypertarget{class_dark_mode_manager_a0bbc85ea95d152d40193c087862cdaf2aa18366b217ebf811ad1886e4f4f865b2}\label{class_dark_mode_manager_a0bbc85ea95d152d40193c087862cdaf2} 
+Dark&Tryb ciemny. \\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_dark_mode_manager_a6d512f6f3499926327bd7e4ada928cf4}\index{DarkModeManager@{DarkModeManager}!GetLightLevel@{GetLightLevel}}
+\index{GetLightLevel@{GetLightLevel}!DarkModeManager@{DarkModeManager}}
+\doxysubsubsection{\texorpdfstring{GetLightLevel()}{GetLightLevel()}}
+{\footnotesize\ttfamily \label{class_dark_mode_manager_a6d512f6f3499926327bd7e4ada928cf4} 
+float Dark\+Mode\+Manager.\+Get\+Light\+Level (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Pobiera poziom œwiat³a z czujnika. 
+
+\Hypertarget{class_dark_mode_manager_a7634be2bc3bae82d47c3cc6d3b7de71a}\index{DarkModeManager@{DarkModeManager}!ToggleMode@{ToggleMode}}
+\index{ToggleMode@{ToggleMode}!DarkModeManager@{DarkModeManager}}
+\doxysubsubsection{\texorpdfstring{ToggleMode()}{ToggleMode()}}
+{\footnotesize\ttfamily \label{class_dark_mode_manager_a7634be2bc3bae82d47c3cc6d3b7de71a} 
+void Dark\+Mode\+Manager.\+Toggle\+Mode (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Prze³¹cza miêdzy trybem jasnym a ciemnym. 
+
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{class_dark_mode_manager_ab5b1fd28fdd01ee1023c26329595b9cc}\index{DarkModeManager@{DarkModeManager}!AutoKey@{AutoKey}}
+\index{AutoKey@{AutoKey}!DarkModeManager@{DarkModeManager}}
+\doxysubsubsection{\texorpdfstring{AutoKey}{AutoKey}}
+{\footnotesize\ttfamily \label{class_dark_mode_manager_ab5b1fd28fdd01ee1023c26329595b9cc} 
+const string Dark\+Mode\+Manager.\+Auto\+Key = "{}Auto\+Mode"{}\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Klucz w Player\+Prefs do przechowywania stanu automatycznego trybu. 
+
+\Hypertarget{class_dark_mode_manager_afba105db9c81695ae10fbef357d29e2b}\index{DarkModeManager@{DarkModeManager}!darkMode@{darkMode}}
+\index{darkMode@{darkMode}!DarkModeManager@{DarkModeManager}}
+\doxysubsubsection{\texorpdfstring{darkMode}{darkMode}}
+{\footnotesize\ttfamily \label{class_dark_mode_manager_afba105db9c81695ae10fbef357d29e2b} 
+\mbox{\hyperlink{class_dark_mode}{Dark\+Mode}} Dark\+Mode\+Manager.\+dark\+Mode}
+
+
+
+Obiekt reprezentuj¹cy konfiguracjê kolorów dla trybów. 
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{_dark_mode_manager_8cs}{Dark\+Mode\+Manager.\+cs}}\end{DoxyCompactItemize}
