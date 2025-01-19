@@ -4,6 +4,8 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.Networking;
 using System.Collections;
+using System.Text;
+using System.Text.Json;
 
 /**
  * @class LoginManager
@@ -30,6 +32,8 @@ public class LoginManager : MonoBehaviour
     public TMP_Text successText; ///< Pole tekstowe wyświetlające komunikaty o sukcesie.
     public TMP_Text errorText; ///< Pole tekstowe wyświetlające komunikaty o błędach.
     public TMP_Text batteryStatusText; ///< Pole tekstowe do wyświetlania statusu baterii.
+    
+    public const string CurrentUserKey = "CurrentUserKey";
     /**
      * @brief Metoda inicjalizująca klasę LoginManager.
      * 
@@ -166,6 +170,7 @@ public class LoginManager : MonoBehaviour
         {
             successText.text = "Logowanie zakończone sukcesem!";
             successText.gameObject.SetActive(true);
+            PlayerPrefs.SetString(CurrentUserKey, enteredUsername);
             LoadCalendarScene();
         }
         else

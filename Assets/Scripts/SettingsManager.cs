@@ -4,6 +4,8 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.Networking;
+using System.Text;
+using System.Text.Json;
 /*
  * using Mapbox.Unity.Map;
 using Mapbox.Unity.Location;
@@ -31,7 +33,7 @@ public class SettingsManager : MonoBehaviour
     [SerializeField] private Mode currentMode;
     [SerializeField] private Mode lightMode;
     [SerializeField] private Image background;
-
+    public const string CurrentUserKey = "CurrentUserKey";
     private const string ModeKey = "DarkMode";
     private const string AutoKey = "AutoMode";
     private int AutoTog;
@@ -43,8 +45,8 @@ public class SettingsManager : MonoBehaviour
 
     private void Start()
     {
-        // Wczytaj aktualny stan motywu
-        int savedMode = PlayerPrefs.GetInt(ModeKey, (int)Mode.Light);
+        Get_Settings();
+
 
         // Przypisz funkcje do przycisków
         changeThemeButton.onClick.AddListener(ToggleMode);
@@ -64,12 +66,13 @@ public class SettingsManager : MonoBehaviour
             statusText.text = "";
         }
 
+        // Wczytaj aktualny stan motywu
+        int savedMode = PlayerPrefs.GetInt(ModeKey, (int)Mode.Light);
 
-  
-            bool savedState = PlayerPrefs.GetInt(AutoKey) == 1;
-            ToggleAutoDM.isOn = savedState;
-            changeThemeObject.SetActive(!ToggleAutoDM.isOn);
-            ToggleADMText.text = ToggleAutoDM.isOn ? "Auto" : "Manual";
+        bool savedState = PlayerPrefs.GetInt(AutoKey) == 1;
+        ToggleAutoDM.isOn = savedState;
+        changeThemeObject.SetActive(!ToggleAutoDM.isOn);
+        ToggleADMText.text = ToggleAutoDM.isOn ? "Auto" : "Manual";
 
         ToggleAutoDM.onValueChanged.AddListener(delegate { UpdateButtonVisibility(); });
 
@@ -92,6 +95,56 @@ public class SettingsManager : MonoBehaviour
         Instantiate(markerPrefab, worldPos, Quaternion.identity);
         */
     }
+
+    IEnumerator Get_Settings()
+    {
+        WWWForm form = new WWWForm();
+        string username = PlayerPrefs.GetString(CurrentUserKey, "Guest"); // Pobierz nazwę użytkownika z PlayerPrefs
+        form.AddField("username", username);
+
+        // Wysyłamy żądanie POST
+        using (UnityWebRequest www = UnityWebRequest.Post("http://localhost/read_settings.php", form))
+        {
+            // Czekamy na zakończenie żądania
+            yield return www.SendWebRequest();
+
+            if (www.result == UnityWebRequest.Result.Success)
+            {
+                // Odbieramy odpowiedź
+                string responseText = www.downloadHandler.text;
+                Debug.Log($"Odpowiedź serwera: {responseText}");
+
+                try
+                {
+                    // Deserializacja odpowiedzi
+                    UserSettings settings = JsonUtility.FromJson<UserSettings>(responseText);
+
+                    // Przypisanie ustawień w grze
+                    if (settings != null)
+                    {
+                        Debug.Log($"Dark Mode: {settings.isDarkMode}");
+                        Debug.Log($"Auto Mode: {settings.isAutoMode}");
+
+                        // Zapisanie ustawień w PlayerPrefs
+                        PlayerPrefs.SetInt("DarkMode", settings.isDarkMode ? 1 : 0);
+                        PlayerPrefs.SetInt("AutoMode", settings.isAutoMode ? 1 : 0);
+                        PlayerPrefs.Save();
+
+                        // Możesz dodać inne akcje, np. aktualizację UI
+                    }
+                }
+                catch (System.Exception ex)
+                {
+                    Debug.LogError($"Błąd przetwarzania odpowiedzi: {ex.Message}");
+                }
+            }
+            else
+            {
+                Debug.LogError($"Błąd połączenia: {www.error}");
+            }
+        }
+    }
+
 
     private void UpdateButtonVisibility()
     {
@@ -227,34 +280,38 @@ public class SettingsManager : MonoBehaviour
 
     public void SaveSettingsToDatabase()
     {
-        string username = PlayerPrefs.GetString("LoggedInUser", "Guest");
-        Debug.Log(username);
-        // Przygotuj dane do wys³ania
-        UserSettings settings = new UserSettings(username, currentMode == Mode.Dark, ToggleAutoDM.isOn);
+        string username = PlayerPrefs.GetString(CurrentUserKey, "Guest"); // Pobierz nazwę użytkownika z PlayerPrefs
+        Debug.Log($"Zapis ustawień dla użytkownika: {username}");
 
-        string json = JsonUtility.ToJson(settings);
+        // Pobierz ustawienia do zapisania
+        bool isDarkMode = currentMode == Mode.Dark;
+        bool isAutoMode = ToggleAutoDM.isOn;
 
-        StartCoroutine(SendSettingsToServer(json));
+        // Uruchom korutynę zapisującą ustawienia
+        StartCoroutine(SendSettingsToServer(username, isDarkMode, isAutoMode));
     }
 
-    private IEnumerator SendSettingsToServer(string json)
+    private IEnumerator SendSettingsToServer(string username, bool isDarkMode, bool isAutoMode)
     {
-        UnityWebRequest request = new UnityWebRequest("http://localhost/save_settings.php", "POST");
-        byte[] bodyRaw = System.Text.Encoding.UTF8.GetBytes(json);
+        // Tworzymy formularz i dodajemy dane
+        WWWForm form = new WWWForm();
+        form.AddField("username", username);
+        form.AddField("dark_mode", isDarkMode ? 1 : 0); // Zapis jako 1 (true) lub 0 (false)
+        form.AddField("auto_mode", isAutoMode ? 1 : 0);
 
-        request.uploadHandler = new UploadHandlerRaw(bodyRaw);
-        request.downloadHandler = new DownloadHandlerBuffer();
-        request.SetRequestHeader("Content-Type", "application/json");
-
-        yield return request.SendWebRequest();
-
-        if (request.result == UnityWebRequest.Result.Success)
+        // Wysyłamy żądanie POST
+        using (UnityWebRequest www = UnityWebRequest.Post("http://localhost/save_settings.php", form))
         {
-            Debug.Log("Ustawienia zapisane pomyœlnie: " + request.downloadHandler.text);
-        }
-        else
-        {
-            Debug.LogError("B³¹d zapisu ustawieñ: " + request.error);
+            yield return www.SendWebRequest();
+
+            if (www.result == UnityWebRequest.Result.Success)
+            {
+                Debug.Log($"Ustawienia zapisane pomyślnie: {www.downloadHandler.text}");
+            }
+            else
+            {
+                Debug.LogError($"Błąd zapisu ustawień: {www.error}");
+            }
         }
     }
 
