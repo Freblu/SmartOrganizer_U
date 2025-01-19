@@ -6,6 +6,7 @@ using TMPro;
 using UnityEngine.Networking;
 using System.Text;
 using System.Text.Json;
+
 /*
  * using Mapbox.Unity.Map;
 using Mapbox.Unity.Location;
@@ -30,6 +31,7 @@ public class SettingsManager : MonoBehaviour
     public TMP_Text batteryStatusText; ///< Pole tekstowe do wyświetlania statusu baterii.
     public GameObject changeThemeObject;
     private bool isDarkTheme;
+    private AndroidJavaObject lightSensorPlugin; ///< Obiekt Java do komunikacji z czujnikiem światła.
     [SerializeField] private Mode currentMode;
     [SerializeField] private Mode lightMode;
     [SerializeField] private Image background;
@@ -170,7 +172,14 @@ public class SettingsManager : MonoBehaviour
         UpdateBackgroundColor();
     }
 
-
+    public float GetLightLevel()
+    {
+        if (lightSensorPlugin != null)
+        {
+            return lightSensorPlugin.Call<float>("getLightLevel");
+        }
+        return 0f;
+    }
 
     public enum Mode
     {
@@ -196,7 +205,7 @@ public class SettingsManager : MonoBehaviour
 
         if (PlayerPrefs.GetInt(AutoKey) == 1)
         {
-            float brightnessLevel = GetBrightnessLevel();
+            float brightnessLevel = GetLightLevel();
             lightMode = brightnessLevel < 0.5f ? Mode.Dark : Mode.Light;
             background.color = lightMode == Mode.Light ? darkMode.lightColor : darkMode.darkColor;
         }
