@@ -160,7 +160,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      class_orientation_sensor_manager_0: 5204042282144425776
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

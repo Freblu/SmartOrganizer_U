@@ -1,38 +1,39 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.Networking;
 using System.Collections;
 
 /**
  * @class LoginManager
- * @brief Klasa odpowiedzialna za zarz¹dzanie logowaniem i rejestracj¹ u¿ytkowników.
+ * @brief Klasa odpowiedzialna za zarzÄ…dzanie logowaniem i rejestracjÄ… uÅ¼ytkownikÃ³w.
  * 
- * Klasa umo¿liwia u¿ytkownikowi logowanie za pomoc¹ loginu i has³a oraz tworzenie nowych kont u¿ytkowników.
+ * Klasa umoÅ¼liwia uÅ¼ytkownikowi logowanie za pomocÄ… loginu i hasÅ‚a oraz tworzenie nowych kont uÅ¼ytkownikÃ³w.
  */
 public class LoginManager : MonoBehaviour
 {
-    public string registerURL = "http://localhost/reg_user.php"; ///< Œcie¿ka do skryptu PHP obs³uguj¹cego rejestracjê u¿ytkowników.
+    public string registerURL = "http://localhost/reg_user.php"; ///< ÅšcieÅ¼ka do skryptu PHP obsÅ‚ugujÄ…cego rejestracjÄ™ uÅ¼ytkownikÃ³w.
 
-    public GameObject newUserPanel; ///< Panel dla nowego u¿ytkownika.
-    public GameObject existingUserPanel; ///< Panel dla istniej¹cego u¿ytkownika.
+    public GameObject newUserPanel; ///< Panel dla nowego uÅ¼ytkownika.
+    public GameObject existingUserPanel; ///< Panel dla istniejÄ…cego uÅ¼ytkownika.
 
-    public Button switchToNewUserButton; ///< Przycisk prze³¹czaj¹cy na panel rejestracji nowego u¿ytkownika.
-    public Button switchToExistingUserButton; ///< Przycisk prze³¹czaj¹cy na panel logowania istniej¹cego u¿ytkownika.
+    public Button switchToNewUserButton; ///< Przycisk przeÅ‚Ä…czajÄ…cy na panel rejestracji nowego uÅ¼ytkownika.
+    public Button switchToExistingUserButton; ///< Przycisk przeÅ‚Ä…czajÄ…cy na panel logowania istniejÄ…cego uÅ¼ytkownika.
     public Button loginButton; ///< Przycisk logowania.
-    public Button saveNewUserButton; ///< Przycisk zapisu nowego u¿ytkownika.
+    public Button saveNewUserButton; ///< Przycisk zapisu nowego uÅ¼ytkownika.
 
-    public TMP_InputField usernameInputNewUser; ///< Pole tekstowe do wprowadzania loginu nowego u¿ytkownika.
-    public TMP_InputField passwordInputNewUser; ///< Pole tekstowe do wprowadzania has³a nowego u¿ytkownika.
-    public TMP_InputField usernameInputExistingUser; ///< Pole tekstowe do wprowadzania loginu istniej¹cego u¿ytkownika.
-    public TMP_InputField passwordInputExistingUser; ///< Pole tekstowe do wprowadzania has³a istniej¹cego u¿ytkownika.
-    public TMP_Text successText; ///< Pole tekstowe wyœwietlaj¹ce komunikaty o sukcesie.
-    public TMP_Text errorText; ///< Pole tekstowe wyœwietlaj¹ce komunikaty o b³êdach.
-    public TMP_Text batteryStatusText; ///< Pole tekstowe do wyœwietlania statusu baterii.
+    public TMP_InputField usernameInputNewUser; ///< Pole tekstowe do wprowadzania loginu nowego uÅ¼ytkownika.
+    public TMP_InputField passwordInputNewUser; ///< Pole tekstowe do wprowadzania hasÅ‚a nowego uÅ¼ytkownika.
+    public TMP_InputField usernameInputExistingUser; ///< Pole tekstowe do wprowadzania loginu istniejÄ…cego uÅ¼ytkownika.
+    public TMP_InputField passwordInputExistingUser; ///< Pole tekstowe do wprowadzania hasÅ‚a istniejÄ…cego uÅ¼ytkownika.
+    public TMP_Text successText; ///< Pole tekstowe wyÅ›wietlajÄ…ce komunikaty o sukcesie.
+    public TMP_Text errorText; ///< Pole tekstowe wyÅ›wietlajÄ…ce komunikaty o bÅ‚Ä™dach.
+    public TMP_Text batteryStatusText; ///< Pole tekstowe do wyÅ›wietlania statusu baterii.
     /**
-     * @brief Metoda inicjalizuj¹ca klasê LoginManager.
+     * @brief Metoda inicjalizujÄ…ca klasÄ™ LoginManager.
      * 
-     * Ustawia pocz¹tkowe stany paneli, ukrywa komunikaty oraz przypisuje funkcje do przycisków.
+     * Ustawia poczÄ…tkowe stany paneli, ukrywa komunikaty oraz przypisuje funkcje do przyciskÃ³w.
      */
     private void Start()
     {
@@ -40,7 +41,7 @@ public class LoginManager : MonoBehaviour
         newUserPanel.SetActive(false);
         existingUserPanel.SetActive(false);
 
-        // SprawdŸ, czy NewUserPanel powinien byæ aktywny
+        // SprawdÅº, czy NewUserPanel powinien byÄ‡ aktywny
         if (PlayerPrefs.HasKey("NewUserPanelActive") && PlayerPrefs.GetString("NewUserPanelActive") == "true")
         {
             ShowNewUserPanel();
@@ -55,17 +56,17 @@ public class LoginManager : MonoBehaviour
         successText.gameObject.SetActive(false);
         errorText.gameObject.SetActive(false);
 
-        // Przypisanie funkcji do przycisków
+        // Przypisanie funkcji do przyciskÃ³w
         switchToNewUserButton.onClick.AddListener(ShowNewUserPanel);
         switchToExistingUserButton.onClick.AddListener(ShowExistingUserPanel);
-        loginButton.onClick.AddListener(LoginWithPassword);
-        saveNewUserButton.onClick.AddListener(SaveNewUser);
+        loginButton.onClick.AddListener(SendLogin);
+        saveNewUserButton.onClick.AddListener(RegisterUser);
     }
 
     /**
-     * @brief Wy³¹cza wszystkie panele.
+     * @brief WyÅ‚Ä…cza wszystkie panele.
      * 
-     * U¿ywane do ukrycia zarówno panelu rejestracji, jak i panelu logowania.
+     * UÅ¼ywane do ukrycia zarÃ³wno panelu rejestracji, jak i panelu logowania.
      */
     private void DeactivateAllPanels()
     {
@@ -75,10 +76,10 @@ public class LoginManager : MonoBehaviour
 
 
     /**
-  * @brief Pokazuje panel nowego u¿ytkownika.
+  * @brief Pokazuje panel nowego uÅ¼ytkownika.
   * 
-  * Wy³¹cza wszystkie aktywne panele i w³¹cza panel dla nowego u¿ytkownika.
-  * Czyœci wszystkie komunikaty statusowe, aby przygotowaæ interfejs do nowej konfiguracji.
+  * WyÅ‚Ä…cza wszystkie aktywne panele i wÅ‚Ä…cza panel dla nowego uÅ¼ytkownika.
+  * CzyÅ›ci wszystkie komunikaty statusowe, aby przygotowaÄ‡ interfejs do nowej konfiguracji.
   */
     public void ShowNewUserPanel()
     {
@@ -88,10 +89,10 @@ public class LoginManager : MonoBehaviour
     }
 
     /**
-     * @brief Pokazuje panel istniej¹cego u¿ytkownika.
+     * @brief Pokazuje panel istniejÄ…cego uÅ¼ytkownika.
      * 
-     * Wy³¹cza wszystkie aktywne panele i w³¹cza panel logowania dla istniej¹cego u¿ytkownika.
-     * Czyœci wszystkie komunikaty statusowe, aby przygotowaæ interfejs do logowania.
+     * WyÅ‚Ä…cza wszystkie aktywne panele i wÅ‚Ä…cza panel logowania dla istniejÄ…cego uÅ¼ytkownika.
+     * CzyÅ›ci wszystkie komunikaty statusowe, aby przygotowaÄ‡ interfejs do logowania.
      */
     public void ShowExistingUserPanel()
     {
@@ -101,50 +102,50 @@ public class LoginManager : MonoBehaviour
     }
 
     /**
-     * @brief Zapisuje dane nowego u¿ytkownika.
+     * @brief Zapisuje dane nowego uÅ¼ytkownika.
      * 
-     * Waliduje dane wejœciowe, takie jak nazwa u¿ytkownika i has³o. Jeœli dane s¹ poprawne, 
-     * zapisuje je w `PlayerPrefs`. Wyœwietla odpowiedni komunikat statusowy i opcjonalnie 
-     * prze³¹cza u¿ytkownika na panel logowania.
+     * Waliduje dane wejÅ›ciowe, takie jak nazwa uÅ¼ytkownika i hasÅ‚o. JeÅ›li dane sÄ… poprawne, 
+     * zapisuje je w `PlayerPrefs`. WyÅ›wietla odpowiedni komunikat statusowy i opcjonalnie 
+     * przeÅ‚Ä…cza uÅ¼ytkownika na panel logowania.
      */
     public void SaveNewUser()
     {
         string username = usernameInputNewUser.text.Trim();
         string password = passwordInputNewUser.text.Trim();
 
-        // Walidacja danych wejœciowych
+        // Walidacja danych wejÅ›ciowych
         if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
         {
-            errorText.text = "Proszê wype³niæ wszystkie pola!";
+            errorText.text = "ProszÄ™ wypeÅ‚niÄ‡ wszystkie pola!";
             errorText.gameObject.SetActive(true);
             return;
         }
 
         if (PlayerPrefs.HasKey($"User_{username}"))
         {
-            errorText.text = "U¿ytkownik o tej nazwie ju¿ istnieje!";
+            errorText.text = "UÅ¼ytkownik o tej nazwie juÅ¼ istnieje!";
             errorText.gameObject.SetActive(true);
             return;
         }
 
-        // Zapis danych u¿ytkownika
+        // Zapis danych uÅ¼ytkownika
         PlayerPrefs.SetString($"User_{username}", password);
-        PlayerPrefs.SetString("LastAddedUser", username); // Opcjonalnie do póŸniejszego u¿ycia
+        PlayerPrefs.SetString("LastAddedUser", username); // Opcjonalnie do pÃ³Åºniejszego uÅ¼ycia
         PlayerPrefs.Save();
 
-        successText.text = $"Nowy u¿ytkownik '{username}' zosta³ skonfigurowany poprawnie.";
+        successText.text = $"Nowy uÅ¼ytkownik '{username}' zostaÅ‚ skonfigurowany poprawnie.";
         successText.gameObject.SetActive(true);
         errorText.gameObject.SetActive(false);
 
-        // Opcjonalnie prze³¹cz na panel logowania
+        // Opcjonalnie przeÅ‚Ä…cz na panel logowania
         ShowExistingUserPanel();
     }
 
     /**
-     * @brief Logowanie u¿ytkownika za pomoc¹ loginu i has³a.
+     * @brief Logowanie uÅ¼ytkownika za pomocÄ… loginu i hasÅ‚a.
      * 
-     * Sprawdza, czy wprowadzone dane logowania s¹ zgodne z zapisanymi w `PlayerPrefs`.
-     * Jeœli dane s¹ poprawne, ³aduje scenê kalendarza. W przypadku b³êdu wyœwietla odpowiedni komunikat.
+     * Sprawdza, czy wprowadzone dane logowania sÄ… zgodne z zapisanymi w `PlayerPrefs`.
+     * JeÅ›li dane sÄ… poprawne, Å‚aduje scenÄ™ kalendarza. W przypadku bÅ‚Ä™du wyÅ›wietla odpowiedni komunikat.
      */
     public void LoginWithPassword()
     {
@@ -155,7 +156,7 @@ public class LoginManager : MonoBehaviour
 
         if (string.IsNullOrEmpty(enteredUsername) || string.IsNullOrEmpty(enteredPassword))
         {
-            errorText.text = "Proszê wype³niæ wszystkie pola!";
+            errorText.text = "ProszÄ™ wypeÅ‚niÄ‡ wszystkie pola!";
             errorText.gameObject.SetActive(true);
             return;
         }
@@ -163,18 +164,126 @@ public class LoginManager : MonoBehaviour
         if (PlayerPrefs.HasKey($"User_{enteredUsername}") &&
             PlayerPrefs.GetString($"User_{enteredUsername}") == enteredPassword)
         {
-            successText.text = "Logowanie zakoñczone sukcesem!";
+            successText.text = "Logowanie zakoÅ„czone sukcesem!";
             successText.gameObject.SetActive(true);
             LoadCalendarScene();
         }
         else
         {
-            errorText.text = "B³êdne dane logowania. Spróbuj ponownie.";
+            errorText.text = "BÅ‚Ä™dne dane logowania. SprÃ³buj ponownie.";
             errorText.gameObject.SetActive(true);
         }
     }
 
-    
+    public void RegisterUser()
+    {
+        string username = usernameInputNewUser.text.Trim();
+        string password = passwordInputNewUser.text.Trim();
+        StartCoroutine(SendRegisterRequest(username, password));
+    }
+
+    IEnumerator SendRegisterRequest(string username, string password)
+    {
+        WWWForm form = new WWWForm();
+        form.AddField("username", username);
+        form.AddField("password", password);
+
+        using (UnityWebRequest www = UnityWebRequest.Post(registerURL, form))
+        {
+            yield return www.SendWebRequest();
+
+            if (www.result == UnityWebRequest.Result.Success)
+            {
+                Debug.Log("OdpowiedÅ¸ serwera: " + www.downloadHandler.text);
+            }
+            else
+            {
+                Debug.LogError("BÅ‚Ä…d poÅ‚Ä…czenia: " + www.error);
+            }
+        }
+    }
+
+    ///BAZA DANYCH LOGOWANIE/// 
+
+    IEnumerator Login()
+    {
+        // Pobierz dane z pÃ³l tekstowych
+        string enteredUsername = usernameInputExistingUser.text.Trim();
+        string enteredPassword = passwordInputExistingUser.text.Trim();
+
+        // Przygotuj dane do wysÅ‚ania na serwer
+        WWWForm form = new WWWForm();
+        form.AddField("username", enteredUsername);
+        form.AddField("password", enteredPassword);
+
+        using (UnityWebRequest www = UnityWebRequest.Post("http://localhost/log_user.php", form))
+        {
+            // WyÅ“lij Å¼Ä…danie do serwera
+            yield return www.SendWebRequest();
+
+            if (www.result == UnityWebRequest.Result.Success)
+            {
+                // Parsuj odpowiedÅ¸ serwera
+                string responseText = www.downloadHandler.text;
+                Debug.Log($"OdpowiedÅ¸ serwera: {responseText}");
+
+                try
+                {
+                    // ZakÅ‚adamy, Å¼e serwer zwraca JSON w formacie:
+                    // {"status": "success", "message": "Login successful", "id": 1}
+                    var response = JsonUtility.FromJson<ServerResponse>(responseText);
+
+                    if (response.status == "success")
+                    {
+                        // Ustaw nazwÃª zalogowanego uÅ¼ytkownika w PlayerPrefs
+                        PlayerPrefs.SetString("LoggedInUser", enteredUsername);
+                        PlayerPrefs.Save();
+
+                        // PokaÅ¼ komunikat sukcesu
+                        successText.text = "Logowanie zakoÃ±czone sukcesem!";
+                        successText.gameObject.SetActive(true);
+
+                        // ZaÅ‚aduj kolejnÄ… scenÃª (np. kalendarz)
+                        LoadCalendarScene();
+                    }
+                    else
+                    {
+                        // ObsÅ‚uga bÅ‚ÃªdÃ³w z serwera (np. nieprawidÅ‚owe dane logowania)
+                        errorText.text = response.message;
+                        errorText.gameObject.SetActive(true);
+                    }
+                }
+                catch (System.Exception e)
+                {
+                    Debug.LogError($"BÅ‚Ä…d parsowania odpowiedzi: {e.Message}");
+                    errorText.text = "WystÄ…piÅ‚ problem z serwerem. SprÃ³buj ponownie pÃ³Å¸niej.";
+                    errorText.gameObject.SetActive(true);
+                }
+            }
+            else
+            {
+                // ObsÅ‚uga bÅ‚ÃªdÃ³w po stronie UnityWebRequest
+                Debug.LogError($"BÅ‚Ä…d poÅ‚Ä…czenia: {www.error}");
+                errorText.text = "Nie udaÅ‚o siÃª poÅ‚Ä…czyÃ¦ z serwerem.";
+                errorText.gameObject.SetActive(true);
+            }
+        }
+    }
+
+    // Klasa reprezentujÄ…ca odpowiedÅ¸ serwera
+    [System.Serializable]
+    public class ServerResponse
+    {
+        public string status; // np. "success" lub "error"
+        public string message; // Komunikat zwrotny od serwera
+        public int id; // Opcjonalnie: ID uÅ¼ytkownika
+    }
+    public void SendLogin()
+    {
+        StartCoroutine(Login());
+    }
+    ///-BAZA DANYCH-///
+
 
     private void UpdateBatteryStatus()
     {
@@ -182,7 +291,7 @@ public class LoginManager : MonoBehaviour
         {
             if (batteryStatusText != null)
             {
-                batteryStatusText.text = "Poziom baterii niedostêpny.";
+                batteryStatusText.text = "Poziom baterii niedostÄ™pny.";
             }
             return;
         }
@@ -198,9 +307,9 @@ public class LoginManager : MonoBehaviour
         }
     }
     /**
-     * @brief £aduje scenê kalendarza.
+     * @brief Åaduje scenÄ™ kalendarza.
      * 
-     * Prze³¹cza u¿ytkownika na scenê o nazwie "CalendarScene", w której znajduj¹ siê funkcje zarz¹dzania kalendarzem.
+     * PrzeÅ‚Ä…cza uÅ¼ytkownika na scenÄ™ o nazwie "CalendarScene", w ktÃ³rej znajdujÄ… siÄ™ funkcje zarzÄ…dzania kalendarzem.
      */
     private void LoadCalendarScene()
     {
@@ -208,9 +317,9 @@ public class LoginManager : MonoBehaviour
     }
 
     /**
-     * @brief Czyœci wszystkie komunikaty statusowe.
+     * @brief CzyÅ›ci wszystkie komunikaty statusowe.
      * 
-     * Wy³¹cza wyœwietlanie tekstów sukcesu i b³êdów w interfejsie u¿ytkownika.
+     * WyÅ‚Ä…cza wyÅ›wietlanie tekstÃ³w sukcesu i bÅ‚Ä™dÃ³w w interfejsie uÅ¼ytkownika.
      */
     private void ClearStatusMessages()
     {

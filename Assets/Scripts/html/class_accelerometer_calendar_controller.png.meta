@@ -160,7 +160,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      class_accelerometer_calendar_controller_0: -8044469636029233954
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
