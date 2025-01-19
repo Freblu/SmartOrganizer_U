@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -19,13 +19,13 @@ public class SettingsManager : MonoBehaviour
     public Button changeThemeButton;
     public Button backButton;
     public Button logoutButton;
-    public Button addUserButton; // Przycisk dodania nowego u¿ytkownika
-    public GameObject addUserPanel; // Panel dodawania u¿ytkownika
-    public TMP_InputField usernameInput; // Pole wprowadzania nazwy u¿ytkownika
-    public TMP_InputField passwordInput; // Pole wprowadzania has³a
-    public Button confirmAddUserButton; // Przycisk zatwierdzaj¹cy dodanie u¿ytkownika
+    public Button addUserButton; // Przycisk dodania nowego uÅ¼ytkownika
+    public GameObject addUserPanel; // Panel dodawania uÅ¼ytkownika
+    public TMP_InputField usernameInput; // Pole wprowadzania nazwy uÅ¼ytkownika
+    public TMP_InputField passwordInput; // Pole wprowadzania hasÅ‚a
+    public Button confirmAddUserButton; // Przycisk zatwierdzajÄ…cy dodanie uÅ¼ytkownika
     public TMP_Text statusText;
-    public TMP_Text batteryStatusText; ///< Pole tekstowe do wyœwietlania statusu baterii.
+    public TMP_Text batteryStatusText; ///< Pole tekstowe do wyÅ›wietlania statusu baterii.
     public GameObject changeThemeObject;
     private bool isDarkTheme;
     [SerializeField] private Mode currentMode;
@@ -34,6 +34,7 @@ public class SettingsManager : MonoBehaviour
 
     private const string ModeKey = "DarkMode";
     private const string AutoKey = "AutoMode";
+    private int AutoTog;
 
     /*
      public AbstractMap map; // Mapbox map component
@@ -45,30 +46,30 @@ public class SettingsManager : MonoBehaviour
         // Wczytaj aktualny stan motywu
         int savedMode = PlayerPrefs.GetInt(ModeKey, (int)Mode.Light);
 
-        // Przypisz funkcje do przycisków
+        // Przypisz funkcje do przyciskÃ³w
         changeThemeButton.onClick.AddListener(ToggleMode);
         backButton.onClick.AddListener(BackToCalendar);
         logoutButton.onClick.AddListener(Logout);
         addUserButton.onClick.AddListener(OpenAddUserPanel);
 
-        // Subskrybuj zdarzenie potwierdzenia dodania u¿ytkownika
+        // Subskrybuj zdarzenie potwierdzenia dodania uÅ¼ytkownika
         if (confirmAddUserButton != null)
         {
             confirmAddUserButton.onClick.AddListener(AddUser);
         }
 
-        // Ustawienia pocz¹tkowe
+        // Ustawienia poczÄ…tkowe
         if (statusText != null)
         {
             statusText.text = "";
         }
 
 
-        if (PlayerPrefs.HasKey(AutoKey))
-        {
+  
             bool savedState = PlayerPrefs.GetInt(AutoKey) == 1;
             ToggleAutoDM.isOn = savedState;
-        }
+            changeThemeObject.SetActive(!ToggleAutoDM.isOn);
+            ToggleADMText.text = ToggleAutoDM.isOn ? "Auto" : "Manual";
 
         ToggleAutoDM.onValueChanged.AddListener(delegate { UpdateButtonVisibility(); });
 
@@ -77,17 +78,17 @@ public class SettingsManager : MonoBehaviour
         currentMode = (Mode)PlayerPrefs.GetInt(ModeKey, (int)Mode.Light);
         UpdateBackgroundColor();
 
-        // Ukryj panel dodawania u¿ytkownika na starcie
+        // Ukryj panel dodawania uÅ¼ytkownika na starcie
         if (addUserPanel != null)
         {
             addUserPanel.SetActive(false);
         }
 
         /*
-          var latLon = new LatLng(51.5074, -0.1278); // Przyk³adowa lokalizacja: Londyn
-        Vector3 worldPos = map.GeoToWorldPosition(latLon); // Konwersja geolokalizacji na wspó³rzêdne Unity
+          var latLon = new LatLng(51.5074, -0.1278); // PrzykÅ‚adowa lokalizacja: Londyn
+        Vector3 worldPos = map.GeoToWorldPosition(latLon); // Konwersja geolokalizacji na wspÃ³Å‚rzÄ™dne Unity
 
-        // Tworzymy marker w œwiecie Unity
+        // Tworzymy marker w Å›wiecie Unity
         Instantiate(markerPrefab, worldPos, Quaternion.identity);
         */
     }
@@ -99,8 +100,13 @@ public class SettingsManager : MonoBehaviour
         {
             ToggleADMText.text = ToggleAutoDM.isOn ? "Auto" : "Manual";
         }
+        AutoTog = PlayerPrefs.GetInt(AutoKey) == 1 ? 0 : 1;
+        PlayerPrefs.SetInt(AutoKey, (int)AutoTog);
+        PlayerPrefs.Save();
         UpdateBackgroundColor();
     }
+
+
 
     public enum Mode
     {
@@ -141,33 +147,13 @@ public class SettingsManager : MonoBehaviour
         return 0.4f;
     }
 
-    private void SetReminder(int optionIndex)
-    {
-        PlayerPrefs.SetInt("ReminderTime", optionIndex);
-        PlayerPrefs.Save();
 
-        string reminderText = optionIndex switch
-        {
-            0 => "1 godzina przed spotkaniem",
-            1 => "2 godziny przed spotkaniem",
-            2 => "15 minut przed spotkaniem",
-            3 => "W momencie rozpoczêcia spotkania",
-            _ => "Brak przypomnienia"
-        };
-
-        if (statusText != null)
-        {
-            statusText.text = $"Ustawiono przypomnienie: {reminderText}";
-        }
-
-        Debug.Log($"Wybrano opcjê przypomnienia: {reminderText}");
-    }
 
     private void OpenAddUserPanel()
     {
         if (addUserPanel != null)
         {
-            addUserPanel.SetActive(true); // Wyœwietl panel
+            addUserPanel.SetActive(true); // WyÅ›wietl panel
         }
     }
 
@@ -180,24 +166,24 @@ public class SettingsManager : MonoBehaviour
         {
             if (PlayerPrefs.HasKey($"User_{username}"))
             {
-                statusText.text = "U¿ytkownik o podanej nazwie ju¿ istnieje!";
-                Debug.LogWarning("U¿ytkownik o tej nazwie ju¿ istnieje!");
+                statusText.text = "UÅ¼ytkownik o podanej nazwie juÅ¼ istnieje!";
+                Debug.LogWarning("UÅ¼ytkownik o tej nazwie juÅ¼ istnieje!");
                 return;
             }
 
-            // Zapisz login i has³o
+            // Zapisz login i hasÅ‚o
             PlayerPrefs.SetString($"User_{username}", password);
             PlayerPrefs.SetString("NewUserPanelActive", "true");
-            PlayerPrefs.SetString("LastAddedUser", username); // Przechowaj login ostatniego u¿ytkownika
+            PlayerPrefs.SetString("LastAddedUser", username); // Przechowaj login ostatniego uÅ¼ytkownika
             PlayerPrefs.Save();
 
-            Debug.Log($"Dodano nowego u¿ytkownika: {username}");
-            SceneManager.LoadScene("LoginScene"); // Przenieœ do LoginScene
+            Debug.Log($"Dodano nowego uÅ¼ytkownika: {username}");
+            SceneManager.LoadScene("LoginScene"); // PrzenieÅ› do LoginScene
         }
         else
         {
-            statusText.text = "Proszê wype³niæ wszystkie pola!";
-            Debug.LogWarning("Pola u¿ytkownika s¹ puste!");
+            statusText.text = "ProszÄ™ wypeÅ‚niÄ‡ wszystkie pola!";
+            Debug.LogWarning("Pola uÅ¼ytkownika sÄ… puste!");
         }
     }
 
@@ -207,7 +193,7 @@ public class SettingsManager : MonoBehaviour
         {
             if (batteryStatusText != null)
             {
-                batteryStatusText.text = "Poziom baterii niedostêpny.";
+                batteryStatusText.text = "Poziom baterii niedostÄ™pny.";
             }
             return;
         }
@@ -223,6 +209,54 @@ public class SettingsManager : MonoBehaviour
         }
     }
 
+    [System.Serializable]
+    public class UserSettings
+    {
+        public string username; // nazwa uÂ¿ytkownika
+        public bool isDarkMode; // Motyw (np. "light" lub "dark")
+        public bool isAutoMode; // Automatyczny tryb ciemny
+
+        // Konstruktor, aby Â³atwo inicjalizowaÃ¦ obiekt
+        public UserSettings(string username, bool isDarkMode, bool isAutoMode)
+        {
+            this.username = username;
+            this.isDarkMode = isDarkMode;
+            this.isAutoMode = isAutoMode;
+        }
+    }
+
+    public void SaveSettingsToDatabase()
+    {
+        string username = PlayerPrefs.GetString("LoggedInUser", "Guest");
+        Debug.Log(username);
+        // Przygotuj dane do wysÂ³ania
+        UserSettings settings = new UserSettings(username, currentMode == Mode.Dark, ToggleAutoDM.isOn);
+
+        string json = JsonUtility.ToJson(settings);
+
+        StartCoroutine(SendSettingsToServer(json));
+    }
+
+    private IEnumerator SendSettingsToServer(string json)
+    {
+        UnityWebRequest request = new UnityWebRequest("http://localhost/save_settings.php", "POST");
+        byte[] bodyRaw = System.Text.Encoding.UTF8.GetBytes(json);
+
+        request.uploadHandler = new UploadHandlerRaw(bodyRaw);
+        request.downloadHandler = new DownloadHandlerBuffer();
+        request.SetRequestHeader("Content-Type", "application/json");
+
+        yield return request.SendWebRequest();
+
+        if (request.result == UnityWebRequest.Result.Success)
+        {
+            Debug.Log("Ustawienia zapisane pomyÅ“lnie: " + request.downloadHandler.text);
+        }
+        else
+        {
+            Debug.LogError("BÂ³Â¹d zapisu ustawieÃ±: " + request.error);
+        }
+    }
 
     private void BackToCalendar()
     {
