@@ -220,58 +220,53 @@ public class LoginManager : MonoBehaviour
         WWWForm form = new WWWForm();
         form.AddField("username", enteredUsername);
         form.AddField("password", enteredPassword);
-
         using (UnityWebRequest www = UnityWebRequest.Post("http://localhost/log_user.php", form))
         {
-            // Wyœlij żądanie do serwera
             yield return www.SendWebRequest();
-
             if (www.result == UnityWebRequest.Result.Success)
             {
-                // Parsuj odpowiedŸ serwera
                 string responseText = www.downloadHandler.text;
-                Debug.Log($"OdpowiedŸ serwera: {responseText}");
-
+                Debug.Log($"Odpowiedź serwera: {responseText}");
                 try
                 {
-                    // Zakładamy, że serwer zwraca JSON w formacie:
-                    // {"status": "success", "message": "Login successful", "id": 1}
                     var response = JsonUtility.FromJson<ServerResponse>(responseText);
 
                     if (response.status == "success")
                     {
-                        // Ustaw nazwê zalogowanego użytkownika w PlayerPrefs
                         PlayerPrefs.SetString("LoggedInUser", enteredUsername);
+                        PlayerPrefs.SetInt("LoggedInUserId", response.id); // Zapisanie ID użytkownika
                         PlayerPrefs.Save();
 
-                        // Pokaż komunikat sukcesu
-                        successText.text = "Logowanie zakoñczone sukcesem!";
+                        successText.text = "Logowanie zakończone sukcesem!";
                         successText.gameObject.SetActive(true);
 
-                        // Załaduj kolejną scenê (np. kalendarz)
                         LoadCalendarScene();
                     }
                     else
                     {
-                        // Obsługa błêdów z serwera (np. nieprawidłowe dane logowania)
                         errorText.text = response.message;
                         errorText.gameObject.SetActive(true);
                     }
                 }
                 catch (System.Exception e)
                 {
+                    Debug.Log($"user: {enteredUsername}");
+                    Debug.Log($"pass: {enteredPassword}");
                     Debug.LogError($"Błąd parsowania odpowiedzi: {e.Message}");
-                    errorText.text = "Wystąpił problem z serwerem. Spróbuj ponownie póŸniej.";
+                    errorText.text = "Wystąpił problem z serwerem. Spróbuj ponownie później.";
                     errorText.gameObject.SetActive(true);
                 }
             }
             else
             {
-                // Obsługa błêdów po stronie UnityWebRequest
+                Debug.Log($"user: {enteredUsername}");
+                Debug.Log($"pass: {enteredPassword}");
                 Debug.LogError($"Błąd połączenia: {www.error}");
-                errorText.text = "Nie udało siê połączyæ z serwerem.";
+                errorText.text = "Nie udało się połączyć z serwerem.";
                 errorText.gameObject.SetActive(true);
             }
+            Debug.Log($"user: {enteredUsername}");
+            Debug.Log($"pass: {enteredPassword}");
         }
     }
 

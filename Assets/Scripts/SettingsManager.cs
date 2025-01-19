@@ -45,7 +45,7 @@ public class SettingsManager : MonoBehaviour
 
     private void Start()
     {
-        Get_Settings();
+        StartCoroutine(Get_Settings());
 
 
         // Przypisz funkcje do przycisków
@@ -98,19 +98,25 @@ public class SettingsManager : MonoBehaviour
 
     IEnumerator Get_Settings()
     {
+        Debug.Log("Pobieranie ustawień użytkownika...");
         WWWForm form = new WWWForm();
-        string username = PlayerPrefs.GetString(CurrentUserKey, "Guest"); // Pobierz nazwę użytkownika z PlayerPrefs
-        form.AddField("username", username);
 
-        // Wysyłamy żądanie POST
+        // Pobierz id użytkownika z PlayerPrefs
+        int userId = PlayerPrefs.GetInt("LoggedInUserId", -1); // Domyślna wartość -1, jeśli brak id
+        if (userId == -1)
+        {
+            Debug.LogError("Brak zapisanego ID użytkownika w PlayerPrefs!");
+            yield break;
+        }
+
+        form.AddField("id", userId);
+
         using (UnityWebRequest www = UnityWebRequest.Post("http://localhost/read_settings.php", form))
         {
-            // Czekamy na zakończenie żądania
             yield return www.SendWebRequest();
 
             if (www.result == UnityWebRequest.Result.Success)
             {
-                // Odbieramy odpowiedź
                 string responseText = www.downloadHandler.text;
                 Debug.Log($"Odpowiedź serwera: {responseText}");
 
@@ -119,18 +125,15 @@ public class SettingsManager : MonoBehaviour
                     // Deserializacja odpowiedzi
                     UserSettings settings = JsonUtility.FromJson<UserSettings>(responseText);
 
-                    // Przypisanie ustawień w grze
                     if (settings != null)
                     {
                         Debug.Log($"Dark Mode: {settings.isDarkMode}");
                         Debug.Log($"Auto Mode: {settings.isAutoMode}");
 
                         // Zapisanie ustawień w PlayerPrefs
-                        PlayerPrefs.SetInt("DarkMode", settings.isDarkMode ? 1 : 0);
-                        PlayerPrefs.SetInt("AutoMode", settings.isAutoMode ? 1 : 0);
+                        PlayerPrefs.SetInt(ModeKey, settings.isDarkMode ? 1 : 0);
+                        PlayerPrefs.SetInt(AutoKey, settings.isAutoMode ? 1 : 0);
                         PlayerPrefs.Save();
-
-                        // Możesz dodać inne akcje, np. aktualizację UI
                     }
                 }
                 catch (System.Exception ex)
@@ -143,6 +146,14 @@ public class SettingsManager : MonoBehaviour
                 Debug.LogError($"Błąd połączenia: {www.error}");
             }
         }
+        bool savedState = PlayerPrefs.GetInt(AutoKey) == 1;
+        ToggleAutoDM.isOn = savedState;
+        changeThemeObject.SetActive(!ToggleAutoDM.isOn);
+        ToggleADMText.text = ToggleAutoDM.isOn ? "Auto" : "Manual";
+        UpdateBackgroundColor();
+        UpdateBackgroundColor();
+        UpdateButtonVisibility();
+        UpdateButtonVisibility();
     }
 
 
@@ -280,22 +291,28 @@ public class SettingsManager : MonoBehaviour
 
     public void SaveSettingsToDatabase()
     {
-        string username = PlayerPrefs.GetString(CurrentUserKey, "Guest"); // Pobierz nazwę użytkownika z PlayerPrefs
-        Debug.Log($"Zapis ustawień dla użytkownika: {username}");
+        int userId = PlayerPrefs.GetInt("LoggedInUserId", -1); // Pobierz ID użytkownika z PlayerPrefs
+        if (userId == -1)
+        {
+            Debug.LogError("Nie znaleziono ID użytkownika. Nie można zapisać ustawień.");
+            return;
+        }
+
+        Debug.Log($"Zapis ustawień dla użytkownika o ID: {userId}");
 
         // Pobierz ustawienia do zapisania
         bool isDarkMode = currentMode == Mode.Dark;
         bool isAutoMode = ToggleAutoDM.isOn;
 
         // Uruchom korutynę zapisującą ustawienia
-        StartCoroutine(SendSettingsToServer(username, isDarkMode, isAutoMode));
+        StartCoroutine(SendSettingsToServer(userId, isDarkMode, isAutoMode));
     }
 
-    private IEnumerator SendSettingsToServer(string username, bool isDarkMode, bool isAutoMode)
+    private IEnumerator SendSettingsToServer(int userId, bool isDarkMode, bool isAutoMode)
     {
         // Tworzymy formularz i dodajemy dane
         WWWForm form = new WWWForm();
-        form.AddField("username", username);
+        form.AddField("user_id", userId); // Przekazanie ID użytkownika
         form.AddField("dark_mode", isDarkMode ? 1 : 0); // Zapis jako 1 (true) lub 0 (false)
         form.AddField("auto_mode", isAutoMode ? 1 : 0);
 
@@ -315,13 +332,16 @@ public class SettingsManager : MonoBehaviour
         }
     }
 
+
     private void BackToCalendar()
     {
+        SaveSettingsToDatabase();
         SceneManager.LoadScene("CalendarScene");
     }
 
     private void Logout()
     {
+        SaveSettingsToDatabase();
         PlayerPrefs.DeleteAll();
         SceneManager.LoadScene("LoginScene");
     }
